@@ -18,4 +18,10 @@ export default defineConfig({
     outDir: resolve(__dirname, 'dist'),
     emptyOutDir: true,
   },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./src/test-setup.js'],
+    css: { modules: { classNameStrategy: 'non-scoped' } },
+  },
 });

@@ -52,7 +52,7 @@ export default function ExportPage() {
   const [copied, setCopied] = useState(false);
 
   const markdown = generateMarkdown(progress);
-  const jsonData = exportProgress();
+  const jsonData = JSON.stringify(exportProgress(), null, 2);
 
   const copyToClipboard = useCallback(async (text) => {
     try {
