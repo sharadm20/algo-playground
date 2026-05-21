@@ -10,7 +10,7 @@ class Sandbox:
 
     def __enter__(self):
         self.temp_dir = tempfile.mkdtemp(prefix="dsa_")
-        return self.temp_dir
+        return self
 
     def __exit__(self, *args):
         shutil.rmtree(self.temp_dir, ignore_errors=True)

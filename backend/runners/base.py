@@ -1,3 +1,4 @@
+import re
 from abc import ABC, abstractmethod
 from ..sandbox import Sandbox
 from ..models import RunResponse, TestResult
@@ -15,7 +16,18 @@ class BaseRunner(ABC):
 
     @staticmethod
     def parse_tests(output: str) -> list[TestResult]:
-        return []
+        tests = []
+        for line in output.split("\n"):
+            m = re.match(r"(✅|❌|PASS|FAIL)\s*(.*)", line)
+            if m:
+                status = m.group(1) in ("✅", "PASS")
+                tests.append(TestResult(
+                    name=m.group(2).strip(),
+                    passed=status,
+                    expected="",
+                    actual="",
+                ))
+        return tests
 
     def _make_response(self, result: dict, tests: list[TestResult] | None = None) -> RunResponse:
         return RunResponse(
