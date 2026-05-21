@@ -1,0 +1,67 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Stacks and queues are linear data structures that restrict how elements are added and removed. The stack (Last-In-First-Out) is the backbone of function call stacks, expression evaluation, and undo operations. The queue (First-In-First-Out) models real-world waiting lines and is essential for BFS and task scheduling.
+
+Python's `list` doubles as a stack (append/pop O(1) amortized), while `collections.deque` is the preferred queue implementation. The monotonic stack variant — where elements are kept in sorted order — is a surprisingly powerful tool for problems involving next greater/smaller elements.
+
+## Key Concepts
+
+- **LIFO (Stack)**: Push and pop from the same end. O(1) operations with Python list.
+- **FIFO (Queue)**: Enqueue at one end, dequeue at the other. Use `collections.deque` for O(1) operations.
+- **Monotonic Stack**: Elements stored in increasing or decreasing order. Used for "next greater element" style problems.
+- **Deque**: Double-ended queue. O(1) append/pop on both ends.
+
+<DataTable
+  headers={['Data Structure', 'Order', 'Python Implementation', 'Common Use']}
+  rows={[
+    ['Stack', 'LIFO', 'list', 'Parentheses, DFS, undo'],
+    ['Queue', 'FIFO', 'collections.deque', 'BFS, scheduling'],
+    ['Deque', 'Both ends', 'collections.deque', 'Sliding window max'],
+  ]}
+/>
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`def is_valid(s):
+    pairs = {')': '(', ']': '[', '}': '{'}
+    stack = []
+    for ch in s:
+        if ch in pairs:
+            if not stack or stack[-1] != pairs[ch]:
+                return False
+            stack.pop()
+        else:
+            stack.append(ch)
+    return not stack
+
+print(is_valid("()[]{}"))  # True
+print(is_valid("([)]"))    # False
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Valid Parentheses" difficulty="easy" pattern="Stack">
+  Given a string `s` containing `'('`, `')'`, `'{'`, `'}'`, `'['`, `']'`, determine if the input string is valid — every open bracket must be closed by the same type in the correct order.
+
+  **Example:** `s = "()[]{}"` → `true`; `s = "([)]"` → `false`
+</ProblemCard>
+
+<ProblemCard title="Min Stack" difficulty="medium" pattern="Stack with Auxiliary Storage">
+  Design a stack that supports `push`, `pop`, `top`, and retrieving the minimum element in O(1) time. Implement the `MinStack` class.
+
+  **Example:** `push(-2), push(0), push(-3), getMin() → -3, pop(), top() → 0, getMin() → -2`
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- Stack problems often involve keeping auxiliary information (like the current minimum) alongside each element.
+- Monotonic stacks are the go-to for "next greater/smaller element" — recognize the pattern by the O(n²) brute force.
+- Use `deque` for queues, not `list` — `list.pop(0)` is O(n).
+</InsightBox>

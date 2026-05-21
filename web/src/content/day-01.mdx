@@ -1,0 +1,70 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Arrays are the most fundamental data structure in computer science — a contiguous block of memory storing elements of the same type. They offer O(1) index-based access and are the building block for virtually every other data structure. Hash maps (dictionaries in Python) extend this idea by mapping keys to values using a hash function, enabling near O(1) lookups, insertions, and deletions.
+
+Time and space complexity analysis, using Big-O notation, is how we reason about algorithm efficiency. Understanding whether your solution runs in O(n) vs O(n²) can be the difference between passing and failing an interview. This day builds the mental model you'll use for every algorithm from here on.
+
+## Key Concepts
+
+- **Array Access**: Accessing by index is O(1); searching for a value is O(n) in an unsorted array.
+- **Hash Map / Dictionary**: Python's `dict` uses open addressing to resolve hash collisions. Average-case O(1) for get/set/delete.
+- **Hash Collisions**: When two keys hash to the same index. Python handles this with probing; understanding this matters when choosing a data structure.
+- **Space-Time Tradeoff**: Hash maps use extra memory to achieve faster lookups — a recurring theme in optimization.
+
+<DataTable
+  headers={['Operation', 'Array', 'Hash Map']}
+  rows={[
+    ['Access', 'O(1)', 'O(1) avg'],
+    ['Search', 'O(n)', 'O(1) avg'],
+    ['Insert', 'O(n) (middle)', 'O(1) avg'],
+    ['Delete', 'O(n)', 'O(1) avg'],
+  ]}
+/>
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`def two_sum(nums, target):
+    seen = {}
+    for i, n in enumerate(nums):
+        complement = target - n
+        if complement in seen:
+            return [seen[complement], i]
+        seen[n] = i
+    return []
+
+print(two_sum([2, 7, 11, 15], 9))  # [0, 1]
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Two Sum" difficulty="easy" pattern="Hash Map">
+  Given an array of integers `nums` and an integer `target`, return indices of the two numbers that add up to `target`. Each input has exactly one solution, and you may not use the same element twice.
+
+  **Example:** `nums = [2, 7, 11, 15]`, `target = 9` → `[0, 1]`
+</ProblemCard>
+
+<ProblemCard title="Contains Duplicate" difficulty="easy" pattern="Hash Set">
+  Given an integer array `nums`, return `true` if any value appears at least twice, else `false`.
+
+  **Example:** `nums = [1, 2, 3, 1]` → `true`
+</ProblemCard>
+
+<ProblemCard title="Valid Anagram" difficulty="easy" pattern="Hash Map / Sorting">
+  Given two strings `s` and `t`, return `true` if `t` is an anagram of `s`, otherwise `false`.
+
+  **Example:** `s = "anagram"`, `t = "nagaram"` → `true`; `s = "rat"`, `t = "car"` → `false`
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- Hash maps are the single most useful optimization trick for reducing O(n²) to O(n).
+- Always ask: can I trade space for time? If memory allows, a hash map often simplifies the problem.
+- Array problems often test your understanding of indexing — off-by-one errors are the #1 bug.
+</InsightBox>

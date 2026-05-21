@@ -1,0 +1,81 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Weighted graphs introduce a new challenge: finding the shortest path when edges have different costs. Dijkstra's algorithm solves this for graphs with non-negative weights by using a priority queue to always expand the cheapest unvisited node. It's a greedy algorithm that guarantees the optimal answer.
+
+Topological sorting orders the vertices of a Directed Acyclic Graph (DAG) so that for every edge u→v, u comes before v. This is essential for task scheduling, build systems (like Make), and course prerequisite ordering. The standard approach uses Kahn's algorithm (BFS with in-degree tracking) or DFS with post-order.
+
+## Key Concepts
+
+- **Dijkstra's Algorithm**: Use a min-heap of `(distance, node)`. Pop the smallest distance, relax neighbors. O((V+E) log V) with a binary heap.
+- **Topological Sort**: In-degree approach — enqueue nodes with in-degree 0, process and decrement neighbors. If queue empties before all nodes processed, there's a cycle.
+- **Shortest Path in DAG**: Can be done in O(V+E) using topological order + relaxation.
+- **Priority Queue**: Python's `heapq` gives O(log n) push/pop. Essential for Dijkstra.
+
+<DataTable
+  headers={['Algorithm', 'Graph Type', 'Time Complexity', 'Use Case']}
+  rows={[
+    ['BFS', 'Unweighted', 'O(V+E)', 'Shortest path'],
+    ['Dijkstra', 'Non-negative weights', 'O((V+E) log V)', 'Shortest path'],
+    ['Bellman-Ford', 'Any weights', 'O(VE)', 'Negative weights'],
+    ['Topological Sort', 'DAG', 'O(V+E)', 'Task ordering'],
+  ]}
+/>
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`import heapq
+from collections import defaultdict, deque
+
+def network_delay_time(times, n, k):
+    graph = defaultdict(list)
+    for u, v, w in times:
+        graph[u].append((v, w))
+
+    dist = {i: float('inf') for i in range(1, n+1)}
+    dist[k] = 0
+    pq = [(0, k)]
+
+    while pq:
+        d, u = heapq.heappop(pq)
+        if d > dist[u]:
+            continue
+        for v, w in graph[u]:
+            nd = d + w
+            if nd < dist[v]:
+                dist[v] = nd
+                heapq.heappush(pq, (nd, v))
+
+    max_dist = max(dist.values())
+    return max_dist if max_dist < float('inf') else -1
+
+times = [[2,1,1],[2,3,1],[3,4,1]]
+print(network_delay_time(times, 4, 2))  # 2
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Course Schedule" difficulty="medium" pattern="Topological Sort / Graph Cycle Detection">
+  There are `numCourses` courses labeled `0` to `numCourses-1`. You are given prerequisites pairs `[a, b]` meaning you must take `b` before `a`. Return `true` if you can finish all courses.
+
+  **Example:** `numCourses = 2`, `prerequisites = [[1, 0]]` → `true`; `[[1, 0], [0, 1]]` → `false`
+</ProblemCard>
+
+<ProblemCard title="Network Delay Time" difficulty="medium" pattern="Dijkstra's Algorithm">
+  You are given a network of `n` nodes with travel times `[u, v, w]`. Starting from node `k`, find the minimum time for a signal to reach all nodes. Return `-1` if not all nodes are reachable.
+
+  **Example:** `times = [[2,1,1],[2,3,1],[3,4,1]]`, `n = 4`, `k = 2` → `2`
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- Dijkstra's algorithm is "BFS with a priority queue" — understand the analogy.
+- Topological sort using Kahn's algorithm (in-degree tracking) is the most intuitive approach.
+- Always confirm the graph has non-negative weights before using Dijkstra; use Bellman-Ford otherwise.
+</InsightBox>

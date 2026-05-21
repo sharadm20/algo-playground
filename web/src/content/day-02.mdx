@@ -1,0 +1,63 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Once you've mastered the basics, the real fun begins. Advanced array techniques like sliding windows, two-pointer traversal, and prefix sums let you solve problems that naive brute force would make O(n²) or worse. These patterns appear constantly in interviews — learn them once and reuse them everywhere.
+
+The sliding window pattern is especially powerful: maintain a window (subarray) that expands and contracts as you iterate, updating the answer as you go. Two-pointer techniques let you process a sorted array from both ends simultaneously. Prefix sums precompute cumulative totals so range queries become O(1).
+
+## Key Concepts
+
+- **Sliding Window**: Maintain left/right boundaries; expand right, shrink left when the window becomes invalid. Each element enters and leaves once — O(n) total.
+- **Two Pointers**: Left and right pointers moving toward each other (or one fast, one slow). Ideal for sorted arrays or palindrome problems.
+- **Prefix Sum**: Precompute `prefix[i] = sum(arr[0..i])`. Then `sum(i..j) = prefix[j] - prefix[i-1]`.
+
+<DataTable
+  headers={['Technique', 'Use Case', 'Time Complexity']}
+  rows={[
+    ['Sliding Window', 'Contiguous subarray problems', 'O(n)'],
+    ['Two Pointers', 'Sorted array pair searches', 'O(n)'],
+    ['Prefix Sum', 'Range sum queries', 'O(1) per query'],
+  ]}
+/>
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`def max_profit(prices):
+    min_price = float('inf')
+    max_profit = 0
+    for price in prices:
+        if price < min_price:
+            min_price = price
+        elif price - min_price > max_profit:
+            max_profit = price - min_price
+    return max_profit
+
+print(max_profit([7, 1, 5, 3, 6, 4]))  # 5
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Best Time to Buy and Sell Stock" difficulty="easy" pattern="Sliding Window / Kadane">
+  You are given an array `prices` where `prices[i]` is the price of a stock on day `i`. You want to maximize profit by choosing one day to buy and a later day to sell. Return the max profit, or 0 if no profit possible.
+
+  **Example:** `prices = [7, 1, 5, 3, 6, 4]` → `5` (buy at 1, sell at 6)
+</ProblemCard>
+
+<ProblemCard title="Product of Array Except Self" difficulty="medium" pattern="Prefix / Suffix Products">
+  Given an integer array `nums`, return an array `answer` such that `answer[i]` is the product of all elements except `nums[i]`. Must run in O(n) without using division.
+
+  **Example:** `nums = [1, 2, 3, 4]` → `[24, 12, 8, 6]`
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- Whenever you see "contiguous subarray" think sliding window.
+- Two pointers turn O(n²) brute force into O(n) — always check if the array can be sorted first.
+- Prefix sums are the foundation for more advanced structures like segment trees and Fenwick trees.
+</InsightBox>

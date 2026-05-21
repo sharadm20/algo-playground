@@ -1,0 +1,87 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Graphs are the most flexible data structure — they can model social networks, web pages, road maps, dependency graphs, and more. A graph is a set of vertices (nodes) connected by edges. They can be directed or undirected, weighted or unweighted, cyclic or acyclic.
+
+The two fundamental graph traversals are Depth-First Search (DFS) and Breadth-First Search (BFS). DFS goes deep before going wide (use recursion or a stack). BFS explores level by level (use a queue). The choice between them often determines efficiency: BFS finds the shortest path in unweighted graphs; DFS uses less memory on deep graphs.
+
+## Key Concepts
+
+- **Adjacency List**: A dict mapping each vertex to a list of its neighbors. Most common representation — space-efficient for sparse graphs.
+- **Adjacency Matrix**: A V×V boolean grid. O(1) edge lookup but O(V²) memory. Good for dense graphs.
+- **BFS**: Queue-based. Visits nodes in order of distance from the source. First time you reach a target = shortest path.
+- **DFS**: Stack-based (or recursive). Explores one branch fully before backtracking. Good for connectivity, cycle detection, topological sort.
+
+<DataTable
+  headers={['Property', 'Adjacency List', 'Adjacency Matrix']}
+  rows={[
+    ['Memory', 'O(V + E)', 'O(V²)'],
+    ['Edge lookup', 'O(degree)', 'O(1)'],
+    ['Add vertex', 'O(1)', 'O(V²)'],
+    ['Remove vertex', 'O(V + E)', 'O(V²)'],
+  ]}
+/>
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`from collections import deque
+
+def num_islands(grid):
+    if not grid:
+        return 0
+    rows, cols = len(grid), len(grid[0])
+    count = 0
+
+    def bfs(r, c):
+        q = deque([(r, c)])
+        grid[r][c] = '0'
+        while q:
+            cr, cc = q.popleft()
+            for dr, dc in [(1,0), (-1,0), (0,1), (0,-1)]:
+                nr, nc = cr + dr, cc + dc
+                if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == '1':
+                    grid[nr][nc] = '0'
+                    q.append((nr, nc))
+
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == '1':
+                count += 1
+                bfs(r, c)
+    return count
+
+grid = [
+    ["1","1","0","0","0"],
+    ["1","1","0","0","0"],
+    ["0","0","1","0","0"],
+    ["0","0","0","1","1"]
+]
+print(num_islands(grid))  # 3
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Number of Islands" difficulty="medium" pattern="BFS / DFS on Grid">
+  Given an `m × n` 2D grid of `'1'` (land) and `'0'` (water), count the number of islands — cells connected horizontally/vertically.
+
+  **Example:** The grid above → `3`
+</ProblemCard>
+
+<ProblemCard title="Clone Graph" difficulty="medium" pattern="DFS / BFS + Hash Map">
+  Given a reference to a node in a connected undirected graph, return a deep copy (clone) of the graph. Each node has a `val` and a list of `neighbors`.
+
+  **Example:** Input and output should be identical structures but different objects in memory.
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- BFS is the default for shortest path in unweighted graphs; DFS for connectivity and topological problems.
+- Grid problems are graph problems — each cell is a vertex, adjacent cells are edges.
+- Always track visited nodes to avoid infinite loops in cyclic graphs.
+</InsightBox>

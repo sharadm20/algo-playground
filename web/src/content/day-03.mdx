@@ -1,0 +1,66 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+String manipulation is a staple of coding interviews because it tests your attention to edge cases — empty strings, single characters, Unicode, whitespace handling. While Python's built-in string methods are powerful (and you should know them), interviewers often ask you to implement logic manually to test your understanding of pointers and character-level operations.
+
+Common patterns include: checking palindromes with two pointers, building frequency maps for anagrams, and sliding window techniques for substring problems. Many string problems are really array problems in disguise — strings are just character arrays.
+
+## Key Concepts
+
+- **Two-Pointer Palindrome**: Place one pointer at the start, one at the end. Move inward while characters match.
+- **Frequency Counting**: Use `collections.Counter` or a fixed-size array of 26/128 for character counting.
+- **Sliding Window on Strings**: Track character frequencies in a window; expand right, shrink left when constraints are violated.
+
+<DataTable
+  headers={['Pattern', 'Technique', 'Common Use Case']}
+  rows={[
+    ['Palindrome', 'Two pointers', 'Valid Palindrome'],
+    ['Anagram', 'Frequency count', 'Group Anagrams'],
+    ['Substring', 'Sliding window + freq map', 'Longest Substring Without Repeats'],
+  ]}
+/>
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`def is_palindrome(s):
+    i, j = 0, len(s) - 1
+    while i < j:
+        if not s[i].isalnum():
+            i += 1
+        elif not s[j].isalnum():
+            j -= 1
+        elif s[i].lower() != s[j].lower():
+            return False
+        else:
+            i, j = i + 1, j - 1
+    return True
+
+print(is_palindrome("A man, a plan, a canal: Panama"))  # True
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Valid Palindrome" difficulty="easy" pattern="Two Pointers">
+  Given a string `s`, return `true` if it is a palindrome considering only alphanumeric characters and ignoring case.
+
+  **Example:** `s = "A man, a plan, a canal: Panama"` → `true`; `s = "race a car"` → `false`
+</ProblemCard>
+
+<ProblemCard title="Longest Substring Without Repeating Characters" difficulty="medium" pattern="Sliding Window">
+  Given a string `s`, find the length of the longest substring without repeating characters.
+
+  **Example:** `s = "abcabcbb"` → `3` (`"abc"`); `s = "bbbbb"` → `1` (`"b"`)
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- String problems are array problems — the same sliding window and two-pointer techniques apply.
+- Python's string slicing is O(k) — be aware of hidden copies in performance-critical code.
+- Always check edge cases: empty string, all same characters, case sensitivity, non-alphanumeric characters.
+</InsightBox>
