@@ -1,0 +1,108 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Union Find (also called Disjoint Set Union, or DSU) is a data structure that tracks a partition of a set into disjoint, non-overlapping subsets. It supports two operations efficiently: **find** (determine which subset an element belongs to) and **union** (merge two subsets into one). With path compression and union by rank, both operations run in amortized near-constant time — O(α(n)), where α is the inverse Ackermann function.
+
+Union Find is the go-to data structure for connectivity problems: detecting cycles in graphs, finding connected components, Kruskal's MST algorithm, and problems involving dynamic connectivity. It's elegant, lightweight, and deceptively powerful.
+
+## Key Concepts
+
+- **Path Compression**: During find, make each traversed node point directly to the root — flattens the tree.
+- **Union by Rank / Size**: Attach the smaller tree under the larger tree to keep tree height logarithmic.
+- **Near-Constant Time**: With both optimizations, amortized O(α(n)) per operation — essentially constant.
+- **Applications**: Cycle detection, connected components, Kruskal's MST, number of islands (in grid contexts).
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`class UnionFind:
+    """Disjoint Set Union with path compression and union by rank."""
+
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [0] * n
+
+    def find(self, x):
+        """Find the root of x (with path compression)."""
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, x, y):
+        """Union the sets containing x and y. Return True if merged."""
+        px, py = self.find(x), self.find(y)
+        if px == py:
+            return False
+
+        # Union by rank: attach smaller tree under larger tree
+        if self.rank[px] < self.rank[py]:
+            self.parent[px] = py
+        elif self.rank[px] > self.rank[py]:
+            self.parent[py] = px
+        else:
+            self.parent[py] = px
+            self.rank[px] += 1
+        return True
+
+    def connected(self, x, y):
+        return self.find(x) == self.find(y)
+
+
+# Example: detect cycle in undirected graph
+def has_cycle(n, edges):
+    uf = UnionFind(n)
+    for u, v in edges:
+        if not uf.union(u, v):
+            return True
+    return False
+
+
+edges = [(0, 1), (1, 2), (2, 0)]
+print("Has cycle:", has_cycle(3, edges))  # True
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Number of Provinces" difficulty="medium" pattern="Union Find">
+  There are `n` cities. A province is a group of directly or indirectly connected cities. Given an `n x n` adjacency matrix `isConnected`, return the total number of provinces.
+
+  **Example:** `isConnected = [[1,1,0],[1,1,0],[0,0,1]]` → 2 provinces (cities 0-1 are connected, city 2 is isolated)
+
+  **Constraints:** `1 <= n <= 200`
+
+  **Solution approach:** Initialize UnionFind with n cities. For each pair (i, j) where isConnected[i][j] == 1, union(i, j). Count unique roots.
+</ProblemCard>
+
+<ProblemCard title="Accounts Merge" difficulty="medium" pattern="Union Find">
+  Given a list of accounts where each account is `[name, email1, email2, ...]`, merge accounts that share at least one common email.
+
+  **Example:**
+  ```
+  Input: accounts = [
+    ["John","john1@m.com","john2@m.com"],
+    ["John","john1@m.com","john3@m.com"],
+    ["Mary","mary@m.com"]
+  ]
+  Output: [
+    ["John","john1@m.com","john2@m.com","john3@m.com"],
+    ["Mary","mary@m.com"]
+  ]
+  ```
+
+  **Constraints:** `1 <= accounts.length <= 1000`
+
+  **Solution approach:** Map each email to an account index. When an email maps to multiple accounts, union those account indices. Finally, collect emails per root.
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- Union Find excels at connectivity problems with dynamic merging of sets.
+- Always implement both path compression and union by rank for near-constant-time operations.
+- Cycle detection in undirected graphs becomes trivial: if union returns False, the edge creates a cycle.
+- The data structure is small but mighty — learn it well because it appears in medium and hard problems frequently.
+</InsightBox>

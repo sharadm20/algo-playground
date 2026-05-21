@@ -1,0 +1,121 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Congratulations — you've completed the 30-day DSA study plan! Today is a celebration of how far you've come. You've covered arrays, strings, hash maps, linked lists, trees, graphs, dynamic programming, greedy algorithms, backtracking, union find, MSTs, and system design fundamentals. Most importantly, you've built the muscle of recognizing algorithmic patterns and reasoning about complexity.
+
+This final day presents a multi-step capstone problem that weaves together several patterns you've learned. Then we'll look at where to go from here.
+
+## Capstone Problem
+
+<ProblemCard title="Word Ladder II — Putting It All Together" difficulty="hard" pattern="Multi-Pattern">
+  Given two words (`beginWord` and `endWord`) and a dictionary `wordList`, find all shortest transformation sequences from `beginWord` to `endWord`, where:
+  - Only one letter can be changed per step
+  - Each intermediate word must exist in `wordList`
+  - `beginWord` may not be in `wordList`
+
+  **Example:**
+  ```
+  beginWord = "hit", endWord = "cog"
+  wordList = ["hot","dot","dog","lot","log","cog"]
+  Output: [
+    ["hit","hot","dot","dog","cog"],
+    ["hit","hot","lot","log","cog"]
+  ]
+  ```
+
+  **Constraints:** `1 <= beginWord.length <= 10`, `1 <= wordList.length <= 1000`
+
+  **This problem integrates:**
+  - **BFS** to find shortest path length (Day 11, 12)
+  - **DFS / Backtracking** to reconstruct all paths (Day 22)
+  - **Graph construction** implicit from word transformations (Day 10)
+  - **Optimization via pruning** — stop exploring paths longer than the shortest found
+
+  **Solution approach:** BFS from beginWord to endWord, recording distances. Then DFS/backtrack from beginWord using only neighbors with distance + 1 to reconstruct all shortest paths.
+</ProblemCard>
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`from collections import defaultdict, deque
+
+
+def find_ladders(begin, end, word_list):
+    """Find all shortest transformation sequences."""
+    words = set(word_list)
+    if end not in words:
+        return []
+
+    # Build adjacency: for each word, all words one letter away
+    adj = defaultdict(list)
+    for w in words | {begin}:
+        for i in range(len(w)):
+            for c in "abcdefghijklmnopqrstuvwxyz":
+                if c == w[i]:
+                    continue
+                nxt = w[:i] + c + w[i + 1:]
+                if nxt in words:
+                    adj[w].append(nxt)
+
+    # BFS to find shortest distances
+    dist = {begin: 0}
+    q = deque([begin])
+    while q:
+        cur = q.popleft()
+        if cur == end:
+            break
+        for nxt in adj[cur]:
+            if nxt not in dist:
+                dist[nxt] = dist[cur] + 1
+                q.append(nxt)
+
+    if end not in dist:
+        return []
+
+    # DFS backtracking to reconstruct all shortest paths
+    result = []
+
+    def dfs(path):
+        if path[-1] == end:
+            result.append(path[:])
+            return
+        for nxt in adj[path[-1]]:
+            if dist.get(nxt, float("inf")) == dist[path[-1]] + 1:
+                path.append(nxt)
+                dfs(path)
+                path.pop()
+
+    dfs([begin])
+    return result
+
+
+print(find_ladders("hit", "cog",
+    ["hot", "dot", "dog", "lot", "log", "cog"]))
+`} />
+
+## Next Steps
+
+<InsightBox title="Where to Go From Here">
+- **LeetCode Grind**: 150 carefully selected problems (50 easy → 75 medium → 25 hard) covers 95% of interview patterns.
+- **System Design Deep Dive**: "Designing Data-Intensive Applications" (DDIA) by Martin Kleppmann is the definitive resource.
+- **Mock Interviews**: Practice with peers or platforms like Pramp. 5-10 mock interviews dramatically reduce interview anxiety.
+- **Behavioral Prep**: Prepare 3-5 STAR stories (Situation, Task, Action, Result) for behavioral rounds.
+- **Portfolio Projects**: Build something non-trivial (a distributed key-value store, a real-time chat system, a URL shortener) to demonstrate system design skills.
+- **The DSA maintenance plan**: Solve 1-2 LeetCode problems per week to keep skills sharp. Don't let the patterns fade!
+</InsightBox>
+
+## Congratulations!
+
+<InsightBox title="30 Days Complete — Key Stats">
+- **Topics covered:** 25+ algorithmic patterns and data structures
+- **Lines of code written:** Hundreds across Python and JavaScript
+- **Problems practiced:** Dozens spanning easy, medium, and hard
+- **Complexity analyzed:** Every solution includes Big O reasoning
+- **Languages used:** Python (primary), JavaScript (supplementary)
+
+The hard work is done. Now it's about maintenance and application. You've built a solid foundation — go ace those interviews!
+</InsightBox>

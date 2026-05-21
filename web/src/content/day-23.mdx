@@ -1,0 +1,119 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Divide and conquer is one of the most powerful paradigms in algorithm design. It breaks a problem into smaller subproblems (divide), solves each subproblem recursively (conquer), and combines the results into a solution for the original problem (combine). This recursive decomposition is the foundation of Merge Sort, Quick Sort, Binary Search, Strassen's matrix multiplication, and the closest pair of points algorithm.
+
+The efficiency of a divide-and-conquer algorithm depends critically on how the division and combination steps are implemented. When the divide step splits the input into equal halves and combination is linear, the result is often O(n log n) — the sweet spot for comparison-based sorting and many divide-and-conquer algorithms.
+
+## Key Concepts
+
+- **Divide, Conquer, Combine**: The three stages of every divide-and-conquer algorithm.
+- **Master Theorem**: A formula for solving recurrences of the form T(n) = aT(n/b) + f(n).
+- **Merge Sort**: Divide at midpoint, recursively sort halves, merge in O(n). Always O(n log n).
+- **Quick Sort**: Partition around a pivot, recursively sort partitions. Average O(n log n), worst O(n²).
+- **Closest Pair**: Divide points by x-coordinate, find min distance in each half, then check the strip across the midline.
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`def merge_sort(arr):
+    """Sort using the divide-and-conquer merge sort algorithm."""
+    if len(arr) <= 1:
+        return arr
+
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+
+    return merge(left, right)
+
+
+def merge(left, right):
+    """Merge two sorted arrays into one sorted array."""
+    i = j = 0
+    result = []
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+
+def max_subarray(nums):
+    """Kadane's algorithm — maximum subarray sum."""
+    max_ending = max_sofar = nums[0]
+    for x in nums[1:]:
+        max_ending = max(x, max_ending + x)
+        max_sofar = max(max_sofar, max_ending)
+    return max_sofar
+
+
+print("Merge sort:", merge_sort([38, 27, 43, 3, 9, 82, 10]))
+print("Max subarray:", max_subarray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+`} />
+
+<CodePlayground language="javascript" initialCode={`function quickSort(arr, low = 0, high = arr.length - 1) {
+  if (low >= high) return;
+
+  const pivot = partition(arr, low, high);
+  quickSort(arr, low, pivot - 1);
+  quickSort(arr, pivot + 1, high);
+  return arr;
+}
+
+function partition(arr, low, high) {
+  const pivot = arr[high];
+  let i = low - 1;
+
+  for (let j = low; j < high; j++) {
+    if (arr[j] <= pivot) {
+      i++;
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+  [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+  return i + 1;
+}
+
+console.log(quickSort([10, 7, 8, 9, 1, 5]));
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Merge Sort Implementation" difficulty="medium" pattern="Divide and Conquer">
+  Implement merge sort on an array of integers.
+
+  **Example:** `[38, 27, 43, 3, 9, 82, 10]` → `[3, 9, 10, 27, 38, 43, 82]`
+
+  **Constraints:** `1 <= n <= 10^5`
+
+  **Solution approach:** Recursively divide the array into halves until single elements remain, then merge back in sorted order.
+</ProblemCard>
+
+<ProblemCard title="Maximum Subarray" difficulty="medium" pattern="Divide and Conquer">
+  Given an integer array `nums`, find the contiguous subarray with the largest sum.
+
+  **Example:** `nums = [-2,1,-3,4,-1,2,1,-5,4]` → output `6` (subarray `[4,-1,2,1]`)
+
+  **Constraints:** `1 <= nums.length <= 10^5`
+
+  **Solution approach:** Kadane's algorithm maintains running sum; reset to 0 when it goes negative. Alternatively, a divide-and-conquer approach splits the array and considers cross-midline sums.
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- Divide and conquer yields clean, efficient solutions for problems with optimal substructure.
+- Merge Sort is the gold standard for guaranteed O(n log n) sorting; Quick Sort is faster in practice on average.
+- The combination step is often the hardest part — that's where the real logic lives.
+- Use the Master Theorem to analyze recurrence relations: T(n) = aT(n/b) + O(n^d).
+</InsightBox>

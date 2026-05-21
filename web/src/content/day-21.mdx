@@ -1,0 +1,92 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Greedy algorithms solve optimization problems by making the locally optimal choice at each step, hoping it leads to a globally optimal solution. They are intuitive, fast, and often simple to implement — but they only work when the problem exhibits the **greedy choice property** (a global optimum can be reached by making locally optimal choices) and **optimal substructure** (an optimal solution contains optimal solutions to subproblems).
+
+Interval scheduling is the classic greedy success story: given overlapping intervals, the earliest-finish-time algorithm always yields the maximum number of non-overlapping intervals. Many real-world problems — coin change (canonical systems), Huffman coding, and Dijkstra's algorithm — are also greedy. The challenge is knowing when greed is safe and when it leads you off a cliff.
+
+## Key Concepts
+
+- **Greedy Choice Property**: A globally optimal solution can be arrived at by making a locally optimal (greedy) choice.
+- **Optimal Substructure**: The optimal solution to the full problem contains optimal solutions to subproblems.
+- **Exchange Argument**: A proof technique that shows any optimal solution can be transformed into the greedy solution without worsening it.
+- **When Greedy Fails**: Problems like the knapsack (fractional works, 0/1 doesn't), coin change (non-canonical systems), and traveling salesman show greedy's limits.
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`def activity_selection(activities):
+    """
+    Select maximum number of non-overlapping activities.
+
+    Each activity is a tuple (start, finish).
+    Greedy choice: always pick the activity with the earliest finish time.
+    """
+    activities.sort(key=lambda x: x[1])  # sort by finish time
+    selected = [activities[0]]
+
+    for i in range(1, len(activities)):
+        # If this activity starts at or after the last selected finishes
+        if activities[i][0] >= selected[-1][1]:
+            selected.append(activities[i])
+
+    return selected
+
+
+def can_jump(nums):
+    """
+    Jump Game: can you reach the last index?
+    Greedy: track the furthest reachable index.
+    """
+    furthest = 0
+    for i in range(len(nums)):
+        if i > furthest:
+            return False
+        furthest = max(furthest, i + nums[i])
+    return True
+
+
+# Example usage
+activities = [(1, 4), (3, 5), (0, 6), (5, 7), (3, 9), (5, 9), (6, 10), (8, 11), (8, 12), (2, 14)]
+print("Selected activities:", activity_selection(activities))
+
+print("Can jump [2,3,1,1,4]:", can_jump([2, 3, 1, 1, 4]))
+print("Can jump [3,2,1,0,4]:", can_jump([3, 2, 1, 0, 4]))
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Jump Game" difficulty="medium" pattern="Greedy">
+  Given an integer array `nums` where each element represents your maximum jump length at that position, determine if you can reach the last index.
+
+  **Example:** `nums = [2, 3, 1, 1, 4]` → `true` (jump 1 step from index 0 to 1, then 3 steps to the end)
+
+  **Example:** `nums = [3, 2, 1, 0, 4]` → `false` (you always land at index 3 which has value 0, can't move forward)
+
+  **Constraints:** `1 <= nums.length <= 10^4`, `0 <= nums[i] <= 10^5`
+
+  **Solution approach:** Maintain the furthest reachable index. Iterate left to right; if the current index exceeds furthest, return false.
+</ProblemCard>
+
+<ProblemCard title="Activity Selection" difficulty="medium" pattern="Greedy">
+  Given `n` activities with start and end times, select the maximum number of activities that don't overlap.
+
+  **Example:** `activities = [(1, 4), (3, 5), (0, 6), (5, 7), (3, 9)]` → maximum 3 activities `[(1, 4), (5, 7)]`
+
+  **Constraints:** `1 <= n <= 10^5`
+
+  **Solution approach:** Sort by finish time, then greedily pick the next activity whose start time >= last selected finish time.
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- Greedy algorithms are efficient (often O(n log n) or O(n)) but only work when the greedy choice property holds.
+- Always prove or justify correctness before using a greedy approach — exchange arguments are your best tool.
+- When stuck on an optimization problem, ask: "Does the optimal solution contain optimal solutions to subproblems?" If yes, greedy or DP might work.
+- Classic greedy patterns: scheduling (earliest finish), interval covering (earliest start), graph (Prim's, Dijkstra's), and compression (Huffman).
+</InsightBox>

@@ -1,0 +1,67 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+The 30-day DSA study plan has covered the most important algorithmic patterns used in technical interviews. Today you'll step back and see the big picture — a strategic review of patterns and when to apply them. Recognizing the underlying pattern in a problem is often harder than implementing the solution.
+
+<InsightBox title="The One-Sentence Rule">
+Every problem in an interview maps to one of these patterns. Practice pattern recognition by asking: "What is this problem really asking?" before you write any code.
+</InsightBox>
+
+## Pattern Master Table
+
+<DataTable title="30-Day Pattern Matrix" columns={["Pattern", "Key Technique", "Time Complexity", "When to Use"]} rows={[
+  ["Two Pointers", "Left/right pointers", "O(n)", "Sorted arrays, palindrome, container with most water"],
+  ["Sliding Window", "Window expansion/contraction", "O(n)", "Subarray/substring problems, contiguous sequences"],
+  ["Binary Search", "Divide search space", "O(log n)", "Sorted arrays, search/insert position, rotated arrays"],
+  ["DFS / BFS", "Stack / Queue traversal", "O(V+E)", "Tree/graph traversal, shortest path, connected components"],
+  ["Dynamic Programming", "Memoization / tabulation", "O(n²) typical", "Optimization with overlapping subproblems"],
+  ["Greedy", "Local optimum choice", "O(n log n) typical", "Scheduling, activity selection, jump game"],
+  ["Backtracking", "Explore + prune", "O(2ⁿ) worst", "Subsets, permutations, constraint satisfaction"],
+  ["Divide & Conquer", "Split + recurse + merge", "O(n log n)", "Sorting, max subarray, closest pair"],
+  ["Topological Sort", "In-degree / DFS post-order", "O(V+E)", "DAG dependency ordering, course schedule"],
+  ["Union Find", "Disjoint sets + path compression", "O(α(n))", "Connectivity, cycle detection, Kruskal's MST"],
+  ["MST", "Kruskal / Prim greedy", "O(E log V)", "Minimum cost to connect all nodes"],
+  ["Trie", "Prefix tree", "O(L) per op", "Prefix matching, autocomplete, word search"],
+  ["Heap", "Priority queue", "O(log n) per op", "Top K, merge K sorted, median, Dijkstra"],
+  ["Hash Map", "Key-value storage", "O(1) average", "Frequency counting, caching, complement search"]
+]} />
+
+## Decision Flowchart
+
+<InsightBox title="Pattern Selection Guide">
+**Is the input sorted or nearly sorted?**
+- Yes → **Binary Search** or **Two Pointers**
+- No → Continue
+
+**Are you looking for a subarray/substring with a property?**
+- Yes → **Sliding Window**
+
+**Is it a graph or tree problem?**
+- Need shortest path? → **BFS / Dijkstra**
+- Need connectivity? → **Union Find**
+- Need dependency order? → **Topological Sort**
+- Need minimum connections? → **MST**
+
+**Does the problem ask for min/max or count of ways?**
+- Yes → **Dynamic Programming** (if optimal substructure)
+
+**Small input and need all combinations?**
+- Yes → **Backtracking**
+
+**Can you make a locally optimal choice that seems globally optimal?**
+- Yes → **Greedy**
+</InsightBox>
+
+## Key Takeaways
+
+<InsightBox title="Strategic Review">
+- Pattern recognition is a skill you build through practice — the more problems you solve, the faster you identify patterns.
+- Most medium-difficulty problems combine two patterns (e.g., BFS on a graph built with Union Find).
+- Always analyze complexity: time vs. space trade-off is a common interview discussion point.
+- Review this table before every mock interview. Over time, pattern matching becomes automatic.
+</InsightBox>

@@ -1,0 +1,111 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Topological sort returns a linear ordering of vertices in a directed acyclic graph (DAG) such that for every directed edge u → v, u comes before v. It is the algorithmic foundation of dependency resolution — build systems (Make, Bazel), package managers (npm, pip), and course prerequisite planners all rely on topological ordering.
+
+Two main algorithms exist: **Kahn's algorithm** (BFS-based, uses in-degree counts) and **DFS-based topological sort** (uses finish times / stack ordering). Kahn's algorithm has the bonus of built-in cycle detection — if not all vertices are processed, a cycle exists.
+
+## Key Concepts
+
+- **DAG**: A directed acyclic graph — cycles make topological ordering impossible.
+- **Kahn's Algorithm**: Repeatedly remove vertices with in-degree 0, adding them to the order. Decrease neighbors' in-degrees.
+- **DFS-based Algorithm**: Run DFS; add a vertex to the front of the result list after visiting all its neighbors (post-order).
+- **Cycle Detection**: If Kahn's algorithm finishes without processing all vertices, a cycle exists.
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`from collections import defaultdict, deque
+
+
+def kahn_topological_sort(num_nodes, edges):
+    """
+    Kahn's algorithm: BFS-based topological sort.
+
+    edges: list of (u, v) meaning u -> v
+    Returns: topological ordering, or empty list if cycle exists
+    """
+    graph = defaultdict(list)
+    in_degree = [0] * num_nodes
+
+    for u, v in edges:
+        graph[u].append(v)
+        in_degree[v] += 1
+
+    queue = deque([i for i in range(num_nodes) if in_degree[i] == 0])
+    result = []
+
+    while queue:
+        node = queue.popleft()
+        result.append(node)
+        for neighbor in graph[node]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+
+    return result if len(result) == num_nodes else []
+
+
+def dfs_topological_sort(num_nodes, edges):
+    """DFS-based topological sort using post-order traversal."""
+    graph = defaultdict(list)
+    for u, v in edges:
+        graph[u].append(v)
+
+    visited = [False] * num_nodes
+    stack = []
+
+    def dfs(node):
+        visited[node] = True
+        for neighbor in graph[node]:
+            if not visited[neighbor]:
+                dfs(neighbor)
+        stack.append(node)  # post-order
+
+    for i in range(num_nodes):
+        if not visited[i]:
+            dfs(i)
+
+    return stack[::-1]  # reverse post-order
+
+
+# Example: 6 nodes, edges 0->1, 0->2, 1->3, 2->3, 3->4, 4->5
+edges = [(0, 1), (0, 2), (1, 3), (2, 3), (3, 4), (4, 5)]
+print("Kahn:", kahn_topological_sort(6, edges))
+print("DFS:", dfs_topological_sort(6, edges))
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Course Schedule II" difficulty="medium" pattern="Topological Sort">
+  There are `numCourses` courses labeled from 0 to `numCourses - 1`. You are given `prerequisites[i] = [a, b]` meaning you must take course `b` before `a`. Return the ordering of courses you should take to finish all courses.
+
+  **Example:** `numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]` → `[0,2,1,3]` or `[0,1,2,3]`
+
+  **Constraints:** `1 <= numCourses <= 2000`
+
+  **Solution approach:** Build adjacency list, compute in-degrees, run Kahn's algorithm. If cycle exists, return empty array.
+</ProblemCard>
+
+<ProblemCard title="Alien Dictionary" difficulty="hard" pattern="Topological Sort">
+  Given a sorted dictionary of alien words, find the order of characters in the alien alphabet.
+
+  **Example:** `words = ["wrt","wrf","er","ett","rftt"]` → `"wertf"`
+
+  **Constraints:** `1 <= words.length <= 100`, each word length <= 100
+
+  **Solution approach:** Compare adjacent words character-by-character; the first differing character gives an edge. Build a DAG and topologically sort it. Handle the case where one word is a prefix of another (invalid if longer comes first).
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- Topological sort only works on DAGs — cycle detection is a critical part of the algorithm.
+- Kahn's algorithm (BFS) is generally easier to implement and has natural cycle detection.
+- DFS-based topological sort produces the reverse of a post-order traversal.
+- Real-world applications: build systems, course planners, dependency resolution, and Alien Dictionary (a classic interview problem).
+</InsightBox>

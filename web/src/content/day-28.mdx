@@ -1,0 +1,68 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Mock interviews simulate the pressure and structure of real coding interviews. The goal isn't just correctness — it's communicating your thought process, analyzing trade-offs, and writing clean code within a time constraint (typically 30-45 minutes per problem). Today you'll practice three problems of increasing difficulty, each with a strict time limit.
+
+Remember the interview rubric: **communication > correctness > speed**. An interviewer would rather see you solve one problem well with clear reasoning than rush through three with bugs.
+
+<InsightBox title="Whiteboard Coding Tips">
+- **Clarify first**: Ask about input size, edge cases, and constraints before writing code.
+- **Think out loud**: Explain your reasoning, mention alternatives, and state your assumptions.
+- **Start brute force**: Come up with a naive solution first, then optimize. This shows you can iterate.
+- **Test your code**: Walk through a small example and check edge cases (empty, single element, duplicates).
+- **Name things clearly**: Variable names should communicate intent — `freq_map` not `m`.
+- **Time management**: If you're stuck after 10 minutes, ask for a hint or pivot to a simpler approach.
+</InsightBox>
+
+## Practice Problems
+
+<ProblemCard title="Two Sum" difficulty="easy" pattern="Hash Map">
+  Given an array of integers `nums` and an integer `target`, return indices of the two numbers that add up to `target`.
+
+  **Example:** `nums = [2, 7, 11, 15], target = 9` → `[0, 1]`
+
+  **Constraints:** `2 <= nums.length <= 10^4`
+
+  **Time limit:** 5 minutes
+
+  **Solution approach:** Use a hash map to store each number's index. For each element, compute the complement and check if it exists in the map.
+</ProblemCard>
+
+<ProblemCard title="Longest Substring Without Repeating Characters" difficulty="medium" pattern="Sliding Window">
+  Given a string `s`, find the length of the longest substring without repeating characters.
+
+  **Example:** `s = "abcabcbb"` → 3 (`"abc"`)
+
+  **Constraints:** `0 <= s.length <= 5 * 10^4`
+
+  **Time limit:** 15 minutes
+
+  **Solution approach:** Sliding window with a hash set. Expand the right pointer; if a duplicate is found, shrink the window from the left until the duplicate is removed.
+</ProblemCard>
+
+<ProblemCard title="Trapping Rain Water" difficulty="hard" pattern="Two Pointers">
+  Given an array `height` representing an elevation map (width = 1), compute how much water can be trapped after rain.
+
+  **Example:** `height = [0,1,0,2,1,0,1,3,2,1,2,1]` → 6
+
+  **Constraints:** `1 <= height.length <= 2 * 10^4`
+
+  **Time limit:** 20 minutes
+
+  **Solution approach:** Two pointers from left and right. Track max heights from both sides. At each step, process the side with the smaller max height — water trapped at that position is max - height.
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- Practice timed sessions regularly — they build the mental stamina needed for real interviews.
+- Communication is what separates good candidates from great ones. Always explain your thought process.
+- After the interview, review: Did you clarify constraints? Did you test edge cases? Could you have optimized further?
+- The three problems here span easy to hard — in a real interview, expect 1-2 problems at the medium level.
+- Keep a "mistakes log" of things you missed in practice (off-by-one, empty input, integer overflow).
+</InsightBox>

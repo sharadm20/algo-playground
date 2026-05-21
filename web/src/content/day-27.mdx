@@ -1,0 +1,56 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+System design is the art of architecting software systems that are **scalable**, **reliable**, and **maintainable**. Unlike the algorithm-heavy days so far, this day is conceptual — you can't implement a load balancer in a LeetCode editor. But understanding these fundamental building blocks is essential for senior engineering roles and distributed systems interviews.
+
+The core challenge of system design is coordinating many machines to act as one. This introduces problems that don't exist on a single machine: network latency, partial failures, data consistency, and coordination overhead. Every design decision involves trade-offs.
+
+<InsightBox title="Key Concepts">
+- **Load Balancing**: Distribute traffic across servers. Strategies include round-robin, least connections, and consistent hashing.
+- **Caching**: Store frequently accessed data in fast memory (Redis, Memcached) to reduce database load. Key strategies: cache-aside, write-through, write-behind.
+- **Database Sharding**: Partition data across multiple databases by a shard key. Horizontal scaling comes at the cost of complex queries and rebalancing.
+- **CAP Theorem**: A distributed system can only guarantee two of Consistency, Availability, and Partition Tolerance. In practice, partitions are inevitable, so you choose between CP and AP.
+- **CDN**: Content Delivery Networks cache static assets at edge locations close to users, reducing latency.
+</InsightBox>
+
+<InsightBox title="Database Trade-offs">
+| System | Consistency | Availability | Use Case |
+|--------|------------|--------------|----------|
+| SQL (Postgres) | Strong | Good | Financial transactions, relationships |
+| MongoDB | Eventual | High | Rapid prototyping, flexible schemas |
+| Cassandra | Tunable | Very High | Time-series, write-heavy workloads |
+| Redis | Eventual | Very High | Caching, real-time leaderboards |
+</InsightBox>
+
+## Lightweight Design Exercise
+
+<InsightBox title="Design a URL Shortener (like TinyURL)">
+**Requirements:**
+- Generate a short, unique alias for any URL
+- Redirect short URL to original URL with low latency
+- Handle millions of URLs and billions of redirects
+
+**Key design decisions:**
+- **Hash function:** Base-62 encoding of a unique ID (or use a hash like MD5 with collision handling)
+- **Storage:** Relational database (id, original_url, created_at, expiry) with the short code as primary key
+- **Caching:** Cache hot short → original mappings in Redis to avoid DB reads on redirect
+- **Scaling:** Read replicas for the database; consistent hashing if sharding across multiple DBs
+- **Redirect:** Return HTTP 301 (permanent) or 302 (temporary) — 301 allows browsers to cache the redirect
+
+**Estimation:** 100M URLs, 10B redirects/month. Short codes with 7 characters (62^7 ≈ 3.5 trillion combinations) are more than sufficient.
+</InsightBox>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- System design has no "right answer" — only trade-offs. Every interview expects you to discuss alternatives.
+- Start with a single-machine design, then identify bottlenecks and scale horizontally.
+- Know the CAP theorem cold. Most distributed systems choose availability (AP) over strong consistency (CP).
+- Practice the "back-of-the-envelope" estimation: QPS, storage, bandwidth. These numbers ground your design in reality.
+- Common patterns: sharding, read replicas, CDNs, message queues, caching layers, and consistent hashing.
+</InsightBox>
