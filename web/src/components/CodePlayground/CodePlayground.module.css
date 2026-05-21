@@ -1,0 +1,91 @@
+.wrapper {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin: var(--space-lg) 0;
+  background: var(--color-bg-card);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-code-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.langSelect {
+  background: rgba(255,255,255,0.1);
+  color: #d4d4d4;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  font-size: var(--font-size-sm);
+  font-family: var(--font-mono);
+}
+
+.runBtn {
+  background: var(--color-success);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 4px 16px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.runBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.runBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.resetBtn {
+  background: rgba(255,255,255,0.1);
+  color: #d4d4d4;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.editor {
+  min-height: 200px;
+}
+
+.output {
+  padding: var(--space-md);
+  background: #0d0d1a;
+  color: #d4d4d4;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  max-height: 300px;
+  overflow-y: auto;
+  border-top: 1px solid var(--color-border);
+  white-space: pre-wrap;
+}
+
+.success {
+  color: var(--color-success);
+}
+
+.error {
+  color: var(--color-danger);
+}
+
+.timing {
+  font-size: var(--font-size-xs);
+  opacity: 0.6;
+  margin-top: var(--space-sm);
+}
+
+.testResult {
+  margin: 2px 0;
+}
