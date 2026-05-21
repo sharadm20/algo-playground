@@ -1,7 +1,7 @@
 import shutil
 from .base import BaseRunner
-from ..sandbox import Sandbox
-from ..models import RunResponse
+from sandbox import Sandbox
+from models import RunResponse
 
 class JavaRunner(BaseRunner):
     def execute(self, code: str) -> RunResponse:

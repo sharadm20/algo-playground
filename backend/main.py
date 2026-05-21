@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from .runners import RUNNERS
-from .models import RunRequest, RunResponse, LanguageInfo
+from runners import RUNNERS
+from models import RunRequest, RunResponse, LanguageInfo
 
 app = FastAPI(title="DSA Code Runner")
 

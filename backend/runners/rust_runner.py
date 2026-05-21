@@ -1,6 +1,6 @@
 import shutil
 import os
-from ..models import RunResponse
+from models import RunResponse
 from .base import BaseRunner
 
 class RustRunner(BaseRunner):

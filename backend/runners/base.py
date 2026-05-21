@@ -1,7 +1,7 @@
 import re
 from abc import ABC, abstractmethod
-from ..sandbox import Sandbox
-from ..models import RunResponse, TestResult
+from sandbox import Sandbox
+from models import RunResponse, TestResult
 
 class BaseRunner(ABC):
     def __init__(self):

@@ -1,5 +1,5 @@
 import shutil
-from ..models import RunResponse
+from models import RunResponse
 from .base import BaseRunner
 
 class PythonRunner(BaseRunner):
