@@ -1,0 +1,107 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Bit manipulation is the art of using bitwise operators to solve problems at the lowest level of data representation. While high-level languages abstract away individual bits, bitwise tricks remain essential for performance-critical code, embedded systems, cryptography, and interview problems where the optimal solution requires thinking in binary.
+
+The core operators are AND (`&`), OR (`|`), XOR (`^`), NOT (`~`), left shift (`<<`), and right shift (`>>`). Most bit manipulation problems use XOR as a cancellation operator, AND as a mask, and shifts for fast multiplication/division by powers of two.
+
+## Key Concepts
+
+- **XOR Properties**: `x ^ 0 = x`, `x ^ x = 0`, `x ^ y ^ x = y`. XOR is associative and commutative — perfect for finding the unique element in a paired list.
+- **Bit Masking**: Use `(1 << k)` to create a mask with bit k set. Use `x & mask` to check bit k, `x | mask` to set bit k, `x & ~mask` to clear bit k.
+- **Counting Bits**: `n & (n - 1)` clears the lowest set bit. Repeating until n=0 counts all set bits (Brian Kernighan's algorithm).
+- **Common Tricks**: Check parity (`n & 1`), power of two (`n > 0 and n & (n - 1) == 0`), get/clear/set individual bits.
+- **Two's Complement**: Negative integers are stored as ~x + 1. Right shift `>>` on signed integers is arithmetic (sign-extending), not logical.
+
+## Code Example (Python + JavaScript)
+
+<CodePlayground language="python" initialCode={`def single_number(nums: list[int]) -> int:
+    res = 0
+    for n in nums:
+        res ^= n
+    return res
+
+
+def hamming_weight(n: int) -> int:
+    count = 0
+    while n:
+        n &= n - 1
+        count += 1
+    return count
+
+
+def missing_number(nums: list[int]) -> int:
+    n = len(nums)
+    res = n
+    for i, v in enumerate(nums):
+        res ^= i ^ v
+    return res
+
+
+print(single_number([4, 1, 2, 1, 2]))  # 4
+print(hamming_weight(11))  # 3 (binary 1011)
+print(missing_number([3, 0, 1]))  # 2
+`} />
+
+<CodePlayground language="javascript" initialCode={`// Bit manipulation in JavaScript
+function singleNumber(nums) {
+  return nums.reduce((acc, n) => acc ^ n, 0);
+}
+
+function hammingWeight(n) {
+  let count = 0;
+  while (n) {
+    n &= n - 1;
+    count++;
+  }
+  return count >>> 0; // unsigned result
+}
+
+function missingNumber(nums) {
+  let res = nums.length;
+  for (let i = 0; i < nums.length; i++) {
+    res ^= i ^ nums[i];
+  }
+  return res;
+}
+
+console.log(singleNumber([4, 1, 2, 1, 2])); // 4
+console.log(hammingWeight(11)); // 3
+console.log(missingNumber([3, 0, 1])); // 2
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Single Number" difficulty="easy" pattern="XOR">
+  Given a non-empty array of integers where every element appears twice except for one, find that single one. Must run in O(n) time and O(1) space.
+  
+  **Example:** nums = [4, 1, 2, 1, 2] → 4
+</ProblemCard>
+
+<ProblemCard title="Number of 1 Bits" difficulty="easy" pattern="Bit Counting">
+  Write a function that takes an unsigned integer and returns the number of '1' bits it has (Hamming weight).
+  
+  **Example:** n = 11 (binary 1011) → 3
+</ProblemCard>
+
+<ProblemCard title="Missing Number" difficulty="easy" pattern="XOR / Sum">
+  Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+  
+  **Example:** nums = [3, 0, 1] → 2
+  
+  Solve using both XOR and the sum formula (n * (n+1) // 2).
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- XOR is the most versatile bitwise operator for interview problems because of its cancellation property. If you see "every element appears twice except one" or similar phrasing, XOR is almost certainly the answer.
+- `n & (n - 1)` is the most useful bit trick — it clears the lowest set bit. Know it by heart.
+- Bit manipulation can often turn O(n) space solutions into O(1). The tradeoff is readability — always explain your bitwise reasoning out loud.
+- Most languages have built-in population count (`int.bit_count()` in Python, `popcount` in Rust), but interviewers often want you to implement it manually.
+</InsightBox>

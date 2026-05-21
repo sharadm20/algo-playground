@@ -1,0 +1,83 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+The most demanding DP problems involve **string alignment** and **palindrome manipulation**. Two problems dominate this space: Longest Common Subsequence (LCS) and Edit Distance (Levenshtein distance). Both use 2D DP where the axes are indices into two strings, and the recurrence compares characters at those positions.
+
+Palindrome DP has its own flavour — often working outward from the centre or filling a table of substring ranges. These problems are a rite of passage for DP proficiency and appear regularly in on-site interviews.
+
+## Key Concepts
+
+- **LCS Pattern**: `dp[i][j]` = LCS length for first `i` chars of s1 and first `j` chars of s2. Recurrence: if chars match, add 1; otherwise take the max of skipping one character from either string.
+- **Edit Distance**: Three operations (insert, delete, substitute) each with cost 1. Recurrence considers all three and picks the minimum.
+- **Palindrome Substring DP**: `dp[i][j]` = true if substring s[i:j+1] is a palindrome. Build from shorter to longer substrings (gap strategy).
+- **Traceback**: After filling the DP table, reconstruct the actual subsequence or aligned string by walking backwards through the table.
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`def longest_common_subsequence(text1: str, text2: str) -> int:
+    m, n = len(text1), len(text2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if text1[i - 1] == text2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+    return dp[m][n]
+
+
+def edit_distance(word1: str, word2: str) -> int:
+    m, n = len(word1), len(word2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    for i in range(m + 1):
+        dp[i][0] = i
+    for j in range(n + 1):
+        dp[0][j] = j
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if word1[i - 1] == word2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1]
+            else:
+                dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])
+    return dp[m][n]
+
+
+print(longest_common_subsequence("abcde", "ace"))  # 3
+print(edit_distance("horse", "ros"))  # 3
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Longest Palindromic Substring" difficulty="medium" pattern="Palindrome DP">
+  Given a string s, return the longest palindromic substring in s. A palindrome reads the same forwards and backwards.
+  
+  **Example:** s = "babad" → "bab" or "aba"
+  
+  **Example:** s = "cbbd" → "bb"
+</ProblemCard>
+
+<ProblemCard title="Edit Distance" difficulty="hard" pattern="String DP">
+  Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2. Operations allowed: insert a character, delete a character, replace a character.
+  
+  **Example:** word1 = "horse", word2 = "ros" → 3 (horse → rorse → rose → ros)
+</ProblemCard>
+
+<ProblemCard title="Distinct Subsequences" difficulty="hard" pattern="String DP">
+  Given two strings s and t, return the number of distinct subsequences of s that equal t. The answer is guaranteed to fit in a 32-bit signed integer.
+  
+  **Example:** s = "rabbbit", t = "rabbit" → 3
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- String DP problems almost always share the same skeleton: a 2D table indexed into both strings, with a character-match branch and a skip branch.
+- For palindrome problems, the expand-around-centre technique is O(n²) time with O(1) space — often better than the full DP table.
+- Base cases matter: for edit distance, the first row/column represent converting to/from an empty string (cost = length).
+- When asked to reconstruct (not just count/minimize), store decisions in a parallel table during the forward pass, then trace back.
+</InsightBox>

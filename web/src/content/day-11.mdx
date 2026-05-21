@@ -1,0 +1,73 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Dynamic Programming is a technique for solving problems by breaking them into overlapping subproblems and storing their results to avoid redundant computation. It's one of the most powerful — and most feared — paradigms in algorithm design. The core insight is that many problems that seem to require exponential time can be solved in polynomial time once you identify the right subproblem decomposition.
+
+There are two main approaches to DP: **memoization** (top-down, recursive with caching) and **tabulation** (bottom-up, iterative with a table). Both exploit the same underlying recurrence; the choice is largely about style and space constraints. The Fibonacci sequence is the canonical example that illustrates both approaches.
+
+## Key Concepts
+
+- **Overlapping Subproblems**: The problem can be broken into subproblems that are reused multiple times. If subproblems don't overlap, you're using divide-and-conquer, not DP.
+- **Optimal Substructure**: An optimal solution to the problem can be constructed from optimal solutions to its subproblems. This property lets you build answers incrementally.
+- **Memoization (Top-Down)**: Start with the original problem and recurse down, caching results of subproblems as you compute them. Intuitive but risks stack overflow on deep recursion.
+- **Tabulation (Bottom-Up)**: Start from the smallest subproblems and build up iteratively. Usually more efficient in practice and avoids recursion overhead.
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`def fib_memo(n: int, memo: list[int] | None = None) -> int:
+    if n <= 1:
+        return n
+    if memo is None:
+        memo = [-1] * (n + 1)
+    if memo[n] != -1:
+        return memo[n]
+    memo[n] = fib_memo(n - 1, memo) + fib_memo(n - 2, memo)
+    return memo[n]
+
+
+def fib_tab(n: int) -> int:
+    if n <= 1:
+        return n
+    dp = [0] * (n + 1)
+    dp[1] = 1
+    for i in range(2, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
+    return dp[n]
+
+
+print(fib_memo(10), fib_tab(10))  # 55 55
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Climbing Stairs" difficulty="easy" pattern="Fibonacci DP">
+  You are climbing a staircase. It takes n steps to reach the top. Each time you can climb 1 or 2 steps. In how many distinct ways can you climb to the top? Solve in O(n) time and O(1) space.
+  
+  **Example:** n = 3 → 3 ways (1+1+1, 1+2, 2+1)
+</ProblemCard>
+
+<ProblemCard title="House Robber" difficulty="medium" pattern="Linear DP">
+  You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. Adjacent houses have connected security systems — if two adjacent houses are broken into on the same night, the police are alerted. Given an integer array nums representing the money at each house, return the maximum amount you can rob without alerting the police.
+  
+  **Example:** nums = [2, 7, 9, 3, 1] → 12 (rob houses 0, 2, 4)
+</ProblemCard>
+
+<ProblemCard title="Min Cost Climbing Stairs" difficulty="easy" pattern="Linear DP">
+  You are given an integer array cost where cost[i] is the cost of stepping on the i-th stair. You can start from step 0 or step 1. Once you pay the cost, you can climb one or two steps. Find the minimum cost to reach the top of the floor (past the last element).
+  
+  **Example:** cost = [10, 15, 20] → 15 (start at index 1, pay 15, climb two)
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- DP is applicable when a problem has both overlapping subproblems and optimal substructure — verify both properties before reaching for DP.
+- Start with a brute-force recursive solution, then add memoization. Only convert to tabulation if you need better space or want to avoid recursion overhead.
+- The recurrence is the heart of any DP solution. Write it clearly on paper before coding.
+- Space optimization is often possible: if dp[i] only depends on dp[i-1] and dp[i-2], you don't need the full array.
+</InsightBox>

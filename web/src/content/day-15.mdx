@@ -1,0 +1,100 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+**Heaps** and **Tries** are specialised tree structures that solve very different problems. A heap (priority queue) gives O(log n) insertion and O(log n) extraction of the min or max element — invaluable for anytime you need to repeatedly access the largest or smallest item in a dynamic set. A trie (prefix tree) gives O(k) prefix lookups over a set of strings, where k is the key length, regardless of how many strings are stored.
+
+Both structures are frequently used as building blocks in more complex algorithms (heap for Dijkstra's, median finding; trie for autocomplete, IP routing, spell checkers).
+
+## Key Concepts
+
+- **Min-Heap vs Max-Heap**: In a min-heap the parent is always ≤ its children; in a max-heap the parent is always ≥ its children. Python's `heapq` implements a min-heap; use negative values for max-heap behavior.
+- **Heap Operations**: `push` (append then sift up), `pop` (swap with last, sift down), `heapify` (build heap in O(n) from an array).
+- **Trie Structure**: Each node stores a map of child characters and a boolean flag indicating whether a word ends here. Insertion and search both walk character by character.
+- **Space vs Speed**: Tries trade memory for speed — they can be memory-heavy but offer O(key_length) lookups with no hash collisions.
+
+## Code Example
+
+<CodePlayground language="python" initialCode={`import heapq
+
+
+def find_kth_largest(nums: list[int], k: int) -> int:
+    heap = nums[:k]
+    heapq.heapify(heap)
+    for x in nums[k:]:
+        if x > heap[0]:
+            heapq.heapreplace(heap, x)
+    return heap[0]
+
+
+class Trie:
+    class Node:
+        def __init__(self):
+            self.children: dict[str, "Trie.Node"] = {}
+            self.is_end = False
+
+    def __init__(self):
+        self.root = self.Node()
+
+    def insert(self, word: str) -> None:
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = self.Node()
+            node = node.children[ch]
+        node.is_end = True
+
+    def search(self, word: str) -> bool:
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                return False
+            node = node.children[ch]
+        return node.is_end
+
+    def starts_with(self, prefix: str) -> bool:
+        node = self.root
+        for ch in prefix:
+            if ch not in node.children:
+                return False
+            node = node.children[ch]
+        return True
+
+
+print(find_kth_largest([3, 2, 1, 5, 6, 4], 2))  # 5
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Kth Largest Element in an Array" difficulty="medium" pattern="Heap">
+  Given an integer array nums and an integer k, return the k-th largest element in the array (not the k-th distinct).
+  
+  **Example:** nums = [3, 2, 1, 5, 6, 4], k = 2 → 5
+  
+  Solve in O(n log k) time using a heap.
+</ProblemCard>
+
+<ProblemCard title="Implement Trie (Prefix Tree)" difficulty="medium" pattern="Trie">
+  Implement a trie with `insert`, `search`, and `startsWith` methods. All inputs consist of lowercase English letters.
+  
+  **Example:** trie.insert("apple"); trie.search("apple") → True; trie.search("app") → False; trie.startsWith("app") → True
+</ProblemCard>
+
+<ProblemCard title="Find Median from Data Stream" difficulty="hard" pattern="Two Heaps">
+  Design a data structure that supports adding integers from a data stream and finding the median of all added elements. Use two heaps (a max-heap for the lower half and a min-heap for the upper half).
+  
+  **Example:** addNum(1), addNum(2), findMedian() → 1.5, addNum(3), findMedian() → 2
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- Python's `heapq` is a min-heap. To simulate a max-heap, push negative values: `heapq.heappush(h, -x)`.
+- The "top K" pattern is the most common heap interview question — maintain a size-k min-heap for k largest, a size-k max-heap for k smallest.
+- Tries shine when you need prefix-based operations. They outperform hash tables for "words starting with..." queries.
+- The two-heap pattern (one min-heap, one max-heap, balanced in size) elegantly solves median-finding and sliding-window median problems.
+</InsightBox>

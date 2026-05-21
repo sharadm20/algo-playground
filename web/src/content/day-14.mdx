@@ -1,0 +1,108 @@
+import CodePlayground from '../components/CodePlayground/CodePlayground';
+import ProblemCard from '../components/ProblemCard/ProblemCard';
+import InsightBox from '../components/shared/InsightBox';
+import DataTable from '../components/shared/DataTable';
+import Badge from '../components/shared/Badge';
+
+## Overview
+
+Days 11–13 introduced three tiers of DP: linear, 2D/grid/knapsack, and string alignment. Today we consolidate everything by revisiting familiar problems through different lenses and comparing the two DP strategies head-to-head. A solid DP intuition means being able to translate the same recurrence into either top-down or bottom-up code on demand.
+
+The choice between memoization and tabulation is often a matter of taste, but there are concrete tradeoffs. Memoization only computes the states actually needed (important when the state space is sparse). Tabulation avoids recursion overhead and makes space optimization obvious.
+
+## Key Concepts
+
+- **Top-Down (Memoization)**: Recursive, cache results, compute only what's needed. Easier to derive from brute-force. Risk: stack overflow for deep recursion.
+- **Bottom-Up (Tabulation)**: Iterative, compute all states in order. Fine control over space. Risk: computing states that are never used.
+- **Space Optimization**: Once the recurrence is clear, look at which rows/columns you actually need to keep. Most 1D DP can become O(1); most 2D DP can become O(n) or O(m).
+
+## Comparison Table
+
+<DataTable
+  headers={['Property', 'Top-Down (Memoization)', 'Bottom-Up (Tabulation)']}
+  rows={[
+    ['Implementation', 'Recursive + cache', 'Iterative + table'],
+    ['Computation', 'Lazy — only needed states', 'Eager — all states up to target'],
+    ['Stack risk', 'Yes — deep recursion overflows', 'No — iterative loop'],
+    ['Space opt.', 'Harder — needs hashmap trimming', 'Easier — compress adjacent rows'],
+    ['Readability', 'Closer to brute-force', 'Requires ordering insight'],
+    ['Best for', 'Sparse state spaces', 'Dense state spaces'],
+  ]}
+/>
+
+## Code Example (Python + JavaScript)
+
+<CodePlayground language="python" initialCode={`# House Robber — two passes, two languages
+
+def rob_tab(nums: list[int]) -> int:
+    if not nums:
+        return 0
+    if len(nums) == 1:
+        return nums[0]
+    dp = [0] * len(nums)
+    dp[0], dp[1] = nums[0], max(nums[0], nums[1])
+    for i in range(2, len(nums)):
+        dp[i] = max(dp[i - 1], nums[i] + dp[i - 2])
+    return dp[-1]
+
+
+def rob_memo(nums: list[int]) -> int:
+    memo = {}
+
+    def dfs(i: int) -> int:
+        if i >= len(nums):
+            return 0
+        if i in memo:
+            return memo[i]
+        memo[i] = max(dfs(i + 1), nums[i] + dfs(i + 2))
+        return memo[i]
+
+    return dfs(0)
+
+
+print(rob_tab([2, 7, 9, 3, 1]))  # 12
+print(rob_memo([2, 7, 9, 3, 1]))  # 12
+`} />
+
+<CodePlayground language="javascript" initialCode={`// House Robber in JavaScript — tabulation
+function rob(nums) {
+  if (nums.length === 0) return 0;
+  if (nums.length === 1) return nums[0];
+  const dp = new Array(nums.length);
+  dp[0] = nums[0];
+  dp[1] = Math.max(nums[0], nums[1]);
+  for (let i = 2; i < nums.length; i++) {
+    dp[i] = Math.max(dp[i - 1], nums[i] + dp[i - 2]);
+  }
+  return dp[nums.length - 1];
+}
+
+console.log(rob([2, 7, 9, 3, 1])); // 12
+`} />
+
+## Practice Problems
+
+<ProblemCard title="Climbing Stairs (Revisited)" difficulty="easy" pattern="Fibonacci DP">
+  Re-solve Climbing Stairs from Day 11 using both top-down memoization and bottom-up tabulation. Then optimize to O(1) space using only two variables. Compare the three approaches on n = 45.
+</ProblemCard>
+
+<ProblemCard title="Unique Paths with Obstacles" difficulty="medium" pattern="Grid DP">
+  Now the robot's grid may contain obstacles. An obstacle is marked as 1 in a 2D grid. The robot cannot move through an obstacle. Re-solve Unique Paths with this constraint.
+  
+  **Example:** grid = [[0,0,0],[0,1,0],[0,0,0]] → 2
+</ProblemCard>
+
+<ProblemCard title="Coin Change II (Number of Ways)" difficulty="medium" pattern="Unbounded Knapsack">
+  Return the number of combinations that make up a given amount using the given coins (unlimited of each). This is the counting variant of Coin Change.
+  
+  **Example:** amount = 5, coins = [1, 2, 5] → 4 (5, 2+2+1, 2+1+1+1, 1+1+1+1+1)
+</ProblemCard>
+
+## Key Takeaways
+
+<InsightBox title="Key Insights">
+- The recurrence is the same regardless of direction. Master the recurrence first, then choose top-down or bottom-up.
+- When optimizing space, identify the recurrence's dependency window. If `dp[i]` looks back `k` steps, you need `k` variables, not the whole array.
+- Switching between languages exposes which parts of DP are universal (the recurrence) and which are incidental (syntax, array allocation).
+- On interview day, use whichever style you can write bug-free fastest. For most people, that's bottom-up for simple recurrences and top-down for complex ones.
+</InsightBox>
