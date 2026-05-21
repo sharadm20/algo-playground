@@ -1,0 +1,12 @@
+[package]
+name = "day19_advanced_data_structures"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+[dev-dependencies]
+
+[[bin]]
+name = "day19_advanced_data_structures"
+path = "src/main.rs"

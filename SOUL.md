@@ -1,0 +1,1 @@
+This is your brain for the project ds_and_algo. Check ReadMe and project structure to understand about it. 

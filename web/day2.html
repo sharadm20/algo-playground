@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 2: Advanced Arrays - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar"></aside>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>📚 DSA Study Plan</h1>
+                <p>30 Days to Mastery</p>
+            </div>
+            
+            <nav class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <span class="day-badge">🏠</span>
+                            <span class="day-title">Home</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <nav class="nav-section">
+                <div class="nav-section-title">Week 1 - Foundations</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="day1.html" class="nav-link">
+                            <span class="day-badge">1</span>
+                            <span class="day-title">Arrays & Hashing</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day2.html" class="nav-link current">
+                            <span class="day-badge">2</span>
+                            <span class="day-title">Advanced Arrays</span>
+                            <span class="status-icon">●</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day3.html" class="nav-link">
+                            <span class="day-badge">3</span>
+                            <span class="day-title">Strings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day4.html" class="nav-link">
+                            <span class="day-badge">4</span>
+                            <span class="day-title">Stack & Queue</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day5.html" class="nav-link">
+                            <span class="day-badge">5</span>
+                            <span class="day-title">Linked List</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day6.html" class="nav-link">
+                            <span class="day-badge">6</span>
+                            <span class="day-title">Trees</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day7.html" class="nav-link">
+                            <span class="day-badge">7</span>
+                            <span class="day-title">Review</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Day 2: Advanced Array Manipulation</h1>
+                <p class="subtitle">Core Techniques Deep Dive</p>
+                <div class="meta">
+                    <span class="status-badge current">Current</span>
+                    <span>📅 March 30, 2026</span>
+                    <span>⏱️ 4-5 hours</span>
+                </div>
+            </div>
+
+            <!-- Topic Overview -->
+            <div class="section">
+                <h2>Topic Overview</h2>
+                <p>
+                    Day 2 builds upon foundational concepts, diving deeper into advanced array manipulation 
+                    techniques. These patterns form the backbone of efficient algorithm design and appear 
+                    frequently in technical interviews.
+                </p>
+                <p>
+                    Today's focus is on mastering four critical techniques that transform seemingly complex 
+                    problems into elegant, efficient solutions.
+                </p>
+            </div>
+
+            <!-- Core Techniques -->
+            <div class="section">
+                <h2>Core Techniques</h2>
+
+                <h3>1. Two-Pointer Technique</h3>
+                <p>The two-pointer technique uses two indices that traverse the array in coordination to solve 
+                problems in a single pass, eliminating the need for nested loops.</p>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Pattern</th>
+                            <th>Description</th>
+                            <th>Applications</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Opposite Direction</strong></td>
+                            <td>Left starts at beginning, right at end, move toward each other</td>
+                            <td>Two Sum (sorted), palindrome checking</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Same Direction</strong></td>
+                            <td>Fast-slow pointers, both move left to right</td>
+                            <td>Remove duplicates, find middle element</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Three-Way Partitioning</strong></td>
+                            <td>Maintains three regions around a pivot</td>
+                            <td>Dutch National Flag, sort colors</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>2. Sliding Window Approach</h3>
+                <p>Maintains a contiguous subarray (window) that slides through the array, updating the solution 
+                incrementally rather than recomputing from scratch.</p>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Pattern</th>
+                            <th>Description</th>
+                            <th>Applications</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Fixed Size Window</strong></td>
+                            <td>Window size remains constant (k elements)</td>
+                            <td>Maximum average subarray, moving averages</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dynamic Size Window</strong></td>
+                            <td>Expands and contracts based on condition</td>
+                            <td>Min size subarray sum, longest substring</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>3. Prefix Sum Method</h3>
+                <p>Precomputes cumulative sums, enabling O(1) range sum queries after O(n) preprocessing.</p>
+                <ul class="content-list">
+                    <li><strong>Basic:</strong> prefix[i] = sum of elements from index 0 to i-1</li>
+                    <li><strong>Range Query:</strong> sum(i, j) = prefix[j+1] - prefix[i]</li>
+                    <li><strong>With Hash Map:</strong> Count subarrays with sum equals k</li>
+                    <li><strong>Kadane's Algorithm:</strong> Maximum subarray sum</li>
+                </ul>
+
+                <h3>4. Hash Map Applications</h3>
+                <p>Hash maps provide O(1) average-case lookup for frequency counting, complement searches, and grouping.</p>
+                <ul class="content-list">
+                    <li><strong>Frequency Counting:</strong> Track occurrence count of each element</li>
+                    <li><strong>Complement Lookup:</strong> Store seen elements, search for target - current</li>
+                    <li><strong>Grouping by Key:</strong> Use transformed value as key (e.g., sorted string)</li>
+                </ul>
+            </div>
+
+            <!-- Essential Problems -->
+            <div class="section">
+                <h2>Essential Problems</h2>
+
+                <div class="problem-card">
+                    <h4>
+                        Two Sum II (Input Array Sorted)
+                        <span class="difficulty medium">Medium</span>
+                    </h4>
+                    <p class="pattern">Pattern: Two-Pointer (Opposite Direction)</p>
+                    <p><strong>Problem:</strong> Given sorted array and target, find two numbers adding to target.</p>
+                    <p><strong>Example:</strong> numbers = [2,7,11,15], target = 9 → [1,2]</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> Use converging pointers. If sum < target, move left pointer right. 
+                        If sum > target, move right pointer left. O(n) time, O(1) space.
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <h4>
+                        Remove Duplicates from Sorted Array
+                        <span class="difficulty easy">Easy</span>
+                    </h4>
+                    <p class="pattern">Pattern: Two-Pointer (Same Direction)</p>
+                    <p><strong>Problem:</strong> Remove duplicates in-place, return new length.</p>
+                    <p><strong>Example:</strong> nums = [0,0,1,1,2] → length = 3, nums = [0,1,2,_,_]</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> Slow pointer tracks unique position, fast pointer scans. 
+                        When different, copy to slow+1. O(n) time, O(1) space.
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <h4>
+                        Maximum Subarray (Kadane's Algorithm)
+                        <span class="difficulty medium">Medium</span>
+                    </h4>
+                    <p class="pattern">Pattern: Prefix Sum / Dynamic Programming</p>
+                    <p><strong>Problem:</strong> Find contiguous subarray with maximum sum.</p>
+                    <p><strong>Example:</strong> nums = [-2,1,-3,4,-1,2,1,-5,4] → 6 ([4,-1,2,1])</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> At each position, decide: extend previous subarray or start new. 
+                        Track global maximum. O(n) time, O(1) space.
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <h4>
+                        Product of Array Except Self
+                        <span class="difficulty medium">Medium</span>
+                    </h4>
+                    <p class="pattern">Pattern: Prefix Products</p>
+                    <p><strong>Problem:</strong> Return array where each element is product of all other elements.</p>
+                    <p><strong>Example:</strong> nums = [1,2,3,4] → [24,12,8,6]</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> Compute left products, then right products. Multiply together 
+                        for result. No division allowed. O(n) time, O(1) space excluding output.
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <h4>
+                        Trapping Rain Water
+                        <span class="difficulty hard">Hard</span>
+                    </h4>
+                    <p class="pattern">Pattern: Two-Pointer with Max Tracking</p>
+                    <p><strong>Problem:</strong> Calculate water trapped between bars after rain.</p>
+                    <p><strong>Example:</strong> height = [0,1,0,2,1,0,1,3,2,1,2,1] → 6 units</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> Track max from left and right. Water at position = 
+                        min(left_max, right_max) - height. O(n) time, O(1) space.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Examples -->
+            <div class="section">
+                <h2>Code Examples</h2>
+
+                <h3>Two Sum Sorted - Python</h3>
+                <div class="code-block">
+def two_sum_sorted(numbers, target):
+    left, right = 0, len(numbers) - 1
+    
+    while left < right:
+        current_sum = numbers[left] + numbers[right]
+        
+        if current_sum == target:
+            return [left + 1, right + 1]  # 1-indexed
+        elif current_sum < target:
+            left += 1
+        else:
+            right -= 1
+    
+    return [-1, -1]
+                </div>
+
+                <h3>Two Sum Sorted - Rust</h3>
+                <div class="code-block">
+fn two_sum_sorted(numbers: &[i32], target: i32) -> Vec<i32> {
+    let mut left: i32 = 0;
+    let mut right: i32 = numbers.len() as i32 - 1;
+    
+    while left < right {
+        let sum = numbers[left as usize] + numbers[right as usize];
+        
+        if sum == target {
+            return vec![left + 1, right + 1];
+        } else if sum < target {
+            left += 1;
+        } else {
+            right -= 1;
+        }
+    }
+    
+    vec![-1, -1]
+}
+                </div>
+
+                <h3>Kadane's Algorithm - Python</h3>
+                <div class="code-block">
+def max_subarray_sum(nums):
+    if not nums:
+        return 0
+    
+    max_current = max_global = nums[0]
+    
+    for i in range(1, len(nums)):
+        max_current = max(nums[i], max_current + nums[i])
+        max_global = max(max_global, max_current)
+    
+    return max_global
+                </div>
+            </div>
+
+            <!-- Complexity Comparison -->
+            <div class="section">
+                <h2>Complexity Comparison</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Approach</th>
+                            <th>Time Complexity</th>
+                            <th>Space Complexity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Brute Force (Nested Loops)</td>
+                            <td>O(n²)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Two-Pointer</td>
+                            <td>O(n)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Sliding Window</td>
+                            <td>O(n)</td>
+                            <td>O(1) or O(k)</td>
+                        </tr>
+                        <tr>
+                            <td>Prefix Sum</td>
+                            <td>O(n) preprocessing, O(1) query</td>
+                            <td>O(n)</td>
+                        </tr>
+                        <tr>
+                            <td>Hash Map</td>
+                            <td>O(n) average</td>
+                            <td>O(n)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="insights-box">
+                <h3>💡 Key Insights</h3>
+                <ul>
+                    <li><strong>Recognize Sorted Array Problems:</strong> If input is sorted, consider two-pointer before hash map to achieve O(1) space</li>
+                    <li><strong>Identify Window Properties:</strong> Fixed window for size-k problems, dynamic window for optimization with constraints</li>
+                    <li><strong>Prefix Sum for Range Queries:</strong> Multiple range sum queries? Build prefix array for O(1) per query</li>
+                    <li><strong>Hash Map for Complement:</strong> Looking for pairs with specific sum? Store complements in hash map</li>
+                    <li><strong>Contract When Condition Violated:</strong> In sliding window, shrink from left when constraint is broken</li>
+                    <li><strong>Precompute for Efficiency:</strong> Prefix sums/products trade O(n) space for O(1) query time</li>
+                </ul>
+            </div>
+
+            <!-- Homework -->
+            <div class="section">
+                <h2>Practice Problems (Homework)</h2>
+                
+                <h3>Easy Problems</h3>
+                <ul class="content-list">
+                    <li>Best Time to Buy and Sell Stock - Track minimum price, calculate max profit</li>
+                    <li>Maximum Average Subarray I - Fixed size sliding window</li>
+                    <li>Find All Numbers Disappeared in an Array - Index marking or hash set</li>
+                    <li>Valid Anagram - Character frequency counting</li>
+                    <li>Contains Duplicate - Hash set for duplicate detection</li>
+                </ul>
+
+                <h3>Medium Problems</h3>
+                <ul class="content-list">
+                    <li>3Sum - Sort + Two pointers, skip duplicates</li>
+                    <li>Container With Most Water - Two pointers from ends</li>
+                    <li>Subarray Sum Equals K - Prefix sum with hash map</li>
+                    <li>Longest Repeating Character Replacement - Sliding window with frequency</li>
+                    <li>Minimum Window Substring - Dynamic window with character counts</li>
+                </ul>
+
+                <h3>Hard Problems</h3>
+                <ul class="content-list">
+                    <li>Trapping Rain Water - Two pointers with max tracking</li>
+                    <li>Minimum Window Substring - Advanced sliding window</li>
+                    <li>First Missing Positive - Index marking technique</li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div class="section">
+                <h2>Resources</h2>
+                <div class="resource-links">
+                    <a href="python_projects/day2_advanced_arrays.py" class="resource-link">
+                        📁 Python Code
+                    </a>
+                    <a href="rust_projects/day2_advanced_arrays.rs" class="resource-link secondary">
+                        🦀 Rust Code
+                    </a>
+                    <a href="Day2_Advanced_Arrays.docx" class="resource-link secondary">
+                        📄 Word Document
+                    </a>
+                    <a href="rust_projects/day2_arrays" class="resource-link secondary">
+                        📦 Cargo Project
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="page-nav">
+                <a href="day1.html" class="nav-btn">
+                    <span class="arrow">←</span>
+                    <span>Day 1: Arrays & Hashing</span>
+                </a>
+                <a href="day3.html" class="nav-btn primary">
+                    <span>Day 3: Strings</span>
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    
+<div id="navigation-buttons"></div>
+    <script type="module" src="/js/main.js"></script>
+    </body>
+</html>

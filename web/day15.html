@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 15: Heaps, Tries, & Bit Manipulation - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .pattern-card {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .pattern-card h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+        .technique-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .technique-table th, .technique-table td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: left;
+        }
+        .technique-table th {
+            background: #007bff;
+            color: white;
+        }
+        .technique-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        .bit-trick {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Day 15: Heaps, Tries, & Bit Manipulation</h1>
+            <p class="date">Date: April 13, 2026</p>
+            <p class="focus">Focus: Priority queues, prefix trees, and bitwise operations</p>
+
+            <div class="section">
+                <h2>Overview</h2>
+                <p>Today we cover three powerful data structures and techniques: Heaps (Priority Queues) for efficient 
+                extremum retrieval, Tries for prefix-based string operations, and Bit Manipulation for space-efficient 
+                computations. These patterns are essential for competitive programming and technical interviews.</p>
+            </div>
+
+            <div class="section">
+                <h2>1. Heaps & Priority Queues</h2>
+                
+                <h3>1.1 Conceptual Foundation</h3>
+                <p>A heap is a specialized tree-based data structure that satisfies the heap property. In a min-heap, 
+                for any node i, the value of i is less than or equal to its children's values. In a max-heap, the 
+                opposite holds. Heaps are commonly used to implement priority queues.</p>
+
+                <h4>Key Properties:</h4>
+                <ul>
+                    <li>Complete binary tree (filled left to right)</li>
+                    <li>Min-heap: parent ≤ children; Max-heap: parent ≥ children</li>
+                    <li>Array representation: children of index i are at 2i+1 and 2i+2</li>
+                    <li>Root is always the minimum (min-heap) or maximum (max-heap)</li>
+                </ul>
+
+                <h3>1.2 Time Complexities</h3>
+                <table class="technique-table">
+                    <tr>
+                        <th>Operation</th>
+                        <th>Time Complexity</th>
+                        <th>Space Complexity</th>
+                    </tr>
+                    <tr>
+                        <td>Push/Insert</td>
+                        <td>O(log n)</td>
+                        <td>O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Pop/Extract</td>
+                        <td>O(log n)</td>
+                        <td>O(1)</td>
+                    </tr>
+                    <tr>
+                        <td>Peek/Top</td>
+                        <td>O(1)</td>
+                        <td>O(1)</td>
+                    </tr>
+                    <tr>
+                        <td>Heapify</td>
+                        <td>O(n)</td>
+                        <td>O(1)</td>
+                    </tr>
+                </table>
+
+                <h3>1.3 Common Patterns</h3>
+                
+                <div class="pattern-card">
+                    <h3>Pattern 1: Top K Frequent Elements</h3>
+                    <p><strong>Problem:</strong> Given an array, find the k most frequent elements.</p>
+                    <p><strong>Approach:</strong> Use a min-heap of size k to track the top k elements while iterating through frequencies. When heap size exceeds k, remove the minimum (least frequent).</p>
+                    <p><strong>Time:</strong> O(n log k) instead of O(n log n) for full sorting</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Pattern 2: Merge K Sorted Lists</h3>
+                    <p><strong>Problem:</strong> Merge k sorted linked lists into one sorted list.</p>
+                    <p><strong>Approach:</strong> Use a min-heap of size k, initially containing the first element of each list. Extract minimum and insert next element from the same list.</p>
+                    <p><strong>Time:</strong> O(n log k) where n is total elements and k is number of lists</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Pattern 3: Find Median from Data Stream</h3>
+                    <p><strong>Problem:</strong> Design a data structure that supports addNum and findMedian.</p>
+                    <p><strong>Approach:</strong> Maintain two heaps: a max-heap for the lower half and a min-heap for the upper half. Balance sizes to ensure efficient median retrieval.</p>
+                    <p><strong>Time:</strong> O(log n) insert, O(1) find median</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>2. Trie (Prefix Tree)</h2>
+                
+                <h3>2.1 Conceptual Foundation</h3>
+                <p>A trie, also called a prefix tree, is a tree-like data structure used to store a dynamic set of 
+                strings. Each node represents a character, and paths from root to nodes represent prefixes. Tries 
+                are particularly efficient for string operations like autocomplete, spell checking, and IP routing.</p>
+
+                <h4>Key Properties:</h4>
+                <ul>
+                    <li>Root represents empty string</li>
+                    <li>Each edge represents a character</li>
+                    <li>Nodes may have multiple children (one per character)</li>
+                    <li>Special marker indicates end of word</li>
+                    <li>Common prefixes share the same path</li>
+                </ul>
+
+                <h3>2.2 Time Complexities</h3>
+                <table class="technique-table">
+                    <tr>
+                        <th>Operation</th>
+                        <th>Time Complexity</th>
+                        <th>Space Complexity</th>
+                    </tr>
+                    <tr>
+                        <td>Insert</td>
+                        <td>O(m)</td>
+                        <td>O(m × n)</td>
+                    </tr>
+                    <tr>
+                        <td>Search</td>
+                        <td>O(m)</td>
+                        <td>O(1)</td>
+                    </tr>
+                    <tr>
+                        <td>StartsWith</td>
+                        <td>O(m)</td>
+                        <td>O(1)</td>
+                    </tr>
+                </table>
+                <p><em>Where m = word length, n = number of words</em></p>
+
+                <h3>2.3 Common Patterns</h3>
+                
+                <div class="pattern-card">
+                    <h3>Pattern 1: Autocomplete System</h3>
+                    <p>Use trie to store dictionary words. For autocomplete, traverse to the prefix node, then perform 
+                    DFS to collect all words with that prefix. Combine with frequency tracking for ranking suggestions.</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Pattern 2: Word Search on Board</h3>
+                    <p>Given a 2D board and a list of words, find all words that can be formed. Build trie from word list, 
+                    then DFS from each cell, following trie edges. Mark visited cells to avoid reuse.</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Pattern 3: Longest Common Prefix</h3>
+                    <p>Insert all strings into trie, then traverse from root following the path where all strings share 
+                    characters. Stop at first branching point or word end.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3. Bit Manipulation</h2>
+                
+                <h3>3.1 Conceptual Foundation</h3>
+                <p>Bit manipulation involves working directly with binary representations of integers. Understanding 
+                bitwise operations enables efficient solutions to problems involving sets, subsets, and mathematical 
+                properties. Many bit manipulation solutions achieve O(1) space and O(n) time complexity.</p>
+
+                <h4>Basic Operations:</h4>
+                <ul>
+                    <li><strong>AND (&):</strong> 1 if both bits are 1</li>
+                    <li><strong>OR (|):</strong> 1 if at least one bit is 1</li>
+                    <li><strong>XOR (^):</strong> 1 if bits are different (commutative, associative)</li>
+                    <li><strong>NOT (~):</strong> Flips all bits</li>
+                    <li><strong>Left Shift (<<):</strong> Multiply by 2</li>
+                    <li><strong>Right Shift (>>):</strong> Divide by 2</li>
+                </ul>
+
+                <h3>3.2 Key Bit Manipulation Tricks</h3>
+                <div class="bit-trick">1. Check if power of 2: n > 0 and (n & (n - 1)) == 0</div>
+                <div class="bit-trick">2. Get bit at position i: (n >> i) & 1</div>
+                <div class="bit-trick">3. Set bit at position i: n | (1 << i)</div>
+                <div class="bit-trick">4. Clear bit at position i: n & ~(1 << i)</div>
+                <div class="bit-trick">5. Toggle bit at position i: n ^ (1 << i)</div>
+                <div class="bit-trick">6. XOR of same number is 0: n ^ n = 0</div>
+                <div class="bit-trick">7. XOR with 0 is identity: n ^ 0 = n</div>
+                <div class="bit-trick">8. Count set bits: n & (n - 1) clears lowest set bit</div>
+                <div class="bit-trick">9. Swap without temp: a ^= b; b ^= a; a ^= b</div>
+                <div class="bit-trick">10. Get lowest set bit: n & (-n)</div>
+
+                <h3>3.3 Common Patterns</h3>
+                
+                <div class="pattern-card">
+                    <h3>Pattern 1: Single Number (XOR)</h3>
+                    <p><strong>Problem:</strong> Given array where every element appears twice except one, find the single element.</p>
+                    <p><strong>Approach:</strong> XOR all elements: duplicates cancel out, leaving only the unique element.</p>
+                    <p><strong>Time:</strong> O(n), <strong>Space:</strong> O(1)</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Pattern 2: Counting Bits</h3>
+                    <p><strong>Problem:</strong> For each number from 0 to n, count the number of 1-bits.</p>
+                    <p><strong>Approach:</strong> Use dynamic programming: bits[i] = bits[i >> 1] + (i & 1) or bits[i] = bits[i & (i-1)] + 1</p>
+                    <p><strong>Time:</strong> O(n), <strong>Space:</strong> O(n)</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Pattern 3: Subsets with Bitmask</h3>
+                    <p><strong>Problem:</strong> Generate all subsets of a set.</p>
+                    <p><strong>Approach:</strong> Use integers from 0 to 2^n - 1 as bitmasks, where bit i indicates whether element i is in the subset.</p>
+                    <p><strong>Time:</strong> O(2^n), <strong>Space:</strong> O(1) auxiliary</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>4. Practice Problems</h2>
+                
+                <h3>4.1 Heap Problems</h3>
+                <ul>
+                    <li>Top K Frequent Elements: Use min-heap of size k to track most frequent</li>
+                    <li>Kth Largest Element in Array: Use min-heap or quickselect</li>
+                    <li>Merge K Sorted Lists: Use min-heap to merge efficiently</li>
+                    <li>Find Median from Data Stream: Use two heaps (max-heap and min-heap)</li>
+                    <li>Sliding Window Maximum: Use deque or heap with lazy removal</li>
+                </ul>
+
+                <h3>4.2 Trie Problems</h3>
+                <ul>
+                    <li>Implement Trie: Insert, search, and prefix operations</li>
+                    <li>Word Search II: Find all words from dictionary on board</li>
+                    <li>Longest Word in Dictionary: Find longest buildable word</li>
+                    <li>Map Sum Pairs: Trie with value aggregation</li>
+                    <li>Design Add and Search Words: Wildcard search with trie</li>
+                </ul>
+
+                <h3>4.3 Bit Manipulation Problems</h3>
+                <ul>
+                    <li>Single Number: XOR all elements to find unique</li>
+                    <li>Number of 1 Bits: Count set bits (Hamming weight)</li>
+                    <li>Counting Bits: DP with bit manipulation</li>
+                    <li>Reverse Bits: Bit reversal with shifts</li>
+                    <li>Power of Two: Check with n & (n-1)</li>
+                    <li>Sum of Two Integers: Addition using only XOR and AND</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>5. Key Takeaways</h2>
+                <ol>
+                    <li>Heaps provide O(log n) insertion and extraction of min/max, ideal for priority-based processing</li>
+                    <li>Top K problems benefit from heaps of size k instead of full sorting</li>
+                    <li>Two heaps (max-heap + min-heap) efficiently solve median-finding and range problems</li>
+                    <li>Tries excel at prefix operations and string set membership queries</li>
+                    <li>Bit manipulation enables O(1) space solutions for subset and uniqueness problems</li>
+                    <li>XOR properties (n ^ n = 0, n ^ 0 = n) are powerful for cancellation-based solutions</li>
+                    <li>Bitmasks represent subsets compactly when n is small (n ≤ 20-25)</li>
+                    <li>Understanding time/space tradeoffs is crucial: heaps for streaming, tries for prefix queries, bits for compactness</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h2>6. Implementation Links</h2>
+                <ul>
+                    <li><strong>Python:</strong> <code>python_projects/day15_heaps_tries_bits.py</code></li>
+                    <li><strong>Rust:</strong> <code>rust_projects/day15_heaps_tries_bits/</code></li>
+                    <li><strong>Documentation:</strong> <code>Day15_Heaps_Tries_Bits.docx</code></li>
+                </ul>
+
+                <h3>Test Results</h3>
+                <div class="code-block">
+Python: 13/13 tests passed ✓
+Rust:   11/11 tests passed ✓
+                </div>
+            </div>
+
+            <div class="navigation">
+                <a href="day14.html" class="btn">← Day 14: DP Review</a>
+                <a href="index.html" class="btn">Home</a>
+                <a href="day16.html" class="btn">Day 16: Coming Soon →</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

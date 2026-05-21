@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 6: Trees & Binary Trees - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar"></aside>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>📚 DSA Study Plan</h1>
+                <p>30 Days to Mastery</p>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <span class="day-badge">🏠</span>
+                            <span class="day-title">Home</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Week 1 - Foundations</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="day1.html" class="nav-link">
+                            <span class="day-badge">1</span>
+                            <span class="day-title">Arrays & Hashing</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day2.html" class="nav-link">
+                            <span class="day-badge">2</span>
+                            <span class="day-title">Advanced Arrays</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day3.html" class="nav-link">
+                            <span class="day-badge">3</span>
+                            <span class="day-title">Strings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day4.html" class="nav-link">
+                            <span class="day-badge">4</span>
+                            <span class="day-title">Stack & Queue</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day5.html" class="nav-link">
+                            <span class="day-badge">5</span>
+                            <span class="day-title">Linked List</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day6.html" class="nav-link current">
+                            <span class="day-badge">6</span>
+                            <span class="day-title">Trees</span>
+                            <span class="status-icon">●</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day7.html" class="nav-link">
+                            <span class="day-badge">7</span>
+                            <span class="day-title">Review</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Day 6: Trees & Binary Trees</h1>
+                <p class="subtitle">Binary Tree Structure, Tree Traversal, BST, Tree Properties</p>
+                <div class="meta">
+                    <span class="status-badge current">Current</span>
+                    <span>📅 April 4, 2026</span>
+                    <span>⏱️ 4-5 hours</span>
+                </div>
+            </div>
+
+            <!-- Topic Overview -->
+            <div class="section">
+                <h2>Topic Overview</h2>
+                <p>
+                    Day 6 introduces binary trees, a hierarchical data structure where each node has at most two children.
+                    Trees are fundamental in computer science, enabling efficient searching, sorting, and organization of data.
+                    Binary Search Trees (BSTs) are particularly important, providing O(log n) operations when balanced.
+                    Understanding tree traversal and manipulation is essential for solving complex algorithmic problems.
+                </p>
+                <p>
+                    <strong>Key Characteristics of Trees:</strong>
+                </p>
+                <ul>
+                    <li>Hierarchical structure with parent-child relationships</li>
+                    <li>Each node has at most 2 children (left and right) in binary trees</li>
+                    <li>Root node has no parent; leaf nodes have no children</li>
+                    <li>No cycles (unlike graphs)</li>
+                    <li>Path from root to any node is unique</li>
+                    <li>Height/depth measured in edges or nodes from root</li>
+                </ul>
+            </div>
+
+            <!-- Pattern 1: Tree Traversals -->
+            <div class="section">
+                <h2>Pattern 1: Tree Traversals (4 Types)</h2>
+
+                <h3>1.1 In-Order Traversal (Left → Root → Right)</h3>
+                <p>
+                    In-order traversal visits the left subtree, then the root, then the right subtree.
+                    For Binary Search Trees, this produces values in sorted order—a critical property.
+                </p>
+                <div class="code-block">
+                    <pre><code>def inorder_traversal(root):
+    result = []
+    def dfs(node):
+        if node:
+            dfs(node.left)
+            result.append(node.val)
+            dfs(node.right)
+    dfs(root)
+    return result
+
+# Time: O(n), Space: O(h)</code></pre>
+                </div>
+
+                <h3>1.2 Pre-Order Traversal (Root → Left → Right)</h3>
+                <p>
+                    Pre-order traversal visits the root first, then left subtree, then right subtree.
+                    Useful for creating a copy of the tree or serializing the tree structure.
+                </p>
+                <div class="code-block">
+                    <pre><code>def preorder_traversal(root):
+    result = []
+    def dfs(node):
+        if node:
+            result.append(node.val)
+            dfs(node.left)
+            dfs(node.right)
+    dfs(root)
+    return result</code></pre>
+                </div>
+
+                <h3>1.3 Post-Order Traversal (Left → Right → Root)</h3>
+                <p>
+                    Post-order traversal visits left subtree, then right subtree, then the root.
+                    Essential for operations that require processing children before parent.
+                </p>
+
+                <h3>1.4 Level-Order Traversal (BFS)</h3>
+                <p>
+                    Level-order traversal visits nodes level by level, from left to right.
+                    This is a breadth-first search (BFS) approach using a queue.
+                </p>
+                <div class="code-block">
+                    <pre><code>from collections import deque
+
+def levelorder_traversal(root):
+    if not root:
+        return []
+    result = []
+    queue = deque([root])
+    while queue:
+        level_size = len(queue)
+        current_level = []
+        for _ in range(level_size):
+            node = queue.popleft()
+            current_level.append(node.val)
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        result.append(current_level)
+    return result</code></pre>
+                </div>
+            </div>
+
+            <!-- Pattern 2: Binary Search Trees -->
+            <div class="section">
+                <h2>Pattern 2: Binary Search Trees (BST)</h2>
+
+                <p>
+                    A Binary Search Tree is a binary tree with a critical ordering property:
+                    for any node, all values in its left subtree are smaller, and all values
+                    in its right subtree are larger.
+                </p>
+                <p><strong>BST Property:</strong> left.val < root.val < right.val for all nodes</p>
+
+                <h3>2.1 Validating a BST</h3>
+                <p>
+                    To validate a BST, we must ensure all nodes in the left subtree are smaller than the root,
+                    and all nodes in the right subtree are larger. This requires passing down valid ranges.
+                </p>
+                <div class="code-block">
+                    <pre><code>def is_valid_bst(root, low=-∞, high=∞):
+    if not root:
+        return True
+    if root.val <= low or root.val >= high:
+        return False
+    return (is_valid_bst(root.left, low, root.val) and
+            is_valid_bst(root.right, root.val, high))
+
+# Time: O(n), Space: O(h)</code></pre>
+                </div>
+
+                <h3>2.2 BST Operations: Search, Insert, Delete</h3>
+                <p>
+                    BST operations leverage the ordering property to efficiently locate the correct position.
+                    Delete requires handling three cases: leaf nodes, nodes with one child, and nodes with two children.
+                </p>
+            </div>
+
+            <!-- Pattern 3: Lowest Common Ancestor -->
+            <div class="section">
+                <h2>Pattern 3: Lowest Common Ancestor (LCA)</h2>
+
+                <p>
+                    The Lowest Common Ancestor of two nodes p and q is the deepest node that is an ancestor
+                    of both p and q.
+                </p>
+
+                <h3>3.1 LCA in General Binary Tree</h3>
+                <div class="code-block">
+                    <pre><code>def lowest_common_ancestor(root, p, q):
+    if not root or root == p or root == q:
+        return root
+    left = LCA(root.left, p, q)
+    right = LCA(root.right, p, q)
+    if left and right:
+        return root  # p and q in different subtrees
+    return left if left else right
+
+# Time: O(n), Space: O(h)</code></pre>
+                </div>
+
+                <h3>3.2 LCA in BST (Optimized)</h3>
+                <p>For BSTs, we can optimize using the BST property. Time: O(h)</p>
+            </div>
+
+            <!-- Pattern 4: Tree Height & Diameter -->
+            <div class="section">
+                <h2>Pattern 4: Tree Height and Diameter</h2>
+
+                <h3>4.1 Maximum Depth (Height)</h3>
+                <div class="code-block">
+                    <pre><code>def max_depth(root):
+    if not root:
+        return 0
+    return 1 + max(max_depth(root.left),
+                   max_depth(root.right))
+
+# Time: O(n), Space: O(h)</code></pre>
+                </div>
+
+                <h3>4.2 Diameter of Binary Tree</h3>
+                <p>
+                    The diameter is the length of the longest path between any two nodes in the tree.
+                    The key insight: the longest path through any node is left_height + right_height.
+                </p>
+                <div class="code-block">
+                    <pre><code>def diameter_of_binary_tree(root):
+    diameter = [0]
+    def height(node):
+        if not node:
+            return 0
+        left_h = height(node.left)
+        right_h = height(node.right)
+        diameter[0] = max(diameter[0], left_h + right_h)
+        return 1 + max(left_h, right_h)
+    height(root)
+    return diameter[0]</code></pre>
+                </div>
+            </div>
+
+            <!-- Pattern 5: Balanced Binary Tree -->
+            <div class="section">
+                <h2>Pattern 5: Balanced Binary Tree</h2>
+
+                <p>
+                    A binary tree is balanced if for every node, the heights of its left and right subtrees
+                    differ by at most 1. Balanced trees guarantee O(log n) operations.
+                </p>
+                <p><strong>Balance Condition:</strong> |left_height - right_height| ≤ 1 for all nodes</p>
+                <div class="code-block">
+                    <pre><code>def is_balanced(root):
+    def check(node):
+        if not node:
+            return (True, 0)
+        left_bal, left_h = check(node.left)
+        right_bal, right_h = check(node.right)
+        is_bal = (left_bal and right_bal and
+                 abs(left_h - right_h) <= 1)
+        return (is_bal, 1 + max(left_h, right_h))
+    return check(root)[0]
+
+# Time: O(n), Space: O(h)</code></pre>
+                </div>
+            </div>
+
+            <!-- Pattern 6: Tree Symmetry -->
+            <div class="section">
+                <h2>Pattern 6: Tree Symmetry</h2>
+
+                <p>
+                    A binary tree is symmetric if it is a mirror of itself.
+                    We check this by comparing two trees simultaneously.
+                </p>
+                <div class="code-block">
+                    <pre><code>def is_symmetric(root):
+    def is_mirror(t1, t2):
+        if not t1 and not t2:
+            return True
+        if not t1 or not t2:
+            return False
+        return (t1.val == t2.val and
+                is_mirror(t1.left, t2.right) and
+                is_mirror(t1.right, t2.left))
+    return is_mirror(root, root)</code></pre>
+                </div>
+            </div>
+
+            <!-- Pattern 7: Path Sum -->
+            <div class="section">
+                <h2>Pattern 7: Path Sum</h2>
+
+                <p>
+                    Path sum problems ask whether there exists a root-to-leaf path where the sum of node
+                    values equals a target. These are solved with DFS, subtracting node values from the
+                    target sum as we traverse.
+                </p>
+                <div class="code-block">
+                    <pre><code>def has_path_sum(root, target_sum):
+    if not root:
+        return False
+    if not root.left and not root.right:
+        return root.val == target_sum
+    remaining = target_sum - root.val
+    return (has_path_sum(root.left, remaining) or
+            has_path_sum(root.right, remaining))</code></pre>
+                </div>
+            </div>
+
+            <!-- Practice Problems -->
+            <div class="section">
+                <h2>Practice Problems</h2>
+
+                <h3>Easy Problems</h3>
+                <ul>
+                    <li>Maximum Depth of Binary Tree (LeetCode 104)</li>
+                    <li>Symmetric Tree (LeetCode 101)</li>
+                    <li>Path Sum (LeetCode 112)</li>
+                    <li>Inorder Traversal (LeetCode 94)</li>
+                </ul>
+
+                <h3>Medium Problems</h3>
+                <ul>
+                    <li>Validate Binary Search Tree (LeetCode 98)</li>
+                    <li>Lowest Common Ancestor of BST (LeetCode 235)</li>
+                    <li>Diameter of Binary Tree (LeetCode 543)</li>
+                    <li>Balanced Binary Tree (LeetCode 110)</li>
+                    <li>Binary Tree Level Order Traversal (LeetCode 102)</li>
+                </ul>
+
+                <h3>Hard Problems</h3>
+                <ul>
+                    <li>Binary Tree Maximum Path Sum (LeetCode 124)</li>
+                    <li>Serialize and Deserialize Binary Tree (LeetCode 297)</li>
+                    <li>Lowest Common Ancestor of Binary Tree (LeetCode 236)</li>
+                </ul>
+            </div>
+
+            <!-- Key Takeaways -->
+            <div class="section">
+                <h2>Key Takeaways</h2>
+                <ul>
+                    <li>Four traversal methods: in-order, pre-order, post-order, level-order—each has specific use cases</li>
+                    <li>In-order traversal of BST yields sorted values</li>
+                    <li>BST validation requires passing ranges, not just checking local property</li>
+                    <li>Tree height and diameter can be computed simultaneously in O(n)</li>
+                    <li>Balance condition: |left_height - right_height| ≤ 1</li>
+                    <li>LCA in general tree: O(n) with post-order; in BST: O(h) using BST property</li>
+                    <li>Path sum problems use DFS with target subtraction</li>
+                    <li>Recursive solutions are elegant; iterative solutions use stacks/queues</li>
+                </ul>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="section navigation-buttons">
+                <a href="day5.html" class="nav-button prev">
+                    ← Previous: Day 5 (Linked List)
+                </a>
+                <a href="index.html" class="nav-button home">
+                    🏠 Home
+                </a>
+                <a href="day7.html" class="nav-button next">
+                    Next: Day 7 (Review) →
+                </a>
+            </div>
+        </main>
+    </div>
+
+    
+<div id="navigation-buttons"></div>
+    <script type="module" src="/js/main.js"></script>
+    </body>
+</html>

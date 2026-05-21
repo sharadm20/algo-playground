@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 18: Segment Trees & Binary Indexed Trees</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Day 18: Segment Trees & Binary Indexed Trees</h1>
+            <nav>
+                <a href="index.html">Home</a> |
+                <a href="day17.html">Day 17</a> |
+                <a href="day19.html">Day 19</a>
+            </nav>
+        </header>
+        
+        <main>
+            <section class="overview">
+                <h2>Overview</h2>
+                <p>Segment Trees and Binary Indexed Trees (Fenwick Trees) are advanced data structures used for efficient range queries and point updates on arrays. These structures are essential for solving problems involving range sums, range minima/maxima, and other range-based operations in logarithmic time.</p>
+            </section>
+            
+            <section class="content">
+                <h2>Segment Trees</h2>
+                
+                <h3>Introduction</h3>
+                <p>A segment tree is a binary tree data structure that allows range queries and point updates in O(log n) time. It is particularly useful for problems requiring efficient range queries and updates.</p>
+                
+                <h3>Structure</h3>
+                <ul>
+                    <li><strong>Leaf Nodes</strong>: Represent individual elements of the array.</li>
+                    <li><strong>Internal Nodes</strong>: Represent ranges of the array and store aggregated information (e.g., sum, minimum, maximum) for those ranges.</li>
+                </ul>
+                
+                <h3>Operations</h3>
+                <ol>
+                    <li><strong>Construction</strong>: Build the segment tree from an array.</li>
+                    <li><strong>Query</strong>: Retrieve aggregated information for a range [l, r].</li>
+                    <li><strong>Update</strong>: Update the value at a specific index and propagate the change up the tree.</li>
+                </ol>
+                
+                <h3>Applications</h3>
+                <ul>
+                    <li>Range Sum Queries (RSQ)</li>
+                    <li>Range Minimum/Maximum Queries (RMQ)</li>
+                    <li>Range Updates with Lazy Propagation</li>
+                </ul>
+                
+                <h3>Python Implementation</h3>
+                <pre><code class="language-python">class SegmentTree:
+    def __init__(self, data):
+        self.n = len(data)
+        self.size = 1
+        while self.size < self.n:
+            self.size <<= 1
+        self.tree = [0] * (2 * self.size)
+        
+        # Build the tree
+        for i in range(self.n):
+            self.tree[self.size + i] = data[i]
+        for i in range(self.size - 1, 0, -1):
+            self.tree[i] = self.tree[2 * i] + self.tree[2 * i + 1]
+    
+    def update(self, index, value):
+        index += self.size
+        self.tree[index] = value
+        index >>= 1
+        while index >= 1:
+            new_val = self.tree[2 * index] + self.tree[2 * index + 1]
+            if self.tree[index] == new_val:
+                break
+            self.tree[index] = new_val
+            index >>= 1
+    
+    def query_range(self, l, r):
+        res = 0
+        l += self.size
+        r += self.size
+        while l <= r:
+            if l % 2 == 1:
+                res += self.tree[l]
+                l += 1
+            if r % 2 == 0:
+                res += self.tree[r]
+                r -= 1
+            l >>= 1
+            r >>= 1
+        return res
+</code></pre>
+                
+                <h3>Rust Implementation</h3>
+                <pre><code class="language-rust">pub struct SegmentTree {
+    n: usize,
+    size: usize,
+    tree: Vec<i32>,
+}
+
+impl SegmentTree {
+    pub fn new(data: &[i32]) -> Self {
+        let n = data.len();
+        let mut size = 1;
+        while size < n {
+            size <<= 1;
+        }
+        
+        let mut tree = vec![0; 2 * size];
+        
+        // Build the tree
+        for i in 0..n {
+            tree[size + i] = data[i];
+        }
+        for i in (1..size).rev() {
+            tree[i] = tree[2 * i] + tree[2 * i + 1];
+        }
+        
+        SegmentTree { n, size, tree }
+    }
+    
+    pub fn update(&mut self, index: usize, value: i32) {
+        let mut pos = self.size + index;
+        self.tree[pos] = value;
+        let mut pos = pos / 2;
+        
+        while pos >= 1 {
+            let new_val = self.tree[2 * pos] + self.tree[2 * pos + 1];
+            if self.tree[pos] == new_val {
+                break;
+            }
+            self.tree[pos] = new_val;
+            pos /= 2;
+        }
+    }
+    
+    pub fn query_range(&self, l: usize, r: usize) -> i32 {
+        let mut res = 0;
+        let mut l = self.size + l;
+        let mut r = self.size + r;
+        
+        while l <= r {
+            if l % 2 == 1 {
+                res += self.tree[l];
+                l += 1;
+            }
+            if r % 2 == 0 {
+                res += self.tree[r];
+                r -= 1;
+            }
+            l /= 2;
+            r /= 2;
+        }
+        
+        res
+    }
+}
+</code></pre>
+            </section>
+            
+            <section class="content">
+                <h2>Binary Indexed Trees (Fenwick Trees)</h2>
+                
+                <h3>Introduction</h3>
+                <p>A Binary Indexed Tree (BIT) is a data structure that provides efficient methods for calculating prefix sums and updating elements in an array. It is more space-efficient than segment trees but supports fewer operations.</p>
+                
+                <h3>Structure</h3>
+                <ul>
+                    <li><strong>Tree Representation</strong>: Uses an array-based representation where each node stores the sum of a specific range of elements.</li>
+                    <li><strong>Indexing</strong>: Uses bit manipulation to navigate the tree structure.</li>
+                </ul>
+                
+                <h3>Operations</h3>
+                <ol>
+                    <li><strong>Update</strong>: Add a value to an element and propagate the change to affected nodes.</li>
+                    <li><strong>Query</strong>: Calculate the prefix sum up to a specific index.</li>
+                </ol>
+                
+                <h3>Applications</h3>
+                <ul>
+                    <li>Prefix Sum Queries</li>
+                    <li>Point Updates</li>
+                    <li>Inversion Counting</li>
+                </ul>
+                
+                <h3>Python Implementation</h3>
+                <pre><code class="language-python">class FenwickTree:
+    def __init__(self, size):
+        self.size = size
+        self.tree = [0] * (self.size + 1)
+    
+    def update(self, index, delta):
+        while index <= self.size:
+            self.tree[index] += delta
+            index += index & -index
+    
+    def query(self, index):
+        res = 0
+        while index > 0:
+            res += self.tree[index]
+            index -= index & -index
+        return res
+</code></pre>
+                
+                <h3>Rust Implementation</h3>
+                <pre><code class="language-rust">pub struct FenwickTree {
+    size: usize,
+    tree: Vec<i32>,
+}
+
+impl FenwickTree {
+    pub fn new(size: usize) -> Self {
+        FenwickTree {
+            size,
+            tree: vec![0; size + 1],
+        }
+    }
+    
+    pub fn update(&mut self, mut index: usize, delta: i32) {
+        while index <= self.size {
+            self.tree[index] += delta;
+            index += index & !index + 1;
+        }
+    }
+    
+    pub fn query(&self, mut index: usize) -> i32 {
+        let mut res = 0;
+        while index > 0 {
+            res += self.tree[index];
+            index -= index & !index + 1;
+        }
+        res
+    }
+}
+</code></pre>
+            </section>
+            
+            <section class="content">
+                <h2>Problems and Solutions</h2>
+                
+                <h3>Problem 1: Range Sum Query</h3>
+                <p>Given an array of integers, implement a data structure to answer range sum queries efficiently.</p>
+                <p><strong>Solution</strong>: Use a segment tree to support range sum queries and point updates in O(log n) time.</p>
+                
+                <h3>Problem 2: Inversion Count</h3>
+                <p>Given an array of integers, count the number of inversions (pairs (i, j) where i < j and arr[i] > arr[j]).</p>
+                <p><strong>Solution</strong>: Use a Binary Indexed Tree to count inversions efficiently.</p>
+                
+                <h3>Problem 3: Range Minimum Query</h3>
+                <p>Given an array of integers, implement a data structure to answer range minimum queries efficiently.</p>
+                <p><strong>Solution</strong>: Use a segment tree to support range minimum queries and point updates in O(log n) time.</p>
+            </section>
+            
+            <section class="content">
+                <h2>Exercises</h2>
+                <ol>
+                    <li>Implement a segment tree for range sum queries.</li>
+                    <li>Implement a Binary Indexed Tree for prefix sum queries.</li>
+                    <li>Solve the inversion count problem using a Fenwick tree.</li>
+                    <li>Extend the segment tree to support range updates with lazy propagation.</li>
+                    <li>Compare the performance of segment trees and Fenwick trees for different operations.</li>
+                </ol>
+            </section>
+            
+            <section class="resources">
+                <h2>Further Reading</h2>
+                <ul>
+                    <li>"Competitive Programming 3" by Steven Halim</li>
+                    <li>"Introduction to Algorithms" by Cormen, Leiserson, Rivest, and Stein</li>
+                    <li><a href="https://www.geeksforgeeks.org/segment-tree-set-1-sum-of-given-range/" target="_blank">GeeksforGeeks: Segment Tree</a></li>
+                    <li><a href="https://www.geeksforgeeks.org/binary-indexed-tree-range-updates-range-queries/" target="_blank">GeeksforGeeks: Binary Indexed Tree</a></li>
+                </ul>
+            </section>
+        </main>
+        
+        <footer>
+            <p>© 2026 DSA Study Plan. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script src="js/main.js"></script>
+</body>
+</html>

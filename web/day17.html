@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 17: Binary Search Review & Practice - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .pattern-card {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .pattern-card h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+        .template-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .template-box h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .complexity-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+        .time-badge {
+            background: #d4edda;
+            color: #155724;
+        }
+        .space-badge {
+            background: #cce5ff;
+            color: #004085;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Day 17: Comprehensive Binary Search Review & Practice</h1>
+            <p class="date">Date: April 15, 2026</p>
+            <p class="focus">Focus: Pattern recognition, mixed practice problems, optimization techniques, binary search on answer</p>
+
+            <div class="section">
+                <h2>Overview</h2>
+                <p>Today is a comprehensive review of all binary search patterns and techniques learned on Day 16. The goal is to strengthen pattern recognition skills, practice identifying when to apply binary search, and master the art of binary search on answer problems.</p>
+            </div>
+
+            <div class="section">
+                <h2>1. Binary Search Pattern Recognition</h2>
+                <p>The key to solving binary search problems efficiently is recognizing when and how to apply them.</p>
+
+                <div class="pattern-card">
+                    <h3>When to Use Binary Search</h3>
+                    <ul>
+                        <li>The array or search space is sorted (or has monotonic property)</li>
+                        <li>You need to find an element or position in O(log n) time</li>
+                        <li>The problem asks for minimum/maximum value satisfying a condition</li>
+                        <li>You can define a check function that is monotonic (for binary search on answer)</li>
+                    </ul>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Standard Binary Search</h3>
+                    <p><strong>Look for:</strong> Sorted array, finding exact element, finding position</p>
+                    <p><strong>Examples:</strong> Binary Search (LC 704), Search Insert Position (LC 35)</p>
+                    <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(log n)</span> <span class="complexity-badge space-badge">O(1)</span></p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Finding Bounds (First/Last Occurrence)</h3>
+                    <p><strong>Look for:</strong> Finding first/last position, counting occurrences, finding insertion point</p>
+                    <p><strong>Examples:</strong> Find First and Last Position (LC 34), Search Insert Position (LC 35)</p>
+                    <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(log n)</span> <span class="complexity-badge space-badge">O(1)</span></p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Rotated Sorted Array</h3>
+                    <p><strong>Look for:</strong> Array was sorted but rotated at some pivot, finding min/max/target</p>
+                    <p><strong>Examples:</strong> Search in Rotated Sorted Array (LC 33), Find Minimum (LC 153)</p>
+                    <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(log n)</span> <span class="complexity-badge space-badge">O(1)</span></p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Peak/Valley Finding</h3>
+                    <p><strong>Look for:</strong> Finding local maximum/minimum, array has peak/valley property</p>
+                    <p><strong>Examples:</strong> Find Peak Element (LC 162)</p>
+                    <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(log n)</span> <span class="complexity-badge space-badge">O(1)</span></p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Binary Search on Answer</h3>
+                    <p><strong>Look for:</strong> Optimization problem (minimize/maximize), monotonic check function, range of possible answers</p>
+                    <p><strong>Examples:</strong> Koko Eating Bananas (LC 875), Ship Packages (LC 1011), Split Array (LC 410)</p>
+                    <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(n * log(range))</span> <span class="complexity-badge space-badge">O(1)</span></p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>2. Template Selection Guide</h2>
+
+                <div class="template-box">
+                    <h4>Template 1: Exact Match (left <= right)</h4>
+                    <p>Use when: Finding if element exists and returning its index</p>
+                    <p>Loop condition: left <= right</p>
+                    <p>Returns: Index of element or -1</p>
+                </div>
+
+                <div class="template-box">
+                    <h4>Template 2: Lower Bound (left < right)</h4>
+                    <p>Use when: Finding first occurrence or insertion point</p>
+                    <p>Loop condition: left < right</p>
+                    <p>Update: right = mid (when arr[mid] >= target)</p>
+                    <p>Returns: First index where arr[index] >= target</p>
+                </div>
+
+                <div class="template-box">
+                    <h4>Template 3: Upper Bound (left < right)</h4>
+                    <p>Use when: Finding last occurrence</p>
+                    <p>Loop condition: left < right</p>
+                    <p>Update: right = mid (when arr[mid] > target)</p>
+                    <p>Returns: Last index where arr[index] == target</p>
+                </div>
+
+                <div class="template-box">
+                    <h4>Template 4: Binary Search on Answer</h4>
+                    <p>Use when: Finding optimal value in a range</p>
+                    <p>Loop condition: left < right</p>
+                    <p>Update: right = mid (when check(mid) is True)</p>
+                    <p>Returns: Minimum value satisfying check function</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3. Problem Decomposition Strategies</h2>
+                <p>For complex binary search problems:</p>
+                <ol>
+                    <li><strong>Identify the monotonic property:</strong> What property allows binary search?</li>
+                    <li><strong>Define the check function:</strong> For binary search on answer, the check function must be monotonic</li>
+                    <li><strong>Determine search boundaries:</strong> What are the minimum and maximum possible answers?</li>
+                    <li><strong>Choose the right template:</strong> Exact match, lower bound, or binary search on answer?</li>
+                    <li><strong>Handle edge cases:</strong> Empty arrays, single elements, all same elements</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h2>4. Today's Practice Problems</h2>
+
+                <h3>Problem 1: Search in a 2D Matrix</h3>
+                <p>Search for target in a 2D matrix where each row is sorted and first element of each row > last element of previous row.</p>
+                <p><strong>Approach:</strong> Treat as 1D sorted array, map indices to 2D coordinates.</p>
+                <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(log(m*n))</span> <span class="complexity-badge space-badge">O(1)</span></p>
+
+                <h3>Problem 2: Square Root (Integer)</h3>
+                <p>Compute the integer square root of a non-negative integer.</p>
+                <p><strong>Approach:</strong> Binary search on answer, check if mid * mid <= x.</p>
+                <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(log x)</span> <span class="complexity-badge space-badge">O(1)</span></p>
+
+                <h3>Problem 3: H-Index II</h3>
+                <p>Calculate h-index for sorted citations array.</p>
+                <p><strong>Approach:</strong> Binary search on index, compare citations[i] with n - i.</p>
+                <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(log n)</span> <span class="complexity-badge space-badge">O(1)</span></p>
+
+                <h3>Problem 4: Smallest Divisor Given Threshold</h3>
+                <p>Find smallest divisor such that sum of ceiling divisions <= threshold.</p>
+                <p><strong>Approach:</strong> Binary search on answer with monotonic check function.</p>
+                <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(n * log(max(nums)))</span> <span class="complexity-badge space-badge">O(1)</span></p>
+
+                <h3>Problem 5: Find Peak Element (2D Grid)</h3>
+                <p>Find peak element in 2D grid (greater than all adjacent neighbors).</p>
+                <p><strong>Approach:</strong> Binary search on columns, find max row in each column.</p>
+                <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(n * log m)</span> <span class="complexity-badge space-badge">O(1)</span></p>
+
+                <h3>Problem 6: Median of Two Sorted Arrays</h3>
+                <p>Find median of two sorted arrays of different sizes.</p>
+                <p><strong>Approach:</strong> Binary search on smaller array, partition both arrays.</p>
+                <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(log(min(m, n)))</span> <span class="complexity-badge space-badge">O(1)</span></p>
+            </div>
+
+            <div class="section">
+                <h2>5. Common Pitfalls and Best Practices</h2>
+                
+                <h3>Pitfalls to Avoid:</h3>
+                <ul>
+                    <li>Off-by-one errors: Incorrect loop conditions or boundary updates</li>
+                    <li>Infinite loops: When left and right don't converge properly</li>
+                    <li>Overflow: mid = (left + right) // 2 can overflow in some languages</li>
+                    <li>Wrong template: Using exact match template for finding bounds</li>
+                </ul>
+
+                <h3>Best Practices:</h3>
+                <ul>
+                    <li>Always use: mid = left + (right - left) // 2 to prevent overflow</li>
+                    <li>Draw the array: Visualize where target could be</li>
+                    <li>Test edge cases: Empty, single element, all same, target at boundaries</li>
+                    <li>Practice templates: Memorize all four templates</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>6. Review Checklist</h2>
+                <p>Before moving forward, ensure you can:</p>
+                <ul class="checklist">
+                    <li>Implement standard binary search from memory</li>
+                    <li>Implement lower_bound and upper_bound from memory</li>
+                    <li>Search in rotated sorted array with O(log n) time</li>
+                    <li>Find peak element using binary search</li>
+                    <li>Solve Koko Eating Bananas with binary search on answer</li>
+                    <li>Solve Ship Packages with binary search on answer</li>
+                    <li>Solve Split Array Largest Sum with binary search on answer</li>
+                    <li>Recognize monotonic properties in optimization problems</li>
+                    <li>Design check functions for binary search on answer</li>
+                    <li>Avoid off-by-one errors in all binary search templates</li>
+                    <li>Choose the right template based on problem requirements</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>7. Today's Status</h2>
+                <ul class="checklist">
+                    <li>Read comprehensive review guide (Day17_Review.docx)</li>
+                    <li>Study binary search pattern recognition and template selection</li>
+                    <li>Review Python implementations (python_projects/day17_review.py)</li>
+                    <li>Review Rust implementations (rust_projects/day17_review/)</li>
+                    <li>Practice mixed binary search problems</li>
+                    <li>Complete pattern recognition exercises</li>
+                </ul>
+
+                <p><strong>Python Tests:</strong> 11/11 passed ✓</p>
+                <p><strong>Rust Tests:</strong> 12/12 passed ✓</p>
+            </div>
+
+            <div class="section navigation">
+                <a href="day16.html" class="btn btn-prev">← Day 16: Binary Search</a>
+                <a href="index.html" class="btn btn-home">Home</a>
+                <a href="day18.html" class="btn btn-next">Day 18: Segment Trees →</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

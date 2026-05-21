@@ -1,0 +1,12 @@
+[package]
+name = "day18_segment_trees"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+[dev-dependencies]
+
+[[bin]]
+name = "day18_segment_trees"
+path = "src/main.rs"

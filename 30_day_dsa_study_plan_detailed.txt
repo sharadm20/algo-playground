@@ -1,0 +1,334 @@
+30-DAY DSA STUDY PLAN - STANFORD LEVEL INSTRUCTOR GUIDE
+
+As your instructor, I'll break down each concept systematically, providing theoretical foundations, practical applications, and key insights for retention. This plan emphasizes building intuition, recognizing patterns, and developing problem-solving heuristics.
+
+WEEK 1: CORE PATTERNS - FOUNDATIONAL DATA STRUCTURES
+
+DAY 1-2: ARRAYS & HASHING
+Conceptual Foundation:
+- Arrays: Contiguous memory allocation allowing O(1) random access
+- Hash Tables: Key-value mappings with average O(1) lookup using hash functions
+- Collision resolution strategies: chaining vs. open addressing
+
+Core Techniques:
+- Two-pointer technique (opposite direction, same direction, fast-slow)
+- Sliding window approach
+- Prefix sums for range queries
+- Hash map for frequency counting and lookups
+
+Essential Problems:
+- Two Sum: Understand complement mapping and why hash table beats brute force
+- Valid Anagram: Character frequency comparison
+- Contains Duplicate: Hash set for duplicate detection
+- Product of Array Except Self: Left/right prefix products
+- Maximum Subarray (Kadane's Algorithm): Dynamic programming insight
+
+Key Insights:
+- Hash tables trade space for time efficiency
+- Array indices represent positions; values represent data
+- Many problems become tractable with auxiliary space
+
+DAY 3: STRINGS
+Conceptual Foundation:
+- Strings as character arrays with semantic meaning
+- Palindromes, substrings, subsequences distinctions
+- String matching algorithms fundamentals
+
+Core Techniques:
+- Two-pointer expansion for palindromes
+- Sliding window for substring problems
+- Rolling hash for pattern matching
+- Trie structures for prefix operations
+
+Essential Problems:
+- Valid Palindrome: Two-pointer validation
+- Longest Substring Without Repeating Characters: Sliding window
+- Group Anagrams: Hash map with sorted string keys
+- Valid Parentheses: Stack-based matching
+- Longest Palindromic Substring: Expand around centers
+
+Key Insights:
+- Strings often reduce to array problems with semantic constraints
+- Hash functions for string comparison (anagram detection)
+- Palindromes exploit symmetry properties
+
+DAY 4-5: STACK & QUEUE
+Conceptual Foundation:
+- Stack: Last-In-First-Out (LIFO) principle
+- Queue: First-In-First-Out (FIFO) principle
+- Monotonic stacks for next greater/smaller elements
+
+Core Techniques:
+- Stack for function call simulation
+- Queue for level-order traversal
+- Monotonic stack for optimization problems
+- Deque for sliding window maximum
+
+Essential Problems:
+- Valid Parentheses: Stack for matching
+- Evaluate Reverse Polish Notation: Stack for expression evaluation
+- Daily Temperatures: Monotonic decreasing stack
+- Sliding Window Maximum: Deque for efficient range max
+- Min Stack: Auxiliary stack for O(1) min retrieval
+
+Key Insights:
+- Stack problems often involve nested structures or backtracking
+- Monotonic stacks maintain order for efficient comparisons
+- Queues model sequential processing requirements
+
+DAY 6-7: LINKED LIST
+Conceptual Foundation:
+- Singly vs. doubly linked lists
+- Pointer manipulation and memory management
+- Cycle detection algorithms
+
+Core Techniques:
+- Two-pointer technique (fast-slow for cycles)
+- Dummy head nodes for simplification
+- Recursion for elegant solutions
+- Reversal algorithms
+
+Essential Problems:
+- Reverse Linked List: Pointer reassignment
+- Merge Two Sorted Lists: Iterative comparison
+- Linked List Cycle: Floyd's cycle detection
+- Remove Nth Node from End: Two-pass or single-pass with gap
+- Palindrome Linked List: Value comparison with reversal
+
+Key Insights:
+- Linked lists excel when insertions/deletions are frequent
+- Pointer manipulation requires careful ordering
+- Dummy nodes eliminate edge case complexity
+
+WEEK 2: TREES, GRAPHS & BACKTRACKING
+
+DAY 8-9: TREES
+Conceptual Foundation:
+- Tree terminology: root, leaf, parent, child, subtree
+- Binary trees vs. binary search trees
+- Tree traversals: inorder, preorder, postorder, level-order
+
+Core Techniques:
+- Recursive tree algorithms
+- Iterative traversal with stacks
+- Level-order with queues
+- BST property exploitation
+
+Essential Problems:
+- Maximum Depth of Binary Tree: Recursive height calculation
+- Validate Binary Search Tree: Range constraint checking
+- Same Tree: Structural comparison
+- Binary Tree Level Order Traversal: BFS implementation
+- Lowest Common Ancestor: BST property utilization
+
+Key Insights:
+- Trees enable hierarchical data modeling
+- BST property enables efficient searching (O(log n) average)
+- Recursive thinking aligns with tree structure
+
+DAY 10-11: GRAPHS
+Conceptual Foundation:
+- Graph representations: adjacency list vs. matrix
+- Directed vs. undirected graphs
+- Connected components and graph traversal
+
+Core Techniques:
+- Breadth-First Search (BFS): Level-by-level exploration
+- Depth-First Search (DFS): Recursive exploration
+- Topological sorting for dependency resolution
+- Union-Find for disjoint sets
+
+Essential Problems:
+- Number of Islands: Connected components
+- Clone Graph: BFS/DFS with visited tracking
+- Course Schedule: Topological sort with cycle detection
+- Pacific Atlantic Water Flow: Bidirectional BFS
+- Number of Connected Components: Union-Find
+
+Key Insights:
+- Graphs model relationships and networks
+- BFS explores breadth-wise (shortest path in unweighted)
+- DFS explores depth-wise (topological ordering)
+
+DAY 12-13: BACKTRACKING
+Conceptual Foundation:
+- Backtracking as systematic enumeration
+- Decision trees and pruning
+- Constraint satisfaction problems
+
+Core Techniques:
+- Recursive solution space exploration
+- State tracking and restoration
+- Pruning invalid partial solutions
+
+Essential Problems:
+- N-Queens: Constraint satisfaction with board state
+- Combination Sum: Target sum with unlimited reuse
+- Permutations: Complete arrangement enumeration
+- Subsets: Power set generation
+- Sudoku Solver: Constraint propagation
+
+Key Insights:
+- Backtracking explores solution space efficiently
+- Pruning eliminates invalid branches early
+- State management is crucial for correctness
+
+DAY 14: WEEKLY REVIEW
+- Review all Week 1 concepts and techniques
+- Solve mixed problems combining multiple data structures
+- Identify weak areas for focused practice
+
+WEEK 3: DYNAMIC PROGRAMMING FOCUS
+
+DAY 15-16: 1D DP
+Conceptual Foundation:
+- Optimal substructure and overlapping subproblems
+- Memoization vs. tabulation approaches
+- State definition and transition equations
+
+Core Techniques:
+- Identifying optimal substructure
+- Defining state variables
+- Establishing recurrence relations
+- Space optimization
+
+Essential Problems:
+- Climbing Stairs: Simple recurrence relation
+- House Robber: Maximization with constraints
+- Decode Ways: Multiple transition possibilities
+- Best Time to Buy and Sell Stock: State tracking
+- Maximum Subarray: Kadane's algorithm as DP
+
+Key Insights:
+- DP solves optimization problems efficiently
+- State definition determines solution approach
+- Base cases anchor recursive solutions
+
+DAY 17-18: 2D DP
+Conceptual Foundation:
+- Multi-dimensional state spaces
+- Grid-based DP problems
+- Sequence alignment and matching
+
+Core Techniques:
+- 2D state definition
+- Diagonal vs. row/column transitions
+- Space optimization (rolling arrays)
+
+Essential Problems:
+- Unique Paths: Grid traversal counting
+- Longest Common Subsequence: Sequence alignment
+- Edit Distance: String transformation cost
+- Coin Change: Minimum coins for amount
+- Regular Expression Matching: Complex state transitions
+
+Key Insights:
+- 2D DP handles grid and sequence problems
+- Transition directions affect solution order
+- Space optimization reduces memory usage
+
+DAY 19-20: KNAPSACK & SUBSET SUM
+Conceptual Foundation:
+- Classic optimization problems
+- Weight/capacity constraints
+- Decision-making at each item
+
+Core Techniques:
+- 0/1 knapsack vs. unbounded knapsack
+- Subset sum and partition problems
+- Bitmask DP for small constraint sets
+
+Essential Problems:
+- 0/1 Knapsack: Item selection with weight constraint
+- Coin Change II: Count combinations
+- Target Sum: Subset sum with signs
+- Partition Equal Subset Sum: Balanced partitioning
+- Ones and Zeroes: Multi-constraint knapsack
+
+Key Insights:
+- Knapsack problems model resource allocation
+- Choice at each item defines state transitions
+- Multiple constraints require expanded state
+
+DAY 21: WEEKLY REVIEW
+- Practice mixed DP problems
+- Focus on state definition and transition identification
+- Review space optimization techniques
+
+WEEK 4: ADVANCED PRACTICE & INTERVIEW PREP
+
+DAY 22-23: HEAPS, TRIES, & BIT MANIPULATION
+Conceptual Foundation:
+- Priority queues and heap operations
+- Trie structures for string operations
+- Bitwise operations and representations
+
+Core Techniques:
+- Heapify and heap operations
+- Trie insertion/search algorithms
+- Bit manipulation tricks and masks
+
+Essential Problems:
+- Top K Frequent Elements: Min-heap for k largest
+- Merge K Sorted Lists: Min-heap for merging
+- Implement Trie: Prefix tree operations
+- Single Number: XOR properties
+- Sum of Two Integers: Bit manipulation addition
+
+Key Insights:
+- Heaps maintain order for efficient extremum retrieval
+- Tries excel at prefix operations and autocomplete
+- Bit manipulation enables efficient low-level operations
+
+DAY 24-25: SEGMENT TREES / BINARY SEARCH
+Conceptual Foundation:
+- Binary search prerequisites: monotonicity
+- Range query data structures
+- Logarithmic search efficiency
+
+Core Techniques:
+- Binary search templates (leftmost/rightmost)
+- Range query updates
+- Coordinate compression
+
+Essential Problems:
+- Binary Search: Template implementation
+- Search in Rotated Sorted Array: Modified binary search
+- Find Peak Element: Local maximum identification
+- Range Sum Query: Segment tree implementation
+- Median of Two Sorted Arrays: Binary search partitioning
+
+Key Insights:
+- Binary search requires monotonicity property
+- Segment trees enable efficient range operations
+- Divide-and-conquer enables logarithmic solutions
+
+DAY 26-27: SYSTEMATIC MIXED PRACTICE
+- Solve problems from curated lists (LeetCode Top 75)
+- Focus on medium to hard difficulty
+- Emphasize problem recognition and approach selection
+
+DAY 28: FULL CONTEST PRACTICE
+- Participate in coding contests
+- Practice under time pressure
+- Develop debugging and verification strategies
+
+DAY 29: MOCK INTERVIEW
+- Practice articulating thought process
+- Solve problems on whiteboard/coding platform
+- Receive feedback on approach and communication
+
+DAY 30: REFLECT & REVISE
+- Review all concepts and problem types
+- Update notes with key insights
+- Document mistakes and lessons learned
+- Plan continued learning trajectory
+
+APPENDIX: PROBLEM-SOLVING HEURISTICS
+1. Clarify problem requirements and constraints
+2. Identify similar problems and applicable patterns
+3. Consider brute force approach first
+4. Optimize with appropriate data structures
+5. Trace through examples to validate approach
+6. Analyze time/space complexity
+7. Consider edge cases and error conditions

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1: Arrays & Hashing - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar"></aside>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>📚 DSA Study Plan</h1>
+                <p>30 Days to Mastery</p>
+            </div>
+            
+            <nav class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <span class="day-badge">🏠</span>
+                            <span class="day-title">Home</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <nav class="nav-section">
+                <div class="nav-section-title">Week 1 - Foundations</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="day1.html" class="nav-link completed">
+                            <span class="day-badge">1</span>
+                            <span class="day-title">Arrays & Hashing</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day2.html" class="nav-link">
+                            <span class="day-badge">2</span>
+                            <span class="day-title">Advanced Arrays</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day3.html" class="nav-link">
+                            <span class="day-badge">3</span>
+                            <span class="day-title">Strings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day4.html" class="nav-link">
+                            <span class="day-badge">4</span>
+                            <span class="day-title">Stack & Queue</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day5.html" class="nav-link">
+                            <span class="day-badge">5</span>
+                            <span class="day-title">Linked List</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day6.html" class="nav-link">
+                            <span class="day-badge">6</span>
+                            <span class="day-title">Trees</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day7.html" class="nav-link">
+                            <span class="day-badge">7</span>
+                            <span class="day-title">Review</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Day 1: Arrays & Hashing</h1>
+                <p class="subtitle">Foundation of Data Structures</p>
+                <div class="meta">
+                    <span class="status-badge completed">Completed</span>
+                    <span>📅 March 29, 2026</span>
+                    <span>⏱️ 4-5 hours</span>
+                </div>
+            </div>
+
+            <!-- Topic Overview -->
+            <div class="section">
+                <h2>Topic Overview</h2>
+                <p>
+                    Arrays and hashing form the foundation of data structures. Arrays provide contiguous memory 
+                    allocation with O(1) random access, while hash tables enable average O(1) lookup operations 
+                    through hash functions.
+                </p>
+                <p>
+                    Understanding these structures is crucial because they appear in nearly every coding interview 
+                    and form the basis for more complex data structures.
+                </p>
+            </div>
+
+            <!-- Key Concepts -->
+            <div class="section">
+                <h2>Key Concepts</h2>
+                
+                <h3>1. Arrays</h3>
+                <ul class="content-list">
+                    <li><strong>Contiguous memory:</strong> Elements stored in adjacent memory locations</li>
+                    <li><strong>O(1) access:</strong> Direct indexing for constant-time retrieval</li>
+                    <li><strong>Fixed size:</strong> Size determined at creation (in most languages)</li>
+                    <li><strong>Cache friendly:</strong> Sequential access patterns benefit from CPU caching</li>
+                </ul>
+
+                <h3>2. Hash Tables</h3>
+                <ul class="content-list">
+                    <li><strong>Key-value mapping:</strong> Store data as key-value pairs</li>
+                    <li><strong>Hash function:</strong> Converts keys to array indices</li>
+                    <li><strong>Collision handling:</strong> Chaining or open addressing</li>
+                    <li><strong>Load factor:</strong> Ratio of elements to buckets affects performance</li>
+                </ul>
+
+                <h3>3. Common Patterns</h3>
+                <ul class="content-list">
+                    <li><strong>Frequency counting:</strong> Track occurrences of elements</li>
+                    <li><strong>Complement lookup:</strong> Find pairs that sum to target</li>
+                    <li><strong>Duplicate detection:</strong> Use hash sets for O(1) existence checks</li>
+                </ul>
+            </div>
+
+            <!-- Essential Problems -->
+            <div class="section">
+                <h2>Essential Problems</h2>
+
+                <div class="problem-card">
+                    <h4>
+                        Two Sum
+                        <span class="difficulty easy">Easy</span>
+                    </h4>
+                    <p class="pattern">Pattern: Hash Map - Complement Lookup</p>
+                    <p><strong>Problem:</strong> Given an array and target, find two numbers that add up to target.</p>
+                    <p><strong>Example:</strong> nums = [2,7,11,15], target = 9 → [0,1]</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> Use a hash map to store seen numbers. For each number, check if 
+                        (target - current) exists in the map. This achieves O(n) time with O(n) space.
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <h4>
+                        Valid Anagram
+                        <span class="difficulty easy">Easy</span>
+                    </h4>
+                    <p class="pattern">Pattern: Hash Map - Frequency Counting</p>
+                    <p><strong>Problem:</strong> Determine if two strings are anagrams of each other.</p>
+                    <p><strong>Example:</strong> s = "anagram", t = "nagaram" → true</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> Count character frequencies in both strings. If frequency maps 
+                        match, strings are anagrams. O(n) time, O(1) space (26 lowercase letters).
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <h4>
+                        Contains Duplicate
+                        <span class="difficulty easy">Easy</span>
+                    </h4>
+                    <p class="pattern">Pattern: Hash Set - Existence Check</p>
+                    <p><strong>Problem:</strong> Check if array contains any duplicates.</p>
+                    <p><strong>Example:</strong> nums = [1,2,3,1] → true</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> Add elements to a hash set. If an element already exists in the 
+                        set, return true. O(n) time, O(n) space.
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <h4>
+                        Group Anagrams
+                        <span class="difficulty medium">Medium</span>
+                    </h4>
+                    <p class="pattern">Pattern: Hash Map - Grouping by Key</p>
+                    <p><strong>Problem:</strong> Group anagrams together from an array of strings.</p>
+                    <p><strong>Example:</strong> ["eat","tea","tan","ate","nat","bat"] → [["eat","tea","ate"],["tan","nat"],["bat"]]</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> Use sorted string as key. Anagrams produce the same sorted string. 
+                        Group strings by their sorted key. O(n*k log k) time where k is max string length.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Examples -->
+            <div class="section">
+                <h2>Code Examples</h2>
+                
+                <h3>Two Sum - Python Implementation</h3>
+                <div class="code-block">
+def two_sum(nums, target):
+    seen = {}  # value -> index
+    
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    
+    return [-1, -1]
+                </div>
+
+                <h3>Two Sum - Rust Implementation</h3>
+                <div class="code-block">
+fn two_sum(nums: &[i32], target: i32) -> Vec<i32> {
+    use std::collections::HashMap;
+    
+    let mut seen: HashMap<i32, usize> = HashMap::new();
+    
+    for (i, &num) in nums.iter().enumerate() {
+        let complement = target - num;
+        if let Some(&idx) = seen.get(&complement) {
+            return vec![idx as i32, i as i32];
+        }
+        seen.insert(num, i);
+    }
+    
+    vec![-1, -1]
+}
+                </div>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="insights-box">
+                <h3>💡 Key Insights</h3>
+                <ul>
+                    <li>Hash tables trade space for time efficiency - O(n) space for O(1) lookup</li>
+                    <li>Use hash maps for complement problems (Two Sum pattern)</li>
+                    <li>Use hash sets for existence checks and duplicate detection</li>
+                    <li>Frequency counting solves anagram and grouping problems</li>
+                    <li>Consider edge cases: empty input, single element, all same values</li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div class="section">
+                <h2>Resources</h2>
+                <div class="resource-links">
+                    <a href="python_projects/day1_arrays_hashing.py" class="resource-link">
+                        📁 Python Code
+                    </a>
+                    <a href="Day1_Arrays_Hashing.docx" class="resource-link secondary">
+                        📄 Word Document
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="page-nav">
+                <a href="index.html" class="nav-btn">
+                    <span class="arrow">←</span>
+                    <span>Back to Home</span>
+                </a>
+                <a href="day2.html" class="nav-btn primary">
+                    <span>Day 2: Advanced Arrays</span>
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    
+<div id="navigation-buttons"></div>
+    <script type="module" src="/js/main.js"></script>
+    </body>
+</html>

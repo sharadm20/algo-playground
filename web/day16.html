@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 16: Binary Search & Advanced Searching - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .pattern-card {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .pattern-card h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+        .technique-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .technique-table th, .technique-table td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: left;
+        }
+        .technique-table th {
+            background: #007bff;
+            color: white;
+        }
+        .technique-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        .template-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .template-box h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .complexity-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 0 5px;
+        }
+        .time-badge {
+            background: #d4edda;
+            color: #155724;
+        }
+        .space-badge {
+            background: #cce5ff;
+            color: #004085;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Day 16: Binary Search & Advanced Searching</h1>
+            <p class="date">Date: April 14, 2026</p>
+            <p class="focus">Focus: Binary search fundamentals, advanced patterns, and binary search on answer</p>
+
+            <div class="section">
+                <h2>Overview</h2>
+                <p>Binary search is one of the most fundamental and powerful algorithms in computer science. It allows
+                us to efficiently search for elements in sorted data structures in O(log n) time, and can be extended
+                to solve a wide variety of optimization problems through "binary search on answer".</p>
+            </div>
+
+            <div class="section">
+                <h2>1. Binary Search Fundamentals</h2>
+
+                <h3>1.1 Prerequisites</h3>
+                <ul>
+                    <li><strong>Sorted Data:</strong> The array/collection must be sorted (or have monotonic property)</li>
+                    <li><strong>Monotonicity:</strong> A property where values consistently increase or decrease</li>
+                    <li><strong>Random Access:</strong> Ability to access elements by index in O(1) time</li>
+                </ul>
+
+                <h3>1.2 Standard Binary Search</h3>
+                <p>The core idea: repeatedly divide the search space in half.</p>
+
+                <h4>Algorithm:</h4>
+                <ol>
+                    <li>Initialize left = 0, right = n - 1</li>
+                    <li>While left <= right:</li>
+                    <ul>
+                        <li>Calculate mid = left + (right - left) // 2</li>
+                        <li>If arr[mid] == target, return mid</li>
+                        <li>If arr[mid] < target, set left = mid + 1</li>
+                        <li>If arr[mid] > target, set right = mid - 1</li>
+                    </ul>
+                    <li>Return -1 (not found)</li>
+                </ol>
+
+                <h3>1.3 Time Complexity Analysis</h3>
+                <p>Each iteration reduces the search space by half. Starting with n elements:</p>
+                <ul>
+                    <li>After 1 iteration: n/2 elements</li>
+                    <li>After 2 iterations: n/4 elements</li>
+                    <li>After k iterations: n/(2^k) elements</li>
+                    <li>We stop when n/(2^k) = 1, which gives k = log₂(n)</li>
+                    <li><strong>Time Complexity:</strong> <span class="complexity-badge time-badge">O(log n)</span></li>
+                    <li><strong>Space Complexity:</strong> <span class="complexity-badge space-badge">O(1)</span> iterative, O(log n) recursive</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>2. Binary Search Templates</h2>
+
+                <div class="template-box">
+                    <h4>Template 1: Finding Exact Match</h4>
+                    <div class="code-block">def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+    while left <= right:
+        mid = left + (right - left) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1</div>
+                </div>
+
+                <div class="template-box">
+                    <h4>Template 2: Finding First Occurrence (Lower Bound)</h4>
+                    <div class="code-block">def lower_bound(arr, target):
+    left, right = 0, len(arr)
+    while left < right:
+        mid = left + (right - left) // 2
+        if arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid
+    return left</div>
+                </div>
+
+                <div class="template-box">
+                    <h4>Template 3: Finding Last Occurrence (Upper Bound)</h4>
+                    <div class="code-block">def upper_bound(arr, target):
+    left, right = 0, len(arr)
+    while left < right:
+        mid = left + (right - left) // 2
+        if arr[mid] <= target:
+            left = mid + 1
+        else:
+            right = mid
+    return left - 1</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3. Advanced Binary Search Patterns</h2>
+
+                <div class="pattern-card">
+                    <h3>3.1 Search in Rotated Sorted Array</h3>
+                    <p><strong>Problem:</strong> Given a sorted array that has been rotated at some pivot, find target.</p>
+                    <p><strong>Example:</strong> [4,5,6,7,0,1,2] was originally [0,1,2,4,5,6,7] rotated at index 4.</p>
+                    <p><strong>Approach:</strong></p>
+                    <ol>
+                        <li>Find which half is properly sorted (left or right of mid)</li>
+                        <li>Check if target lies in the sorted half</li>
+                        <li>If yes, search that half; otherwise, search the other half</li>
+                    </ol>
+                    <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(log n)</span> <span class="complexity-badge space-badge">O(1)</span></p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>3.2 Find Peak Element</h3>
+                    <p><strong>Problem:</strong> Find an element that is strictly greater than its neighbors.</p>
+                    <p><strong>Approach:</strong></p>
+                    <ol>
+                        <li>Compare arr[mid] with arr[mid + 1]</li>
+                        <li>If arr[mid] < arr[mid + 1], peak must be on the right</li>
+                        <li>Otherwise, peak is on the left (could be mid itself)</li>
+                    </ol>
+                    <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(log n)</span> <span class="complexity-badge space-badge">O(1)</span></p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>3.3 Find Minimum in Rotated Sorted Array</h3>
+                    <p><strong>Problem:</strong> Find the minimum element in a rotated sorted array.</p>
+                    <p><strong>Approach:</strong></p>
+                    <ol>
+                        <li>Compare arr[mid] with arr[right]</li>
+                        <li>If arr[mid] > arr[right], minimum is in right half</li>
+                        <li>Otherwise, minimum is in left half (including mid)</li>
+                    </ol>
+                    <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(log n)</span> <span class="complexity-badge space-badge">O(1)</span></p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>3.4 Single Element in Sorted Array</h3>
+                    <p><strong>Problem:</strong> Every element appears twice except one. Find the single element.</p>
+                    <p><strong>Example:</strong> [1,1,2,3,3,4,4,8,8] → 2</p>
+                    <p><strong>Approach:</strong></p>
+                    <ol>
+                        <li>Use binary search on indices</li>
+                        <li>Check pairs: before single element, pairs start at even index</li>
+                        <li>After single element, pairs start at odd index</li>
+                    </ol>
+                    <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(log n)</span> <span class="complexity-badge space-badge">O(1)</span></p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>4. Binary Search on Answer</h2>
+                <p>A powerful technique where binary search is applied to the answer space rather than a specific
+                array. Used when:</p>
+                <ul>
+                    <li>We need to find minimum/maximum value satisfying a condition</li>
+                    <li>The condition is monotonic (if x works, all values > x also work, or vice versa)</li>
+                    <li>The answer space is a range of integers</li>
+                </ul>
+
+                <div class="pattern-card">
+                    <h3>4.1 Koko Eating Bananas (LC 875)</h3>
+                    <p><strong>Problem:</strong> Koko has n piles of bananas, each with piles[i] bananas. She can eat
+                    at most k bananas per hour. Find minimum k to eat all bananas within h hours.</p>
+                    <p><strong>Approach:</strong></p>
+                    <ol>
+                        <li>Binary search on k (eating speed): range [1, max(piles)]</li>
+                        <li>For each k, calculate hours needed: sum(ceil(pile / k) for pile in piles)</li>
+                        <li>If hours <= h, try smaller k (right = mid)</li>
+                        <li>Otherwise, need larger k (left = mid + 1)</li>
+                    </ol>
+                    <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(n * log(max_pile))</span> <span class="complexity-badge space-badge">O(1)</span></p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>4.2 Capacity to Ship Packages (LC 1011)</h3>
+                    <p><strong>Problem:</strong> Conveyor belt has packages with weights[i]. Ship within days days.
+                    Find minimum ship capacity.</p>
+                    <p><strong>Approach:</strong></p>
+                    <ol>
+                        <li>Binary search on capacity: range [max(weights), sum(weights)]</li>
+                        <li>For each capacity, simulate shipping and count days needed</li>
+                        <li>If days <= target, try smaller capacity (right = mid)</li>
+                        <li>Otherwise, need larger capacity (left = mid + 1)</li>
+                    </ol>
+                    <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(n * log(sum_weights))</span> <span class="complexity-badge space-badge">O(1)</span></p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>4.3 Split Array Largest Sum (LC 410)</h3>
+                    <p><strong>Problem:</strong> Split array into m non-empty subarrays to minimize the largest sum.</p>
+                    <p><strong>Approach:</strong></p>
+                    <ol>
+                        <li>Binary search on answer: range [max(nums), sum(nums)]</li>
+                        <li>For each possible largest sum, check if we can split into ≤ m subarrays</li>
+                        <li>Greedy check: keep adding to current subarray until adding next would exceed limit</li>
+                    </ol>
+                    <p><strong>Complexity:</strong> <span class="complexity-badge time-badge">O(n * log(sum_nums))</span> <span class="complexity-badge space-badge">O(1)</span></p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>5. Key Takeaways</h2>
+                <ul>
+                    <li>Binary search requires sorted data or a monotonic property</li>
+                    <li>Time complexity is always O(log n) where n is the search space size</li>
+                    <li>Template selection matters: left <= right vs left < right changes behavior</li>
+                    <li>Binary search on answer is powerful for optimization problems</li>
+                    <li>The check function for binary search on answer must be monotonic</li>
+                    <li>Be careful with off-by-one errors in boundary conditions</li>
+                    <li>For rotated arrays, always identify which half is sorted first</li>
+                    <li>Mid calculation: mid = left + (right - left) // 2 prevents overflow</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>6. Practice Problems</h2>
+
+                <h3>Easy Problems</h3>
+                <ul>
+                    <li>704. Binary Search - Standard binary search</li>
+                    <li>35. Search Insert Position - Lower bound</li>
+                    <li>278. First Bad Version - First occurrence</li>
+                    <li>367. Valid Perfect Square - Binary search on answer</li>
+                </ul>
+
+                <h3>Medium Problems</h3>
+                <ul>
+                    <li>34. Find First and Last Position - Lower and upper bounds</li>
+                    <li>33. Search in Rotated Sorted Array - Modified binary search</li>
+                    <li>162. Find Peak Element - Binary search on local maximum</li>
+                    <li>153. Find Minimum in Rotated Sorted Array</li>
+                    <li>875. Koko Eating Bananas - Binary search on answer</li>
+                    <li>1011. Capacity To Ship Packages - Binary search on answer</li>
+                </ul>
+
+                <h3>Hard Problems</h3>
+                <ul>
+                    <li>410. Split Array Largest Sum - Binary search on answer</li>
+                    <li>4. Median of Two Sorted Arrays - Advanced binary search</li>
+                    <li>668. Kth Smallest Number in Multiplication Table - Binary search on answer</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>7. Today's Status</h2>
+                <ul class="checklist">
+                    <li>Read comprehensive guide (Day16_Binary_Search.docx)</li>
+                    <li>Study binary search templates and patterns</li>
+                    <li>Review Python implementations (python_projects/day16_binary_search.py)</li>
+                    <li>Review Rust implementations (rust_projects/day16_binary_search/)</li>
+                    <li>Practice binary search on answer problems</li>
+                    <li>Complete LeetCode problems (704, 35, 34, 33, 875, 1011, 410)</li>
+                </ul>
+
+                <p><strong>Python Tests:</strong> 12/12 passed ✓</p>
+                <p><strong>Rust Tests:</strong> 12/12 passed ✓</p>
+            </div>
+
+            <div class="section navigation">
+                <a href="day15.html" class="btn btn-prev">← Day 15: Heaps, Tries, & Bits</a>
+                <a href="index.html" class="btn btn-home">Home</a>
+                <a href="day17.html" class="btn btn-next">Day 17: Review & Practice →</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

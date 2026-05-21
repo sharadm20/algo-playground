@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 3: Strings - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar"></aside>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>📚 DSA Study Plan</h1>
+                <p>30 Days to Mastery</p>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <span class="day-badge">🏠</span>
+                            <span class="day-title">Home</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Week 1 - Foundations</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="day1.html" class="nav-link">
+                            <span class="day-badge">1</span>
+                            <span class="day-title">Arrays & Hashing</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day2.html" class="nav-link">
+                            <span class="day-badge">2</span>
+                            <span class="day-title">Advanced Arrays</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day3.html" class="nav-link current">
+                            <span class="day-badge">3</span>
+                            <span class="day-title">Strings</span>
+                            <span class="status-icon">●</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day4.html" class="nav-link">
+                            <span class="day-badge">4</span>
+                            <span class="day-title">Stack & Queue</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day5.html" class="nav-link">
+                            <span class="day-badge">5</span>
+                            <span class="day-title">Linked List</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day6.html" class="nav-link">
+                            <span class="day-badge">6</span>
+                            <span class="day-title">Trees</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day7.html" class="nav-link">
+                            <span class="day-badge">7</span>
+                            <span class="day-title">Review</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Day 3: String Manipulation</h1>
+                <p class="subtitle">Pattern Matching, Palindromes, and Tries</p>
+                <div class="meta">
+                    <span class="status-badge current">Current</span>
+                    <span>📅 March 31, 2026</span>
+                    <span>⏱️ 4-5 hours</span>
+                </div>
+            </div>
+
+            <!-- Topic Overview -->
+            <div class="section">
+                <h2>Topic Overview</h2>
+                <p>
+                    Day 3 transitions from arrays to strings, applying similar techniques while introducing
+                    string-specific algorithms. Strings are fundamental to programming, appearing in everything
+                    from text processing to DNA sequence analysis.
+                </p>
+                <p>
+                    Today we'll master four critical areas: palindrome detection, efficient string matching,
+                    sliding window applications on strings, and the trie data structure for prefix-based operations.
+                </p>
+            </div>
+
+            <!-- Core Techniques -->
+            <div class="section">
+                <h2>Core Techniques</h2>
+
+                <h3>1. Palindrome Patterns</h3>
+                <p>Palindromes are strings that read the same forwards and backwards. Detecting and manipulating
+                palindromes requires careful pointer management.</p>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Pattern</th>
+                            <th>Description</th>
+                            <th>Applications</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Two-Pointer Validation</strong></td>
+                            <td>Compare characters from both ends moving inward</td>
+                            <td>Check if string is palindrome</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Expand Around Center</strong></td>
+                            <td>Treat each position as potential palindrome center</td>
+                            <td>Find longest palindromic substring</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dynamic Programming</strong></td>
+                            <td>Build palindrome table bottom-up</td>
+                            <td>Count all palindromic substrings</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>2. String Matching Algorithms</h3>
+                <p>Efficiently finding patterns within text is crucial for search engines, text editors, and bioinformatics.</p>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Time Complexity</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Naive Search</strong></td>
+                            <td>O(n*m)</td>
+                            <td>Simple patterns, small inputs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rabin-Karp</strong></td>
+                            <td>O(n+m) average</td>
+                            <td>Multiple pattern matching, plagiarism detection</td>
+                        </tr>
+                        <tr>
+                            <td><strong>KMP (Knuth-Morris-Pratt)</strong></td>
+                            <td>O(n+m)</td>
+                            <td>Single pattern with many repetitions</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>3. Sliding Window on Strings</h3>
+                <p>String sliding window problems often involve character frequency tracking and anagram detection.</p>
+                <ul class="content-list">
+                    <li><strong>Fixed Window:</strong> Find all anagrams of pattern p in string s</li>
+                    <li><strong>Dynamic Window:</strong> Minimum window containing all characters of target</li>
+                    <li><strong>Frequency Tracking:</strong> Use hash maps to count character occurrences</li>
+                    <li><strong>Permutation Check:</strong> Compare frequency maps for anagram detection</li>
+                </ul>
+
+                <h3>4. Trie (Prefix Tree)</h3>
+                <p>Tries are tree-like structures optimized for string operations, especially prefix-based queries.</p>
+                <ul class="content-list">
+                    <li><strong>Structure:</strong> Each node represents a character, paths form words</li>
+                    <li><strong>Insert:</strong> O(m) where m is word length</li>
+                    <li><strong>Search:</strong> O(m) for exact word lookup</li>
+                    <li><strong>Prefix Search:</strong> O(m) to check if any word starts with prefix</li>
+                    <li><strong>Applications:</strong> Autocomplete, spell checkers, word games</li>
+                </ul>
+            </div>
+
+            <!-- Essential Problems -->
+            <div class="section">
+                <h2>Essential Problems</h2>
+
+                <div class="problem-card">
+                    <h4>
+                        Valid Palindrome
+                        <span class="difficulty easy">Easy</span>
+                    </h4>
+                    <p class="pattern">Pattern: Two-Pointer Validation</p>
+                    <p><strong>Problem:</strong> Check if string is palindrome, ignoring non-alphanumeric characters.</p>
+                    <p><strong>Example:</strong> "A man, a plan, a canal: Panama" → True</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> Two pointers from ends, skip non-alphanumeric, compare case-insensitive.
+                        O(n) time, O(1) space.
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <h4>
+                        Longest Palindromic Substring
+                        <span class="difficulty medium">Medium</span>
+                    </h4>
+                    <p class="pattern">Pattern: Expand Around Center</p>
+                    <p><strong>Problem:</strong> Find the longest substring that is a palindrome.</p>
+                    <p><strong>Example:</strong> s = "babad" → "bab" or "aba"</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> For each position, expand around center (both odd and even length).
+                        Track longest palindrome found. O(n²) time, O(1) space.
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <h4>
+                        Find All Anagrams in a String
+                        <span class="difficulty medium">Medium</span>
+                    </h4>
+                    <p class="pattern">Pattern: Sliding Window with Frequency Map</p>
+                    <p><strong>Problem:</strong> Find all starting indices of p's anagrams in s.</p>
+                    <p><strong>Example:</strong> s = "cbaebabacd", p = "abc" → [0, 6]</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> Fixed-size sliding window with character frequency comparison.
+                        Build frequency map for p, slide window over s, compare maps. O(n) time, O(1) space.
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <h4>
+                        Minimum Window Substring
+                        <span class="difficulty hard">Hard</span>
+                    </h4>
+                    <p class="pattern">Pattern: Dynamic Sliding Window</p>
+                    <p><strong>Problem:</strong> Find minimum window in s containing all characters of t.</p>
+                    <p><strong>Example:</strong> s = "ADOBECODEBANC", t = "ABC" → "BANC"</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> Expand right to satisfy requirements, contract left to minimize.
+                        Track character frequencies and count of satisfied requirements. O(n) time, O(1) space.
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <h4>
+                        Implement Trie (Prefix Tree)
+                        <span class="difficulty medium">Medium</span>
+                    </h4>
+                    <p class="pattern">Pattern: Trie Data Structure</p>
+                    <p><strong>Problem:</strong> Implement trie with insert, search, and startsWith operations.</p>
+                    <p><strong>Example:</strong> insert("apple"), search("apple") → True, search("app") → False</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> Build tree where each node has children map and end-of-word flag.
+                        Insert creates path, search follows path and checks end flag. O(m) per operation.
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <h4>
+                        Word Search II
+                        <span class="difficulty hard">Hard</span>
+                    </h4>
+                    <p class="pattern">Pattern: Trie + Backtracking</p>
+                    <p><strong>Problem:</strong> Find all words from list that can be formed on board.</p>
+                    <p><strong>Example:</strong> board with letters, words = ["oath","pea","oath","rain"] → ["oath", "rain"]</p>
+                    <div class="solution">
+                        <strong>Solution:</strong> Build trie from word list, DFS from each cell following trie paths.
+                        Mark visited cells, backtrack after exploration. O(m*n*4^L) where L is max word length.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Examples -->
+            <div class="section">
+                <h2>Code Examples</h2>
+
+                <h3>Longest Palindromic Substring - Python</h3>
+                <div class="code-block">
+def longest_palindromic_substring(s):
+    if not s:
+        return ""
+
+    start, end = 0, 0
+
+    def expand_around_center(left, right):
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            left -= 1
+            right += 1
+        return left + 1, right - 1
+
+    for i in range(len(s)):
+        left1, right1 = expand_around_center(i, i)
+        left2, right2 = expand_around_center(i, i + 1)
+
+        if right1 - left1 > end - start:
+            start, end = left1, right1
+        if right2 - left2 > end - start:
+            start, end = left2, right2
+
+    return s[start:end + 1]
+                </div>
+
+                <h3>Longest Palindromic Substring - Rust</h3>
+                <div class="code-block">
+fn longest_palindromic_substring(s: &str) -> String {
+    if s.is_empty() {
+        return String::new();
+    }
+
+    let chars: Vec<char> = s.chars().collect();
+    let mut start = 0;
+    let mut end = 0;
+
+    fn expand(chars: &[char], mut left: i32, mut right: i32) -> (i32, i32) {
+        while left >= 0 && right < chars.len() as i32
+            && chars[left as usize] == chars[right as usize] {
+            left -= 1;
+            right += 1;
+        }
+        (left + 1, right - 1)
+    }
+
+    for i in 0..chars.len() {
+        let (l1, r1) = expand(&chars, i as i32, i as i32);
+        let (l2, r2) = expand(&chars, i as i32, (i + 1) as i32);
+
+        if r1 - l1 > end as i32 - start as i32 {
+            start = l1 as usize;
+            end = r1 as usize;
+        }
+        if r2 - l2 > end as i32 - start as i32 {
+            start = l2 as usize;
+            end = r2 as usize;
+        }
+    }
+
+    chars[start..=end].iter().collect()
+}
+                </div>
+
+                <h3>Find All Anagrams - Python</h3>
+                <div class="code-block">
+def find_all_anagrams(s, p):
+    from collections import Counter
+
+    if len(p) > len(s):
+        return []
+
+    result = []
+    p_count = Counter(p)
+    window_count = Counter(s[:len(p)])
+
+    if window_count == p_count:
+        result.append(0)
+
+    for i in range(len(p), len(s)):
+        window_count[s[i]] += 1
+        old_char = s[i - len(p)]
+        window_count[old_char] -= 1
+        if window_count[old_char] == 0:
+            del window_count[old_char]
+
+        if window_count == p_count:
+            result.append(i - len(p) + 1)
+
+    return result
+                </div>
+
+                <h3>Trie Implementation - Rust</h3>
+                <div class="code-block">
+use std::collections::HashMap;
+
+#[derive(Debug, Clone)]
+struct TrieNode {
+    children: HashMap<char, TrieNode>,
+    is_end_of_word: bool,
+}
+
+struct Trie {
+    root: TrieNode,
+}
+
+impl Trie {
+    fn new() -> Self {
+        Trie { root: TrieNode::new() }
+    }
+
+    fn insert(&mut self, word: &str) {
+        let mut node = &mut self.root;
+        for char in word.chars() {
+            node = node.children.entry(char)
+                .or_insert_with(TrieNode::new);
+        }
+        node.is_end_of_word = true;
+    }
+
+    fn search(&self, word: &str) -> bool {
+        if let Some(node) = self.find_node(word) {
+            node.is_end_of_word
+        } else {
+            false
+        }
+    }
+
+    fn starts_with(&self, prefix: &str) -> bool {
+        self.find_node(prefix).is_some()
+    }
+}
+                </div>
+            </div>
+
+            <!-- Complexity Comparison -->
+            <div class="section">
+                <h2>Complexity Comparison</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Algorithm/Pattern</th>
+                            <th>Time Complexity</th>
+                            <th>Space Complexity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Palindrome Check (Two-Pointer)</td>
+                            <td>O(n)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Longest Palindromic Substring</td>
+                            <td>O(n²)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Naive String Search</td>
+                            <td>O(n*m)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Rabin-Karp</td>
+                            <td>O(n+m) average</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>KMP</td>
+                            <td>O(n+m)</td>
+                            <td>O(m)</td>
+                        </tr>
+                        <tr>
+                            <td>Sliding Window (Anagrams)</td>
+                            <td>O(n)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Trie Operations</td>
+                            <td>O(m) per operation</td>
+                            <td>O(n*m)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="insights-box">
+                <h3>💡 Key Insights</h3>
+                <ul>
+                    <li><strong>Expand Around Center:</strong> For palindrome problems, consider both odd-length (single char center) and even-length (two char center) cases</li>
+                    <li><strong>String Immutability:</strong> In languages with immutable strings, convert to character array for in-place modifications</li>
+                    <li><strong>Frequency Map Comparison:</strong> For anagram/permutation problems, compare character counts rather than sorting</li>
+                    <li><strong>Trie for Prefixes:</strong> When problem involves prefix searches or autocomplete, trie is often optimal</li>
+                    <li><strong>Rolling Hash:</strong> Rabin-Karp uses rolling hash to avoid recomputing hash from scratch for each window</li>
+                    <li><strong>LPS Array:</strong> KMP's LPS (Longest Proper Prefix which is also Suffix) array enables skipping unnecessary comparisons</li>
+                </ul>
+            </div>
+
+            <!-- Homework -->
+            <div class="section">
+                <h2>Practice Problems (Homework)</h2>
+
+                <h3>Easy Problems</h3>
+                <ul class="content-list">
+                    <li>Valid Palindrome - Two-pointer validation with alphanumeric filtering</li>
+                    <li>Reverse String - In-place reversal using two-pointer swap</li>
+                    <li>Valid Anagram - Character frequency comparison</li>
+                    <li>First Unique Character in String - Two-pass with frequency map</li>
+                    <li>Implement strStr() - Naive string matching</li>
+                </ul>
+
+                <h3>Medium Problems</h3>
+                <ul class="content-list">
+                    <li>Longest Palindromic Substring - Expand around center technique</li>
+                    <li>Group Anagrams - Hash map with sorted key</li>
+                    <li>Find All Anagrams in a String - Fixed sliding window</li>
+                    <li>Longest Substring Without Repeating Characters - Dynamic window with set</li>
+                    <li>Minimum Window Substring - Dynamic window with frequency map</li>
+                </ul>
+
+                <h3>Hard Problems</h3>
+                <ul class="content-list">
+                    <li>Regular Expression Matching - Dynamic programming with '.' and '*'</li>
+                    <li>Edit Distance - DP for minimum insert/delete/replace operations</li>
+                    <li>Word Search II - Trie + backtracking on 2D board</li>
+                    <li>Count Palindromic Substrings - Expand around center with counting</li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div class="section">
+                <h2>Resources</h2>
+                <div class="resource-links">
+                    <a href="python_projects/day3_strings.py" class="resource-link">
+                        📁 Python Code
+                    </a>
+                    <a href="rust_projects/day3_strings.rs" class="resource-link secondary">
+                        🦀 Rust Code
+                    </a>
+                    <a href="rust_projects/day3_strings" class="resource-link secondary">
+                        📦 Cargo Project
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="page-nav">
+                <a href="day2.html" class="nav-btn">
+                    <span class="arrow">←</span>
+                    <span>Day 2: Advanced Arrays</span>
+                </a>
+                <a href="day4.html" class="nav-btn primary">
+                    <span>Day 4: Stack & Queue</span>
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    
+<div id="navigation-buttons"></div>
+    <script type="module" src="/js/main.js"></script>
+    </body>
+</html>

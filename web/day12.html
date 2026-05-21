@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 12: Advanced Dynamic Programming - Part 2 - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .pattern-card {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .pattern-card h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        .approach-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .approach-box h4 {
+            margin-top: 0;
+            color: #0056b3;
+        }
+        .recurrence {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+        .complexity-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .complexity-table th, .complexity-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .complexity-table th {
+            background: #007bff;
+            color: white;
+        }
+        .complexity-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        .technique-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .technique-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        .technique-card:hover {
+            border-color: #007bff;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        .technique-card h4 {
+            margin-top: 0;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar"></aside>
+        
+        <div class="main-content">
+            <div class="container">
+                <div class="header">
+                    <h1>Day 12: Advanced Dynamic Programming - Part 2</h1>
+                    <p class="date">April 10, 2026</p>
+                </div>
+
+        <div class="overview">
+            <h2>Overview</h2>
+            <p>Today we dive into advanced DP techniques that will expand your problem-solving toolkit. We'll cover DP on trees, bitmask DP, digit DP, matrix chain multiplication, and various optimization techniques. These advanced patterns appear frequently in competitive programming and hard interview problems.</p>
+            
+            <div class="topics-grid">
+                <div class="topic-card">
+                    <h3>🌳 DP on Trees</h3>
+                    <p>Solve problems on tree structures using post-order traversal and subtree DP states</p>
+                    <ul>
+                        <li>Tree diameter calculation</li>
+                        <li>Maximum independent set</li>
+                        <li>Tree coloring problems</li>
+                    </ul>
+                </div>
+                <div class="topic-card">
+                    <h3>🎭 Bitmask DP</h3>
+                    <p>Use bitmasks to represent subsets for small constraint problems (n ≤ 20)</p>
+                    <ul>
+                        <li>Traveling Salesman Problem</li>
+                        <li>Assignment problem</li>
+                        <li>Subset sum with bitmasks</li>
+                    </ul>
+                </div>
+                <div class="topic-card">
+                    <h3>🔢 Digit DP</h3>
+                    <p>Count numbers in ranges with specific digit constraints</p>
+                    <ul>
+                        <li>Count without digit 4</li>
+                        <li>Digit sum constraints</li>
+                        <li>Palindromic number counting</li>
+                    </ul>
+                </div>
+                <div class="topic-card">
+                    <h3>📊 Matrix Chain Multiplication</h3>
+                    <p>Find optimal parenthesization for matrix multiplication</p>
+                    <ul>
+                        <li>MCM problem</li>
+                        <li>Optimal BST</li>
+                        <li>Boolean parenthesization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>1. DP on Trees</h2>
+            
+            <div class="approach-box">
+                <h4>Key Characteristics</h4>
+                <ul>
+                    <li>Problems exhibit optimal substructure on tree structures</li>
+                    <li>Solution for a node depends on solutions for its children</li>
+                    <li>Often solved using post-order traversal (process children before parent)</li>
+                    <li>State typically includes the current node and possibly additional information</li>
+                </ul>
+            </div>
+
+            <h3>1.1 Tree Diameter</h3>
+            <p><strong>Problem:</strong> Find the longest path between any two nodes in a tree.</p>
+            
+            <div class="recurrence">
+                <strong>DP State:</strong><br>
+                - height[u] = 1 + max(height[v] for all children v)<br>
+                - diameter[u] = max(diameter in subtrees, path through u with two deepest branches)
+            </div>
+
+            <div class="code-block">
+# Python: Tree Diameter
+def tree_diameter(tree):
+    n = len(tree)
+    diameter = [0]
+    
+    def dfs(node, parent=-1):
+        max_height1 = max_height2 = 0
+        
+        for child in tree[node]:
+            if child != parent:
+                height = dfs(child, node)
+                if height > max_height1:
+                    max_height2 = max_height1
+                    max_height1 = height
+                elif height > max_height2:
+                    max_height2 = height
+        
+        diameter[0] = max(diameter[0], max_height1 + max_height2)
+        return max_height1 + 1
+    
+    dfs(0)
+    return diameter[0]
+            </div>
+
+            <h3>1.2 Maximum Independent Set on Trees</h3>
+            <p><strong>Problem:</strong> Find maximum size subset of nodes such that no two nodes are adjacent.</p>
+            
+            <div class="recurrence">
+                <strong>DP State:</strong><br>
+                - dp[u][0] = max independent set when u is NOT included<br>
+                - dp[u][1] = max independent set when u IS included<br><br>
+                <strong>Transitions:</strong><br>
+                - dp[u][0] = sum(max(dp[v][0], dp[v][1]) for all children v)<br>
+                - dp[u][1] = 1 + sum(dp[v][0] for all children v)
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>2. Bitmask DP</h2>
+            
+            <div class="approach-box">
+                <h4>When to Use Bitmask DP</h4>
+                <ul>
+                    <li>Problem involves subsets of a small set (typically n ≤ 20)</li>
+                    <li>Need to track which elements have been used/selected</li>
+                    <li>State space can be represented as 2^n possibilities</li>
+                </ul>
+            </div>
+
+            <h3>2.1 Traveling Salesman Problem (TSP)</h3>
+            <p><strong>Problem:</strong> Find shortest route that visits each city exactly once and returns to start.</p>
+            
+            <div class="recurrence">
+                <strong>DP State:</strong> dp[mask][i] = minimum cost to visit all cities in mask, ending at city i<br><br>
+                <strong>Base Case:</strong> dp[1][0] = 0<br><br>
+                <strong>Transition:</strong><br>
+                dp[mask | (1 << j)][j] = min(dp[mask | (1 << j)][j], dp[mask][i] + dist[i][j])<br>
+                for all i in mask, j not in mask<br><br>
+                <strong>Answer:</strong> min(dp[(1<<n)-1][i] + dist[i][0]) for all i
+            </div>
+
+            <div class="code-block">
+# Python: TSP with Bitmask DP
+def tsp(dist):
+    n = len(dist)
+    INF = float('inf')
+    num_states = 1 << n
+    
+    dp = [[INF] * n for _ in range(num_states)]
+    dp[1][0] = 0  # Start at city 0
+    
+    for mask in range(1, num_states):
+        for i in range(n):
+            if dp[mask][i] == INF:
+                continue
+            for j in range(n):
+                if not (mask & (1 << j)):  # If j not visited
+                    new_mask = mask | (1 << j)
+                    dp[new_mask][j] = min(dp[new_mask][j], 
+                                         dp[mask][i] + dist[i][j])
+    
+    full_mask = num_states - 1
+    return min(dp[full_mask][i] + dist[i][0] for i in range(1, n))
+            </div>
+
+            <div class="complexity-table">
+                <h4>Complexity Analysis</h4>
+                <table>
+                    <tr>
+                        <th>Algorithm</th>
+                        <th>Time</th>
+                        <th>Space</th>
+                        <th>Constraints</th>
+                    </tr>
+                    <tr>
+                        <td>TSP</td>
+                        <td>O(n² × 2^n)</td>
+                        <td>O(n × 2^n)</td>
+                        <td>n ≤ 20</td>
+                    </tr>
+                    <tr>
+                        <td>Assignment Problem</td>
+                        <td>O(n × 2^n)</td>
+                        <td>O(2^n)</td>
+                        <td>n ≤ 20</td>
+                    </tr>
+                    <tr>
+                        <td>Subset Sum (Bitmask)</td>
+                        <td>O(2^n)</td>
+                        <td>O(1)</td>
+                        <td>n ≤ 25</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. Digit DP</h2>
+            
+            <div class="approach-box">
+                <h4>Key Technique</h4>
+                <ul>
+                    <li>Process digits from left to right</li>
+                    <li>Track whether we're still "tight" (bounded by the original number)</li>
+                    <li>Use memoization for overlapping subproblems</li>
+                    <li>Common state: (position, tight_constraint, started, additional_states...)</li>
+                </ul>
+            </div>
+
+            <h3>3.1 Count Numbers Without Digit 4</h3>
+            <p><strong>Problem:</strong> Count numbers from 0 to N that don't contain digit 4.</p>
+            
+            <div class="recurrence">
+                <strong>DP State:</strong> dp(pos, tight, started)<br>
+                - pos: Current digit position (from left)<br>
+                - tight: Whether we're still bounded by N<br>
+                - started: Whether we've started placing non-zero digits<br><br>
+                <strong>Transition:</strong><br>
+                limit = digits[pos] if tight else 9<br>
+                for digit in 0..limit+1:<br>
+                &nbsp;&nbsp;if digit == 4: continue<br>
+                &nbsp;&nbsp;new_tight = tight and (digit == limit)<br>
+                &nbsp;&nbsp;count += dp(pos+1, new_tight, started or digit > 0)
+            </div>
+
+            <div class="code-block">
+# Python: Digit DP
+def count_without_digit_4(n):
+    digits = [int(d) for d in str(n)]
+    memo = {}
+    
+    def dp(pos, tight, started):
+        if pos == len(digits):
+            return 1 if started else 0
+        
+        state = (pos, tight, started)
+        if state in memo:
+            return memo[state]
+        
+        limit = digits[pos] if tight else 9
+        count = 0
+        
+        for digit in range(limit + 1):
+            if digit == 4:
+                continue
+            new_tight = tight and (digit == limit)
+            new_started = started or (digit > 0)
+            count += dp(pos + 1, new_tight, new_started)
+        
+        memo[state] = count
+        return count
+    
+    return dp(0, True, False) + 1  # +1 for number 0
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. Matrix Chain Multiplication</h2>
+            
+            <div class="approach-box">
+                <h4>Problem Statement</h4>
+                <p>Given matrices A₁, A₂, ..., Aₙ where matrix Aᵢ has dimensions p[i-1] × p[i], 
+                find the minimum number of scalar multiplications needed to compute the product.</p>
+                <p><strong>Key Insight:</strong> Matrix multiplication is associative but not all parenthesizations are equal in cost.</p>
+            </div>
+
+            <div class="recurrence">
+                <strong>DP State:</strong> dp[i][j] = minimum multiplications to compute A[i..j]<br><br>
+                <strong>Base Case:</strong> dp[i][i] = 0<br><br>
+                <strong>Transition:</strong><br>
+                dp[i][j] = min(dp[i][k] + dp[k+1][j] + p[i-1]*p[k]*p[j]) for k in range(i, j)<br><br>
+                <strong>Complexity:</strong> O(n³) time, O(n²) space
+            </div>
+
+            <div class="code-block">
+# Python: Matrix Chain Multiplication
+def matrix_chain_order(dimensions):
+    n = len(dimensions) - 1  # Number of matrices
+    dp = [[0] * n for _ in range(n)]
+    
+    for l in range(2, n + 1):  # chain length
+        for i in range(n - l + 1):
+            j = i + l - 1
+            dp[i][j] = float('inf')
+            for k in range(i, j):
+                cost = (dp[i][k] + dp[k + 1][j] + 
+                       dimensions[i] * dimensions[k + 1] * dimensions[j + 1])
+                dp[i][j] = min(dp[i][j], cost)
+    
+    return dp[0][n - 1]
+            </div>
+
+            <h3>4.1 Boolean Parenthesization</h3>
+            <p><strong>Problem:</strong> Count ways to parenthesize boolean expression to evaluate to True.</p>
+            
+            <div class="recurrence">
+                <strong>DP States:</strong><br>
+                - dpT[i][j] = ways to get True from symbols[i..j]<br>
+                - dpF[i][j] = ways to get False from symbols[i..j]<br><br>
+                <strong>Transitions:</strong> Based on operator at position k<br>
+                - AND: dpT += dpT[i][k] * dpT[k+1][j]<br>
+                - OR: dpT += total_left * total_right - dpF[i][k] * dpF[k+1][j]<br>
+                - XOR: dpT += dpT[i][k] * dpF[k+1][j] + dpF[i][k] * dpT[k+1][j]
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>5. DP Optimization Techniques</h2>
+            
+            <div class="technique-grid">
+                <div class="technique-card">
+                    <h4>Space Optimization</h4>
+                    <p>Observe that only previous row/column is needed. Use rolling arrays or track only necessary previous values.</p>
+                    <p><strong>Example:</strong> Fibonacci from O(n) space to O(1) space</p>
+                </div>
+                <div class="technique-card">
+                    <h4>State Compression</h4>
+                    <p>When DP state has redundant information, compress it using bitmasks or mathematical properties.</p>
+                    <p><strong>Example:</strong> House Robber II - circular constraint</p>
+                </div>
+                <div class="technique-card">
+                    <h4>Knuth's Optimization</h4>
+                    <p>For cost functions satisfying quadrangle inequality and monotonicity, optimize O(n³) to O(n²).</p>
+                    <p><strong>Application:</strong> Optimal BST, certain MCM variants</p>
+                </div>
+                <div class="technique-card">
+                    <h4>Divide & Conquer Opt.</h4>
+                    <p>When opt[i][j-1] ≤ opt[i][j] ≤ opt[i][j+1], use divide and conquer to reduce complexity.</p>
+                    <p><strong>Complexity:</strong> O(n² log n) or better</p>
+                </div>
+                <div class="technique-card">
+                    <h4>Convex Hull Trick</h4>
+                    <p>For DP with transitions involving linear/quadratic functions, find minimum over many linear functions.</p>
+                    <p><strong>Complexity:</strong> O(n²) → O(n log n)</p>
+                </div>
+            </div>
+
+            <h3>When to Use Each Technique</h3>
+            <table class="complexity-table">
+                <tr>
+                    <th>Technique</th>
+                    <th>When to Use</th>
+                    <th>Complexity</th>
+                    <th>Constraints</th>
+                </tr>
+                <tr>
+                    <td>Tree DP</td>
+                    <td>Problems on tree structures</td>
+                    <td>O(n) to O(n²)</td>
+                    <td>Tree structure required</td>
+                </tr>
+                <tr>
+                    <td>Bitmask DP</td>
+                    <td>Small subsets, tracking used</td>
+                    <td>O(2^n × poly(n))</td>
+                    <td>Small n (≤ 20)</td>
+                </tr>
+                <tr>
+                    <td>Digit DP</td>
+                    <td>Range counting with digits</td>
+                    <td>O(log(N) × states)</td>
+                    <td>Number range queries</td>
+                </tr>
+                <tr>
+                    <td>MCM-style</td>
+                    <td>Optimal parenthesization</td>
+                    <td>O(n³) to O(n²)</td>
+                    <td>Sequential partitioning</td>
+                </tr>
+                <tr>
+                    <td>Space Optimization</td>
+                    <td>Limited dependencies</td>
+                    <td>Reduces space</td>
+                    <td>Depends on problem</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Practice Problems</h2>
+            
+            <div class="pattern-card">
+                <h3>Easy Problems</h3>
+                <ul>
+                    <li>Tree Height - Find height of tree using DP</li>
+                    <li>Subset Sum (Small n) - Use bitmask for n ≤ 20</li>
+                    <li>Count Even Digit Numbers - Digit DP with simple constraint</li>
+                </ul>
+            </div>
+
+            <div class="pattern-card">
+                <h3>Medium Problems</h3>
+                <ul>
+                    <li>Maximum Weight Independent Set on Trees - Tree DP with weights</li>
+                    <li>TSP with Small Constraints - Bitmask DP, n ≤ 15</li>
+                    <li>Count Numbers with Prime Digit Sum - Digit DP with primality check</li>
+                    <li>Minimum Score Triangulation - MCM variant on polygons</li>
+                </ul>
+            </div>
+
+            <div class="pattern-card">
+                <h3>Hard Problems</h3>
+                <ul>
+                    <li>Appleman and Tree (Codeforces) - Tree DP with complex states</li>
+                    <li>Perfect Matching in Bipartite Graph - Bitmask DP, assignment variant</li>
+                    <li>Numbers with Digit Constraints - Advanced digit DP with multiple constraints</li>
+                    <li>Optimal BST - MCM-style DP with frequencies</li>
+                    <li>Zuma (Codeforces) - DP with palindromic subsequences</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Common Pitfalls & Tips</h2>
+            
+            <div class="approach-box">
+                <h4>⚠️ Common Pitfalls</h4>
+                <ul>
+                    <li>Not considering all possible transitions</li>
+                    <li>Wrong base cases leading to incorrect results</li>
+                    <li>Space inefficiency causing Memory Limit Exceeded</li>
+                    <li>Not recognizing when optimization techniques apply</li>
+                    <li>Off-by-one errors in digit DP bounds</li>
+                    <li>Forgetting to handle edge cases (empty input, single element)</li>
+                </ul>
+            </div>
+
+            <div class="approach-box">
+                <h4>✅ Tips for Mastery</h4>
+                <ul>
+                    <li>Practice identifying DP patterns quickly</li>
+                    <li>Always verify with small test cases</li>
+                    <li>Learn to recognize when optimizations apply</li>
+                    <li>Understand both recursive and iterative implementations</li>
+                    <li>Practice bit manipulation for bitmask DP</li>
+                    <li>Draw DP tables for small inputs to understand transitions</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Problem-Solving Strategy</h2>
+            <ol>
+                <li><strong>Identify the structure:</strong> Tree, sequence, subset, digits?</li>
+                <li><strong>Define the state:</strong> What information do we need to track?</li>
+                <li><strong>Find transitions:</strong> How do we build larger solutions from smaller ones?</li>
+                <li><strong>Check constraints:</strong> Can we optimize space/time?</li>
+                <li><strong>Verify base cases:</strong> What are the simplest subproblems?</li>
+                <li><strong>Implement carefully:</strong> Watch for off-by-one errors and state transitions</li>
+            </ol>
+        </div>
+
+        
+    </div>
+
+    <footer class="footer">
+        <p>Day 12: Advanced Dynamic Programming - Part 2 | DSA Study Plan 2026</p>
+    </footer>
+
+    <div id="navigation-buttons"></div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/main.js"></script>
+</body>
+</html>

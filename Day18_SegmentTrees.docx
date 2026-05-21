@@ -1,0 +1,137 @@
+Day 18: Segment Trees & Binary Indexed Trees
+
+## Overview
+Segment Trees and Binary Indexed Trees (Fenwick Trees) are advanced data structures used for efficient range queries and point updates on arrays. These structures are essential for solving problems involving range sums, range minima/maxima, and other range-based operations in logarithmic time.
+
+## Segment Trees
+
+### Introduction
+A segment tree is a binary tree data structure that allows range queries and point updates in O(log n) time. It is particularly useful for problems requiring efficient range queries and updates.
+
+### Structure
+- **Leaf Nodes**: Represent individual elements of the array.
+- **Internal Nodes**: Represent ranges of the array and store aggregated information (e.g., sum, minimum, maximum) for those ranges.
+
+### Operations
+1. **Construction**: Build the segment tree from an array.
+2. **Query**: Retrieve aggregated information for a range [l, r].
+3. **Update**: Update the value at a specific index and propagate the change up the tree.
+
+### Applications
+- Range Sum Queries (RSQ)
+- Range Minimum/Maximum Queries (RMQ)
+- Range Updates with Lazy Propagation
+
+## Binary Indexed Trees (Fenwick Trees)
+
+### Introduction
+A Binary Indexed Tree (BIT) is a data structure that provides efficient methods for calculating prefix sums and updating elements in an array. It is more space-efficient than segment trees but supports fewer operations.
+
+### Structure
+- **Tree Representation**: Uses an array-based representation where each node stores the sum of a specific range of elements.
+- **Indexing**: Uses bit manipulation to navigate the tree structure.
+
+### Operations
+1. **Update**: Add a value to an element and propagate the change to affected nodes.
+2. **Query**: Calculate the prefix sum up to a specific index.
+
+### Applications
+- Prefix Sum Queries
+- Point Updates
+- Inversion Counting
+
+## Implementation Details
+
+### Segment Tree Implementation
+```python
+class SegmentTree:
+    def __init__(self, data):
+        self.n = len(data)
+        self.size = 1
+        while self.size < self.n:
+            self.size <<= 1
+        self.tree = [0] * (2 * self.size)
+        # Build the tree
+        for i in range(self.n):
+            self.tree[self.size + i] = data[i]
+        for i in range(self.size - 1, 0, -1):
+            self.tree[i] = self.tree[2 * i] + self.tree[2 * i + 1]
+
+    def update(self, index, value):
+        index += self.size
+        self.tree[index] = value
+        index >>= 1
+        while index >= 1:
+            new_val = self.tree[2 * index] + self.tree[2 * index + 1]
+            if self.tree[index] == new_val:
+                break
+            self.tree[index] = new_val
+            index >>= 1
+
+    def query_range(self, l, r):
+        res = 0
+        l += self.size
+        r += self.size
+        while l <= r:
+            if l % 2 == 1:
+                res += self.tree[l]
+                l += 1
+            if r % 2 == 0:
+                res += self.tree[r]
+                r -= 1
+            l >>= 1
+            r >>= 1
+        return res
+```
+
+### Binary Indexed Tree Implementation
+```python
+class FenwickTree:
+    def __init__(self, size):
+        self.size = size
+        self.tree = [0] * (self.size + 1)
+
+    def update(self, index, delta):
+        while index <= self.size:
+            self.tree[index] += delta
+            index += index & -index
+
+    def query(self, index):
+        res = 0
+        while index > 0:
+            res += self.tree[index]
+            index -= index & -index
+        return res
+```
+
+## Problems and Solutions
+
+### Problem 1: Range Sum Query
+Given an array of integers, implement a data structure to answer range sum queries efficiently.
+
+**Solution**: Use a segment tree to support range sum queries and point updates in O(log n) time.
+
+### Problem 2: Inversion Count
+Given an array of integers, count the number of inversions (pairs (i, j) where i < j and arr[i] > arr[j]).
+
+**Solution**: Use a Binary Indexed Tree to count inversions efficiently.
+
+### Problem 3: Range Minimum Query
+Given an array of integers, implement a data structure to answer range minimum queries efficiently.
+
+**Solution**: Use a segment tree to support range minimum queries and point updates in O(log n) time.
+
+## Conclusion
+Segment Trees and Binary Indexed Trees are powerful data structures for handling range queries and updates efficiently. Understanding these structures is crucial for solving advanced algorithmic problems and optimizing performance in competitive programming and real-world applications.
+
+## Further Reading
+- "Competitive Programming 3" by Steven Halim
+- "Introduction to Algorithms" by Cormen, Leiserson, Rivest, and Stein
+- Online resources and tutorials on segment trees and Fenwick trees
+
+## Exercises
+1. Implement a segment tree for range sum queries.
+2. Implement a Binary Indexed Tree for prefix sum queries.
+3. Solve the inversion count problem using a Fenwick tree.
+4. Extend the segment tree to support range updates with lazy propagation.
+5. Compare the performance of segment trees and Fenwick trees for different operations.

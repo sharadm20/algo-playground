@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 8: Graphs & Graph Traversal - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar"></aside>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>📚 DSA Study Plan</h1>
+                <p>30 Days to Mastery</p>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <span class="day-badge">🏠</span>
+                            <span class="day-title">Home</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Week 1 - Foundations</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="day1.html" class="nav-link completed">
+                            <span class="day-badge">1</span>
+                            <span class="day-title">Arrays & Hashing</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day2.html" class="nav-link completed">
+                            <span class="day-badge">2</span>
+                            <span class="day-title">Advanced Arrays</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day3.html" class="nav-link completed">
+                            <span class="day-badge">3</span>
+                            <span class="day-title">Strings</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day4.html" class="nav-link completed">
+                            <span class="day-badge">4</span>
+                            <span class="day-title">Stack & Queue</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day5.html" class="nav-link completed">
+                            <span class="day-badge">5</span>
+                            <span class="day-title">Linked List</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day6.html" class="nav-link completed">
+                            <span class="day-badge">6</span>
+                            <span class="day-title">Trees</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day7.html" class="nav-link completed">
+                            <span class="day-badge">7</span>
+                            <span class="day-title">Review</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Week 2 - Advanced Structures</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="day8.html" class="nav-link current">
+                            <span class="day-badge">8</span>
+                            <span class="day-title">Graphs</span>
+                            <span class="status-icon">●</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Day 8: Graphs & Graph Traversal</h1>
+                <p class="subtitle">Graph Representation, BFS, DFS, Topological Sort, Union-Find, Shortest Path</p>
+                <div class="meta">
+                    <span class="status-badge current">Current</span>
+                    <span>📅 April 6, 2026</span>
+                    <span>⏱️ 6-8 hours</span>
+                </div>
+            </div>
+
+            <!-- Topic Overview -->
+            <div class="section">
+                <h2>Topic Overview</h2>
+                <p>
+                    Graphs are one of the most fundamental and powerful data structures in computer science.
+                    They model relationships between entities: social networks, web pages, road networks,
+                    task dependencies, and countless other real-world scenarios.
+                </p>
+                <p>
+                    Today you'll learn graph traversal techniques (BFS and DFS), topological sorting for
+                    dependency resolution, union-find for efficient connectivity queries, and shortest path
+                    algorithms (Dijkstra, Bellman-Ford, Floyd-Warshall).
+                </p>
+                <p>
+                    <strong>Goal:</strong> Understand when to use each graph algorithm and implement them confidently.
+                </p>
+            </div>
+
+            <!-- Pattern 1: Graph Representation -->
+            <div class="section">
+                <h2>Pattern 1: Graph Representation</h2>
+
+                <h3>1.1 Adjacency List</h3>
+                <p>
+                    The most common representation. Store neighbors for each node in a hash map or array.
+                    Space: O(V + E), Edge lookup: O(degree), Ideal for sparse graphs.
+                </p>
+                <div class="code-block">
+                    <pre><code># Adjacency List
+graph = {
+    0: [1, 2],
+    1: [0, 2, 3],
+    2: [0, 1, 3],
+    3: [1, 2]
+}
+
+# Build from edges
+def build_adjacency_list(edges, directed=False):
+    adj = defaultdict(list)
+    for u, v in edges:
+        adj[u].append(v)
+        if not directed:
+            adj[v].append(u)
+    return dict(adj)
+
+# Time: O(E) to build, O(1) to get neighbors</code></pre>
+                </div>
+
+                <h3>1.2 Adjacency Matrix</h3>
+                <p>
+                    2D array where matrix[i][j] = 1 if edge exists. Space: O(V²), Edge check: O(1).
+                    Best for dense graphs or when frequent edge existence checks are needed.
+                </p>
+                <div class="code-block">
+                    <pre><code># Adjacency Matrix (undirected)
+matrix = [
+    [0, 1, 1, 0],  # Node 0
+    [1, 0, 1, 1],  # Node 1
+    [1, 1, 0, 1],  # Node 2
+    [0, 1, 1, 0]   # Node 3
+]
+
+# Check edge in O(1)
+has_edge = matrix[u][v] == 1</code></pre>
+                </div>
+
+                <h3>1.3 Edge List</h3>
+                <p>
+                    Simple list of (u, v, weight) tuples. Space: O(E). Used in Kruskal's MST algorithm.
+                </p>
+            </div>
+
+            <!-- Pattern 2: BFS on Graphs -->
+            <div class="section">
+                <h2>Pattern 2: BFS on Graphs</h2>
+
+                <h3>2.1 BFS Traversal</h3>
+                <p>
+                    Breadth-First Search visits nodes level by level using a queue.
+                    Time: O(V + E), Space: O(V).
+                </p>
+                <div class="code-block">
+                    <pre><code>from collections import deque
+
+def bfs_traversal(graph, start):
+    visited = set([start])
+    queue = deque([start])
+    result = []
+
+    while queue:
+        node = queue.popleft()
+        result.append(node)
+
+        for neighbor in graph.get(node, []):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+
+    return result
+
+# Visits nodes in order of distance from start</code></pre>
+                </div>
+
+                <h3>2.2 BFS Shortest Path</h3>
+                <p>
+                    BFS naturally finds the shortest path (by number of edges) in unweighted graphs.
+                    Track the path by storing (node, path) tuples in the queue.
+                </p>
+                <div class="code-block">
+                    <pre><code>def bfs_shortest_path(graph, start, end):
+    if start == end:
+        return [start]
+
+    visited = set([start])
+    queue = deque([(start, [start])])
+
+    while queue:
+        node, path = queue.popleft()
+
+        for neighbor in graph.get(node, []):
+            if neighbor not in visited:
+                new_path = path + [neighbor]
+                if neighbor == end:
+                    return new_path
+                visited.add(neighbor)
+                queue.append((neighbor, new_path))
+
+    return []  # No path exists</code></pre>
+                </div>
+
+                <h3>2.3 Connected Components</h3>
+                <p>
+                    Run BFS from each unvisited vertex to find all connected components.
+                    Each BFS discovers one complete component.
+                </p>
+
+                <h3>2.4 Bipartite Check</h3>
+                <p>
+                    A graph is bipartite if it can be 2-colored (adjacent nodes have different colors).
+                    BFS with coloring: assign alternating colors level by level.
+                </p>
+                <div class="code-block">
+                    <pre><code>def is_bipartite(graph, vertices):
+    color = {}
+
+    for start in vertices:
+        if start in color:
+            continue
+
+        queue = deque([start])
+        color[start] = 0
+
+        while queue:
+            node = queue.popleft()
+            for neighbor in graph.get(node, []):
+                if neighbor not in color:
+                    color[neighbor] = 1 - color[node]
+                    queue.append(neighbor)
+                elif color[neighbor] == color[node]:
+                    return False
+
+    return True</code></pre>
+                </div>
+            </div>
+
+            <!-- Pattern 3: DFS on Graphs -->
+            <div class="section">
+                <h2>Pattern 3: DFS on Graphs</h2>
+
+                <h3>3.1 DFS Traversal (Recursive)</h3>
+                <p>
+                    Depth-First Search explores as far as possible before backtracking.
+                    Natural recursive implementation with visited set.
+                </p>
+                <div class="code-block">
+                    <pre><code>def dfs_recursive(graph, start, visited=None):
+    if visited is None:
+        visited = set()
+
+    visited.add(start)
+    result = [start]
+
+    for neighbor in graph.get(start, []):
+        if neighbor not in visited:
+            result.extend(dfs_recursive(graph, neighbor, visited))
+
+    return result
+
+# Time: O(V + E), Space: O(V) for recursion stack</code></pre>
+                </div>
+
+                <h3>3.2 DFS Cycle Detection (Directed)</h3>
+                <p>
+                    Use 3 colors: WHITE (unvisited), GRAY (in current path), BLACK (completed).
+                    A back edge (GRAY → GRAY) indicates a cycle.
+                </p>
+                <div class="code-block">
+                    <pre><code>def dfs_cycle_detection_directed(graph, vertices):
+    WHITE, GRAY, BLACK = 0, 1, 2
+    color = {v: WHITE for v in vertices}
+
+    def dfs(node):
+        color[node] = GRAY  # Mark as being processed
+
+        for neighbor in graph.get(node, []):
+            if color[neighbor] == GRAY:  # Back edge found
+                return True
+            if color[neighbor] == WHITE and dfs(neighbor):
+                return True
+
+        color[node] = BLACK  # Mark as completed
+        return False
+
+    return any(color[v] == WHITE and dfs(v) for v in vertices)</code></pre>
+                </div>
+
+                <h3>3.3 DFS Cycle Detection (Undirected)</h3>
+                <p>
+                    Track parent to avoid false positive from edge back to parent.
+                    If we visit an already-visited node that isn't the parent, there's a cycle.
+                </p>
+
+                <h3>3.4 Find All Paths</h3>
+                <p>
+                    Use backtracking to explore all possible paths from start to end.
+                </p>
+                <div class="code-block">
+                    <pre><code>def dfs_find_all_paths(graph, start, end):
+    all_paths = []
+
+    def backtrack(node, path, visited):
+        if node == end:
+            all_paths.append(path[:])
+            return
+
+        for neighbor in graph.get(node, []):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                path.append(neighbor)
+                backtrack(neighbor, path, visited)
+                path.pop()
+                visited.remove(neighbor)  # Backtrack
+
+    backtrack(start, [start], {start})
+    return all_paths</code></pre>
+                </div>
+            </div>
+
+            <!-- Pattern 4: Topological Sort -->
+            <div class="section">
+                <h2>Pattern 4: Topological Sort</h2>
+
+                <h3>4.1 Kahn's Algorithm (BFS-based)</h3>
+                <p>
+                    Process nodes with in-degree 0, then reduce in-degrees of their neighbors.
+                    If not all nodes are processed, there's a cycle.
+                </p>
+                <p>
+                    <strong>Applications:</strong> Course scheduling, task dependencies, build systems.
+                </p>
+                <div class="code-block">
+                    <pre><code>from collections import deque
+
+def topological_sort_kahn(graph, vertices):
+    # Calculate in-degrees
+    in_degree = defaultdict(int)
+    for v in vertices:
+        if v not in in_degree:
+            in_degree[v] = 0
+        for neighbor in graph.get(v, []):
+            in_degree[neighbor] += 1
+
+    # Queue of nodes with in-degree 0
+    queue = deque([v for v in vertices if in_degree[v] == 0])
+    result = []
+
+    while queue:
+        node = queue.popleft()
+        result.append(node)
+
+        for neighbor in graph.get(node, []):
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+
+    if len(result) != len(vertices):
+        return []  # Cycle detected
+
+    return result</code></pre>
+                </div>
+
+                <h3>4.2 DFS-based Topological Sort</h3>
+                <p>
+                    Add nodes to stack after processing all descendants (post-order), then reverse.
+                    Nodes with no outgoing edges (sinks) appear last in post-order, first when reversed.
+                </p>
+                <div class="code-block">
+                    <pre><code>def topological_sort_dfs(graph, vertices):
+    visited = set()
+    stack = []
+
+    def dfs(node):
+        visited.add(node)
+        for neighbor in graph.get(node, []):
+            if neighbor not in visited:
+                dfs(neighbor)
+        stack.append(node)  # Post-order
+
+    for vertex in vertices:
+        if vertex not in visited:
+            dfs(vertex)
+
+    return stack[::-1]  # Reverse for topological order</code></pre>
+                </div>
+
+                <h3>4.3 Course Schedule (LeetCode #207)</h3>
+                <p>
+                    Classic application of topological sort. Can all courses be completed?
+                    Check for cycles in the prerequisite dependency graph.
+                </p>
+                <div class="code-block">
+                    <pre><code>def can_finish_courses(num_courses, prerequisites):
+    graph = defaultdict(list)
+    in_degree = defaultdict(int)
+
+    for course, prereq in prerequisites:
+        graph[prereq].append(course)
+        in_degree[course] += 1
+
+    queue = deque([c for c in range(num_courses) if in_degree[c] == 0])
+    completed = 0
+
+    while queue:
+        course = queue.popleft()
+        completed += 1
+
+        for next_course in graph[course]:
+            in_degree[next_course] -= 1
+            if in_degree[next_course] == 0:
+                queue.append(next_course)
+
+    return completed == num_courses</code></pre>
+                </div>
+            </div>
+
+            <!-- Pattern 5: Union-Find -->
+            <div class="section">
+                <h2>Pattern 5: Union-Find (Disjoint Set Union)</h2>
+
+                <h3>5.1 Core Operations</h3>
+                <p>
+                    Union-Find maintains disjoint sets with two operations:
+                    - <strong>find(x):</strong> Find root of x (with path compression: O(α(n)) ≈ O(1))
+                    - <strong>union(x, y):</strong> Merge sets containing x and y (by rank: O(α(n)) ≈ O(1))
+                </p>
+                <p>
+                    <strong>Path Compression:</strong> Make all nodes point directly to root during find.
+                    <strong>Union by Rank:</strong> Attach shorter tree to taller tree to keep tree flat.
+                </p>
+                <div class="code-block">
+                    <pre><code>class UnionFind:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [0] * n
+        self.num_components = n
+
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])  # Path compression
+        return self.parent[x]
+
+    def union(self, x, y):
+        root_x, root_y = self.find(x), self.find(y)
+        if root_x == root_y:
+            return False  # Already in same set
+
+        # Union by rank
+        if self.rank[root_x] < self.rank[root_y]:
+            self.parent[root_x] = root_y
+        elif self.rank[root_x] > self.rank[root_y]:
+            self.parent[root_y] = root_x
+        else:
+            self.parent[root_y] = root_x
+            self.rank[root_x] += 1
+
+        self.num_components -= 1
+        return True
+
+    def connected(self, x, y):
+        return self.find(x) == self.find(y)</code></pre>
+                </div>
+
+                <h3>5.2 Applications</h3>
+                <ul>
+                    <li><strong>Connected Components:</strong> Union all edges, count remaining components</li>
+                    <li><strong>Cycle Detection:</strong> If edge connects nodes already in same set, cycle exists</li>
+                    <li><strong>Kruskal's MST:</strong> Greedily add smallest edges that don't create cycle</li>
+                </ul>
+
+                <h3>5.3 Kruskal's Minimum Spanning Tree</h3>
+                <div class="code-block">
+                    <pre><code>def kruskal_mst(n, edges):
+    sorted_edges = sorted(edges, key=lambda x: x[2])  # Sort by weight
+    uf = UnionFind(n)
+    mst = []
+
+    for u, v, weight in sorted_edges:
+        if uf.union(u, v):  # No cycle created
+            mst.append((u, v, weight))
+            if len(mst) == n - 1:  # MST complete
+                break
+
+    return mst
+
+# Time: O(E log E) for sorting, Space: O(V)</code></pre>
+                </div>
+            </div>
+
+            <!-- Pattern 6: Shortest Path Algorithms -->
+            <div class="section">
+                <h2>Pattern 6: Shortest Path Algorithms</h2>
+
+                <h3>6.1 Dijkstra's Algorithm</h3>
+                <p>
+                    Greedy algorithm using a min-heap. Always picks the closest unvisited node.
+                    <strong>Requires:</strong> Non-negative edge weights.
+                    <strong>Time:</strong> O((V + E) log V) with heap.
+                </p>
+                <div class="code-block">
+                    <pre><code>import heapq
+
+def dijkstra(graph, start):
+    dist = defaultdict(lambda: float('inf'))
+    dist[start] = 0
+    pq = [(0, start)]  # (distance, node)
+
+    while pq:
+        d, node = heapq.heappop(pq)
+
+        if d > dist[node]:
+            continue
+
+        for neighbor, weight in graph.get(node, []):
+            new_dist = dist[node] + weight
+            if new_dist < dist[neighbor]:
+                dist[neighbor] = new_dist
+                heapq.heappush(pq, (new_dist, neighbor))
+
+    return dict(dist)</code></pre>
+                </div>
+
+                <h3>6.2 Bellman-Ford Algorithm</h3>
+                <p>
+                    Relax all edges V-1 times. Can handle negative weights and detect negative cycles.
+                    <strong>Time:</strong> O(V · E). More versatile than Dijkstra but slower.
+                </p>
+                <div class="code-block">
+                    <pre><code>def bellman_ford(n, edges, start):
+    dist = defaultdict(lambda: float('inf'))
+    dist[start] = 0
+
+    # Relax all edges V-1 times
+    for _ in range(n - 1):
+        for u, v, weight in edges:
+            if dist[u] != float('inf') and dist[u] + weight < dist[v]:
+                dist[v] = dist[u] + weight
+
+    # Check for negative cycles
+    for u, v, weight in edges:
+        if dist[u] != float('inf') and dist[u] + weight < dist[v]:
+            return {}  # Negative cycle detected
+
+    return dict(dist)</code></pre>
+                </div>
+
+                <h3>6.3 Floyd-Warshall Algorithm</h3>
+                <p>
+                    Finds shortest paths between ALL pairs of vertices. Dynamic programming approach.
+                    <strong>Time:</strong> O(V³), <strong>Space:</strong> O(V²). Detects negative cycles.
+                </p>
+                <div class="code-block">
+                    <pre><code>def floyd_warshall(n, edges):
+    INF = float('inf')
+    dist = [[INF] * n for _ in range(n)]
+
+    for i in range(n):
+        dist[i][i] = 0
+
+    for u, v, weight in edges:
+        dist[u][v] = weight
+
+    # Try each vertex as intermediate
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                if dist[i][k] != INF and dist[k][j] != INF:
+                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+
+    # Check for negative cycles
+    for i in range(n):
+        if dist[i][i] < 0:
+            return []  # Negative cycle detected
+
+    return dist</code></pre>
+                </div>
+
+                <h3>6.4 Algorithm Comparison</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Time</th>
+                            <th>Negative Weights</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>BFS</td>
+                            <td>O(V + E)</td>
+                            <td>N/A (unweighted)</td>
+                            <td>Shortest path by edge count</td>
+                        </tr>
+                        <tr>
+                            <td>Dijkstra</td>
+                            <td>O((V+E) log V)</td>
+                            <td>❌ No</td>
+                            <td>Single-source, non-negative</td>
+                        </tr>
+                        <tr>
+                            <td>Bellman-Ford</td>
+                            <td>O(V · E)</td>
+                            <td>✅ Yes</td>
+                            <td>Single-source, negative weights</td>
+                        </tr>
+                        <tr>
+                            <td>Floyd-Warshall</td>
+                            <td>O(V³)</td>
+                            <td>✅ Yes</td>
+                            <td>All-pairs shortest paths</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Practice Problems -->
+            <div class="section">
+                <h2>Practice Problems</h2>
+
+                <h3>Easy Problems</h3>
+                <ul>
+                    <li>Number of Provinces (LeetCode 547) - Connected components</li>
+                    <li>Find the Town Judge (LeetCode 997) - In-degree/out-degree</li>
+                    <li>Find the Center of a Star Graph (LeetCode 1791)</li>
+                </ul>
+
+                <h3>Medium Problems</h3>
+                <ul>
+                    <li>Number of Islands (LeetCode 200) - BFS/DFS</li>
+                    <li>Course Schedule (LeetCode 207) - Topological sort</li>
+                    <li>Course Schedule II (LeetCode 210) - Topological sort with ordering</li>
+                    <li>Clone Graph (LeetCode 133) - BFS with deep copy</li>
+                    <li>Surrounded Regions (LeetCode 130) - BFS from borders</li>
+                    <li>Number of Connected Components (LeetCode 323) - Union-Find</li>
+                    <li>Redundant Connection (LeetCode 684) - Union-Find cycle detection</li>
+                    <li>Network Delay Time (LeetCode 743) - Dijkstra</li>
+                    <li>Cheapest Flights Within K Stops (LeetCode 787) - Bellman-Ford</li>
+                </ul>
+
+                <h3>Hard Problems (Bonus)</h3>
+                <ul>
+                    <li>Word Ladder II (LeetCode 126) - BFS with path finding</li>
+                    <li>Min Cost to Connect All Points (LeetCode 1584) - Kruskal's MST</li>
+                    <li>Shortest Distance from All Buildings (LeetCode 317) - Multi-source BFS</li>
+                </ul>
+            </div>
+
+            <!-- Key Takeaways -->
+            <div class="section">
+                <h2>Key Takeaways</h2>
+                <ul>
+                    <li>Graphs model relationships: nodes (vertices) connected by edges</li>
+                    <li>Adjacency list is the most common and versatile representation</li>
+                    <li>BFS explores level by level; ideal for shortest path in unweighted graphs</li>
+                    <li>DFS goes deep before backtracking; natural for cycle detection and path finding</li>
+                    <li>Topological sort orders tasks with dependencies; detects cycles</li>
+                    <li>Union-Find provides near-constant-time connectivity checks (α(n) ≈ O(1))</li>
+                    <li>Path compression + union by rank makes Union-Find nearly optimal</li>
+                    <li>Dijkstra is greedy with min-heap; requires non-negative weights</li>
+                    <li>Bellman-Ford handles negative weights and detects negative cycles</li>
+                    <li>Floyd-Warshall solves all-pairs shortest paths in O(V³)</li>
+                    <li>Always track visited nodes to avoid infinite loops in graphs with cycles</li>
+                </ul>
+            </div>
+
+            <!-- Study Strategy -->
+            <div class="section">
+                <h2>Study Strategy</h2>
+                <p><strong>Morning Session (3-4 hours):</strong></p>
+                <ol>
+                    <li>Understand graph representations and when to use each (30 minutes)</li>
+                    <li>Implement BFS and DFS from scratch (45 minutes)</li>
+                    <li>Solve 2-3 Easy graph problems (45 minutes)</li>
+                    <li>Learn topological sort and solve Course Schedule problems (1 hour)</li>
+                </ol>
+
+                <p><strong>Afternoon Session (3-4 hours):</strong></p>
+                <ol start="5">
+                    <li>Implement Union-Find with path compression and union by rank (30 minutes)</li>
+                    <li>Implement Dijkstra's algorithm and solve Network Delay Time (1 hour)</li>
+                    <li>Understand Bellman-Ford and Floyd-Warshall conceptually (45 minutes)</li>
+                    <li>Solve 2-3 Medium graph problems (1.5 hours)</li>
+                </ol>
+
+                <p><strong>Evening Review (1 hour):</strong></p>
+                <ol start="9">
+                    <li>Summarize when to use BFS vs DFS vs topological sort vs Union-Find</li>
+                    <li>Review shortest path algorithm trade-offs</li>
+                    <li>Plan focus for Day 9 (Advanced Graph Algorithms)</li>
+                </ol>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="section navigation-buttons">
+                <a href="day7.html" class="nav-button prev">
+                    ← Previous: Day 7 (Review)
+                </a>
+                <a href="index.html" class="nav-button home">
+                    🏠 Home
+                </a>
+                <a href="day9.html" class="nav-button next disabled">
+                    Next: Day 9 (Coming Soon) →
+                </a>
+            </div>
+        </main>
+    </div>
+
+    
+<div id="navigation-buttons"></div>
+    <script type="module" src="/js/main.js"></script>
+    </body>
+</html>

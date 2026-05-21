@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 9: Advanced Graph Algorithms - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar"></aside>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>📚 DSA Study Plan</h1>
+                <p>30 Days to Mastery</p>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <span class="day-badge">🏠</span>
+                            <span class="day-title">Home</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Week 1 - Foundations</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="day1.html" class="nav-link completed">
+                            <span class="day-badge">1</span>
+                            <span class="day-title">Arrays & Hashing</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day2.html" class="nav-link completed">
+                            <span class="day-badge">2</span>
+                            <span class="day-title">Advanced Arrays</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day3.html" class="nav-link completed">
+                            <span class="day-badge">3</span>
+                            <span class="day-title">Strings</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day4.html" class="nav-link completed">
+                            <span class="day-badge">4</span>
+                            <span class="day-title">Stack & Queue</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day5.html" class="nav-link completed">
+                            <span class="day-badge">5</span>
+                            <span class="day-title">Linked List</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day6.html" class="nav-link completed">
+                            <span class="day-badge">6</span>
+                            <span class="day-title">Trees</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day7.html" class="nav-link completed">
+                            <span class="day-badge">7</span>
+                            <span class="day-title">Review</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Week 2 - Advanced Structures</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="day8.html" class="nav-link completed">
+                            <span class="day-badge">8</span>
+                            <span class="day-title">Graphs</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day9.html" class="nav-link current">
+                            <span class="day-badge">9</span>
+                            <span class="day-title">Advanced Graphs</span>
+                            <span class="status-icon">●</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="day-header">
+                <h1>Day 9: Advanced Graph Algorithms</h1>
+                <p class="day-subtitle">Strongly Connected Components, Articulation Points, Bridges & Network Flow</p>
+                <div class="day-meta">
+                    <span class="difficulty hard">Hard</span>
+                    <span class="time-estimate">~3-4 hours</span>
+                </div>
+            </header>
+
+            <!-- Progress Tracker -->
+            <section class="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 30%"></div>
+                </div>
+                <p class="progress-text">Day 9 of 30 (30% complete)</p>
+            </section>
+
+            <!-- Overview Section -->
+            <section class="content-section">
+                <h2>📖 Overview</h2>
+                <p>Today we dive into advanced graph algorithms that are essential for solving complex network problems. These algorithms are used in:</p>
+                <ul>
+                    <li><strong>Social network analysis</strong> - Finding communities and influential users</li>
+                    <li><strong>Network reliability</strong> - Identifying critical connections in infrastructure</li>
+                    <li><strong>Traffic optimization</strong> - Maximum flow in transportation networks</li>
+                    <li><strong>Compiler design</strong> - Dependency analysis and optimization</li>
+                    <li><strong>Image processing</strong> - Connected components and segmentation</li>
+                </ul>
+            </section>
+
+            <!-- Topic 1: Strongly Connected Components -->
+            <section class="content-section">
+                <h2>🔗 1. Strongly Connected Components (SCC)</h2>
+                <h3>What is an SCC?</h3>
+                <p>A <strong>strongly connected component</strong> is a maximal subset of vertices in a directed graph where every vertex is reachable from every other vertex in the subset.</p>
+                
+                <div class="concept-box">
+                    <h4>Key Properties</h4>
+                    <ul>
+                        <li>SCCs partition the vertices of a directed graph</li>
+                        <li>Within an SCC, all nodes can reach each other</li>
+                        <li>Between SCCs, reachability may be one-way or non-existent</li>
+                        <li>Condensation graph (contracting SCCs) is always a DAG</li>
+                    </ul>
+                </div>
+
+                <h3>Algorithm 1: Tarjan's Algorithm</h3>
+                <p>Tarjan's algorithm finds SCCs in a single DFS pass using discovery times and low-link values.</p>
+                
+                <div class="algorithm-box">
+                    <h4>How Tarjan's Works</h4>
+                    <ol>
+                        <li>Maintain <code>discovery[node]</code> - when node was first visited</li>
+                        <li>Maintain <code>low_link[node]</code> - lowest discovery time reachable</li>
+                        <li>Use a stack to track nodes in current DFS path</li>
+                        <li>When <code>low_link[node] == discovery[node]</code>, we found an SCC root</li>
+                    </ol>
+                    <p><strong>Time:</strong> O(V + E) | <strong>Space:</strong> O(V)</p>
+                </div>
+
+                <h4>Python Implementation - Tarjan's</h4>
+                <div class="code-block">
+                    <pre><code>class TarjanSCC:
+    def __init__(self):
+        self.timer = 0
+        self.discovery = {}
+        self.low_link = {}
+        self.on_stack = set()
+        self.stack = []
+        self.sccs = []
+    
+    def find_sccs(self, graph):
+        for node in graph:
+            if node not in self.discovery:
+                self._dfs(graph, node)
+        return self.sccs
+    
+    def _dfs(self, graph, node):
+        self.discovery[node] = self.timer
+        self.low_link[node] = self.timer
+        self.timer += 1
+        self.stack.append(node)
+        self.on_stack.add(node)
+        
+        for neighbor in graph.get(node, []):
+            if neighbor not in self.discovery:
+                self._dfs(graph, neighbor)
+                self.low_link[node] = min(self.low_link[node], 
+                                         self.low_link[neighbor])
+            elif neighbor in self.on_stack:
+                self.low_link[node] = min(self.low_link[node], 
+                                         self.discovery[neighbor])
+        
+        if self.low_link[node] == self.discovery[node]:
+            scc = []
+            while True:
+                w = self.stack.pop()
+                self.on_stack.remove(w)
+                scc.append(w)
+                if w == node:
+                    break
+            self.sccs.append(scc)</code></pre>
+                </div>
+
+                <h3>Algorithm 2: Kosaraju's Algorithm</h3>
+                <p>Kosaraju's uses two DFS passes: one on the original graph, one on the reversed graph.</p>
+                
+                <div class="algorithm-box">
+                    <h4>How Kosaraju's Works</h4>
+                    <ol>
+                        <li>DFS on original graph, push nodes to stack by finish time</li>
+                        <li>Reverse all edges in the graph</li>
+                        <li>Pop from stack and DFS on reversed graph to collect SCCs</li>
+                    </ol>
+                    <p><strong>Time:</strong> O(V + E) | <strong>Space:</strong> O(V)</p>
+                </div>
+
+                <div class="tip-box">
+                    <h4>💡 When to Use Which?</h4>
+                    <ul>
+                        <li><strong>Tarjan's:</strong> Single pass, slightly faster in practice</li>
+                        <li><strong>Kosaraju's:</strong> Easier to understand and implement, more intuitive</li>
+                        <li>Both are optimal - choose based on preference</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Topic 2: Articulation Points & Bridges -->
+            <section class="content-section">
+                <h2>🌉 2. Articulation Points & Bridges</h2>
+                <h3>Definitions</h3>
+                <ul>
+                    <li><strong>Articulation Point (Cut Vertex):</strong> A vertex whose removal disconnects the graph</li>
+                    <li><strong>Bridge (Cut Edge):</strong> An edge whose removal disconnects the graph</li>
+                </ul>
+
+                <div class="concept-box">
+                    <h4>Real-World Applications</h4>
+                    <ul>
+                        <li><strong>Network Design:</strong> Identify single points of failure</li>
+                        <li><strong>Infrastructure:</strong> Find critical bridges in transportation</li>
+                        <li><strong>Social Networks:</strong> Detect influential connectors</li>
+                        <li><strong>Power Grids:</strong> Ensure redundancy in electrical networks</li>
+                    </ul>
+                </div>
+
+                <h3>Algorithm Overview</h3>
+                <p>Uses modified DFS similar to Tarjan's SCC algorithm:</p>
+                
+                <div class="algorithm-box">
+                    <h4>Conditions</h4>
+                    <p><strong>Articulation Point:</strong></p>
+                    <ul>
+                        <li>Root with >1 children in DFS tree</li>
+                        <li>Non-root node u where low_link[v] ≥ discovery[u] for child v</li>
+                    </ul>
+                    <p><strong>Bridge:</strong></p>
+                    <ul>
+                        <li>Edge (u, v) where low_link[v] > discovery[u]</li>
+                    </ul>
+                    <p><strong>Time:</strong> O(V + E) | <strong>Space:</strong> O(V)</p>
+                </div>
+
+                <h4>Python Implementation</h4>
+                <div class="code-block">
+                    <pre><code>class ArticulationPointsAndBridges:
+    def find(self, graph, num_nodes):
+        self.timer = 0
+        self.discovery = {}
+        self.low_link = {}
+        self.articulation_points = set()
+        self.bridges = []
+        
+        for node in range(num_nodes):
+            if node not in self.discovery:
+                self._dfs(graph, node, parent=-1)
+        
+        return self.articulation_points, self.bridges
+    
+    def _dfs(self, graph, node, parent):
+        self.discovery[node] = self.timer
+        self.low_link[node] = self.timer
+        self.timer += 1
+        children = 0
+        
+        for neighbor in graph.get(node, []):
+            if neighbor == parent:
+                continue
+            
+            if neighbor in self.discovery:
+                # Back edge
+                self.low_link[node] = min(self.low_link[node], 
+                                         self.discovery[neighbor])
+            else:
+                # Tree edge
+                children += 1
+                self._dfs(graph, neighbor, node)
+                self.low_link[node] = min(self.low_link[node], 
+                                         self.low_link[neighbor])
+                
+                # Articulation point
+                if parent != -1 and self.low_link[neighbor] >= self.discovery[node]:
+                    self.articulation_points.add(node)
+                
+                # Bridge
+                if self.low_link[neighbor] > self.discovery[node]:
+                    self.bridges.append((node, neighbor))
+        
+        # Root case
+        if parent == -1 and children > 1:
+            self.articulation_points.add(node)</code></pre>
+                </div>
+            </section>
+
+            <!-- Topic 3: Network Flow -->
+            <section class="content-section">
+                <h2>💧 3. Network Flow (Ford-Fulkerson & Edmonds-Karp)</h2>
+                <h3>The Max Flow Problem</h3>
+                <p>Given a network with capacities on edges, find the maximum flow from a source to a sink.</p>
+
+                <div class="concept-box">
+                    <h4>Flow Network Properties</h4>
+                    <ul>
+                        <li><strong>Capacity Constraint:</strong> Flow ≤ Capacity for each edge</li>
+                        <li><strong>Flow Conservation:</strong> Flow in = Flow out (except source/sink)</li>
+                        <li><strong>Skew Symmetry:</strong> f(u,v) = -f(v,u)</li>
+                    </ul>
+                </div>
+
+                <h3>Algorithm 1: Ford-Fulkerson</h3>
+                <p>Uses DFS to find augmenting paths in the residual graph.</p>
+                
+                <div class="algorithm-box">
+                    <h4>How It Works</h4>
+                    <ol>
+                        <li>Build residual graph (capacity - flow)</li>
+                        <li>Find path from source to sink with DFS</li>
+                        <li>Push flow along the path (minimum bottleneck)</li>
+                        <li>Update residual capacities</li>
+                        <li>Repeat until no augmenting path exists</li>
+                    </ol>
+                    <p><strong>Time:</strong> O(f* · E) where f* is max flow value</p>
+                </div>
+
+                <h3>Algorithm 2: Edmonds-Karp</h3>
+                <p>Uses BFS instead of DFS to find shortest augmenting paths.</p>
+                
+                <div class="algorithm-box">
+                    <h4>Why BFS?</h4>
+                    <ul>
+                        <li>Guarantees finding shortest augmenting path</li>
+                        <li>Ensures algorithm terminates (unlike Ford-Fulkerson with DFS)</li>
+                        <li>Better worst-case complexity</li>
+                    </ul>
+                    <p><strong>Time:</strong> O(V · E²)</p>
+                </div>
+
+                <h4>Python Implementation - Edmonds-Karp</h4>
+                <div class="code-block">
+                    <pre><code>class EdmondsKarp:
+    def max_flow(self, capacity, source, sink, nodes):
+        # Build residual graph
+        residual = defaultdict(lambda: defaultdict(int))
+        for (u, v), cap in capacity.items():
+            residual[u][v] = cap
+        
+        total_flow = 0
+        
+        while True:
+            parent = {}
+            flow = self._bfs_path(residual, source, sink, parent)
+            
+            if flow == 0:
+                break
+            
+            # Update residual capacities
+            total_flow += flow
+            node = sink
+            while node != source:
+                prev = parent[node]
+                residual[prev][node] -= flow
+                residual[node][prev] += flow
+                node = prev
+        
+        return total_flow
+    
+    def _bfs_path(self, residual, source, sink, parent):
+        visited = {source}
+        queue = deque([(source, float('inf'))])
+        
+        while queue:
+            node, flow = queue.popleft()
+            
+            if node == sink:
+                return flow
+            
+            for neighbor in residual[node]:
+                if neighbor not in visited and residual[node][neighbor] > 0:
+                    visited.add(neighbor)
+                    parent[neighbor] = node
+                    new_flow = min(flow, residual[node][neighbor])
+                    queue.append((neighbor, new_flow))
+                    
+                    if neighbor == sink:
+                        return new_flow
+        
+        return 0</code></pre>
+                </div>
+            </section>
+
+            <!-- Topic 4: Bipartite Matching -->
+            <section class="content-section">
+                <h2>👥 4. Bipartite Matching</h2>
+                <h3>Problem Statement</h3>
+                <p>Given a bipartite graph (vertices split into two sets, edges only between sets), find maximum matching.</p>
+
+                <div class="concept-box">
+                    <h4>Applications</h4>
+                    <ul>
+                        <li><strong>Job Assignment:</strong> Match workers to tasks</li>
+                        <li><strong>College Admissions:</strong> Match students to schools</li>
+                        <li><strong>Roommate Matching:</strong> Pair compatible students</li>
+                    </ul>
+                </div>
+
+                <h3>Algorithm</h3>
+                <p>Uses augmenting paths similar to max flow:</p>
+                <ol>
+                    <li>For each left vertex, try to find augmenting path via DFS</li>
+                    <li>If path found, flip matching along the path</li>
+                    <li>Count total matches</li>
+                </ol>
+                <p><strong>Time:</strong> O(V · E)</p>
+
+                <div class="code-block">
+                    <pre><code>class BipartiteMatching:
+    def max_matching(self, graph, left_size, right_size):
+        match_right = [-1] * right_size
+        result = 0
+        
+        for u in range(left_size):
+            seen = set()
+            if self._dfs(graph, u, seen, match_right):
+                result += 1
+        
+        return result
+    
+    def _dfs(self, graph, u, seen, match_right):
+        for v in graph.get(u, []):
+            if v not in seen:
+                seen.add(v)
+                
+                if match_right[v] < 0 or \
+                   self._dfs(graph, match_right[v], seen, match_right):
+                    match_right[v] = u
+                    return True
+        
+        return False</code></pre>
+                </div>
+            </section>
+
+            <!-- Topic 5: Critical Connections -->
+            <section class="content-section">
+                <h2>⚡ 5. Critical Connections in Networks</h2>
+                <h3>LeetCode 1192 - Critical Connections in a Network</h3>
+                <p>Find all bridges in an undirected graph - edges whose removal disconnects the network.</p>
+
+                <div class="tip-box">
+                    <h4>💡 Solution Strategy</h4>
+                    <p>This is exactly the bridge-finding algorithm we covered in Section 2! The problem reduces to:</p>
+                    <ol>
+                        <li>Build adjacency list from connections</li>
+                        <li>Run DFS tracking discovery and low-link values</li>
+                        <li>Edge (u, v) is critical if low_link[v] > discovery[u]</li>
+                    </ol>
+                </div>
+
+                <h4>Python Implementation</h4>
+                <div class="code-block">
+                    <pre><code>class CriticalConnections:
+    def find_critical_connections(self, n, connections):
+        graph = defaultdict(list)
+        for u, v in connections:
+            graph[u].append(v)
+            graph[v].append(u)
+        
+        discovery = [-1] * n
+        low_link = [-1] * n
+        timer = 0
+        critical = []
+        
+        def dfs(node, parent):
+            nonlocal timer
+            discovery[node] = low_link[node] = timer
+            timer += 1
+            
+            for neighbor in graph[node]:
+                if neighbor == parent:
+                    continue
+                
+                if discovery[neighbor] == -1:
+                    dfs(neighbor, node)
+                    low_link[node] = min(low_link[node], low_link[neighbor])
+                    
+                    if low_link[neighbor] > discovery[node]:
+                        critical.append([node, neighbor])
+                else:
+                    low_link[node] = min(low_link[node], discovery[neighbor])
+        
+        for i in range(n):
+            if discovery[i] == -1:
+                dfs(i, -1)
+        
+        return critical</code></pre>
+                </div>
+            </section>
+
+            <!-- Practice Problems -->
+            <section class="content-section">
+                <h2>🏋️ Practice Problems</h2>
+                <div class="problems-grid">
+                    <div class="problem-card easy">
+                        <h4>Easy</h4>
+                        <ul>
+                            <li>Count Connected Components (DFS)</li>
+                            <li>Find if Path Exists in Graph</li>
+                            <li>Number of Provinces</li>
+                        </ul>
+                    </div>
+                    <div class="problem-card medium">
+                        <h4>Medium</h4>
+                        <ul>
+                            <li>Critical Connections in Network (LeetCode 1192)</li>
+                            <li>Course Schedule II (Topological Sort)</li>
+                            <li>Find the City With Smallest Neighbors</li>
+                            <li>Network Delay Time (Dijkstra)</li>
+                        </ul>
+                    </div>
+                    <div class="problem-card hard">
+                        <h4>Hard</h4>
+                        <ul>
+                            <li>Max Flow (Edmonds-Karp implementation)</li>
+                            <li>Minimum Cost to Connect All Points</li>
+                            <li>Swim in Rising Water (Binary Search + BFS)</li>
+                            <li>Cheapest Flights Within K Stops</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Run Instructions -->
+            <section class="content-section">
+                <h2>🚀 Run the Code</h2>
+                <div class="run-commands">
+                    <div class="command-block">
+                        <h4>Python</h4>
+                        <code>cd python_projects && python day9_advanced_graphs.py</code>
+                    </div>
+                    <div class="command-block">
+                        <h4>Rust (Cargo Project)</h4>
+                        <code>cd rust_projects/day9_advanced_graphs && cargo test</code>
+                        <p>or</p>
+                        <code>cd rust_projects/day9_advanced_graphs && cargo run</code>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Key Takeaways -->
+            <section class="content-section">
+                <h2>🎯 Key Takeaways</h2>
+                <div class="takeaways-grid">
+                    <div class="takeaway">
+                        <h4>SCC Algorithms</h4>
+                        <p>Tarjan's and Kosaraju's both run in O(V+E) and partition vertices into strongly connected components.</p>
+                    </div>
+                    <div class="takeaway">
+                        <h4>Articulation Points</h4>
+                        <p>Identify single points of failure in networks using DFS with low-link values.</p>
+                    </div>
+                    <div class="takeaway">
+                        <h4>Network Flow</h4>
+                        <p>Edmonds-Karp (BFS-based) guarantees termination and finds maximum flow in O(V·E²).</p>
+                    </div>
+                    <div class="takeaway">
+                        <h4>Bipartite Matching</h4>
+                        <p>Solved using augmenting paths - essential for assignment problems.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation Footer -->
+            <footer class="day-footer">
+                <a href="day8.html" class="nav-button prev">← Day 8: Graphs</a>
+                <a href="index.html" class="nav-button home">🏠 Home</a>
+                <a href="#" class="nav-button next disabled">Day 10: Review →</a>
+            </footer>
+        </main>
+    </div>
+
+    
+<div id="navigation-buttons"></div>
+    <script type="module" src="/js/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 5: Linked List - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar"></aside>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>📚 DSA Study Plan</h1>
+                <p>30 Days to Mastery</p>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <span class="day-badge">🏠</span>
+                            <span class="day-title">Home</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Week 1 - Foundations</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="day1.html" class="nav-link">
+                            <span class="day-badge">1</span>
+                            <span class="day-title">Arrays & Hashing</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day2.html" class="nav-link">
+                            <span class="day-badge">2</span>
+                            <span class="day-title">Advanced Arrays</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day3.html" class="nav-link">
+                            <span class="day-badge">3</span>
+                            <span class="day-title">Strings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day4.html" class="nav-link completed">
+                            <span class="day-badge">4</span>
+                            <span class="day-title">Stack & Queue</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day5.html" class="nav-link completed">
+                            <span class="day-badge">5</span>
+                            <span class="day-title">Linked List</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day6.html" class="nav-link current">
+                            <span class="day-badge">6</span>
+                            <span class="day-title">Trees</span>
+                            <span class="status-icon">●</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day7.html" class="nav-link">
+                            <span class="day-badge">7</span>
+                            <span class="day-title">Review</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Day 5: Linked List</h1>
+                <p class="subtitle">Singly/Doubly Linked Lists, Fast-Slow Pointers, Reversal, Cycle Detection</p>
+                <div class="meta">
+                    <span class="status-badge current">Current</span>
+                    <span>📅 April 3, 2026</span>
+                    <span>⏱️ 4-5 hours</span>
+                </div>
+            </div>
+
+            <!-- Topic Overview -->
+            <div class="section">
+                <h2>Topic Overview</h2>
+                <p>
+                    Day 5 introduces linked lists, a fundamental linear data structure where elements are connected
+                    through pointers/references. Unlike arrays, linked lists provide efficient insertions and deletions
+                    but sacrifice random access. Mastering linked list manipulation is crucial for technical interviews
+                    and understanding more complex data structures like trees and graphs.
+                </p>
+                <p>
+                    <strong>Why Linked Lists Matter:</strong>
+                </p>
+                <ul>
+                    <li>Foundation for trees, graphs, and hash tables with chaining</li>
+                    <li>Dynamic size - no need to pre-allocate memory</li>
+                    <li>Efficient insertions/deletions (O(1) with pointer)</li>
+                    <li>Essential for implementing LRU caches, memory management</li>
+                    <li>Tests pointer manipulation skills in interviews</li>
+                </ul>
+            </div>
+
+            <!-- Core Concepts -->
+            <div class="section">
+                <h2>Core Concepts</h2>
+
+                <h3>1. Singly Linked List</h3>
+                <p>
+                    Each node contains data and a pointer to the next node. The list is accessed through a head pointer.
+                    Traversal is only possible in one direction (head to tail).
+                </p>
+                <div class="code-block">
+                    <pre><code>class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next</code></pre>
+                </div>
+                <p><strong>Operations:</strong></p>
+                <ul>
+                    <li><strong>Append (end):</strong> O(n) - traverse to tail, or O(1) with tail pointer</li>
+                    <li><strong>Prepend (beginning):</strong> O(1) - update head pointer</li>
+                    <li><strong>Delete:</strong> O(n) - find node, update previous node's pointer</li>
+                    <li><strong>Search:</strong> O(n) - linear traversal required</li>
+                    <li><strong>Access by index:</strong> O(n) - no random access</li>
+                </ul>
+
+                <h3>2. Doubly Linked List</h3>
+                <p>
+                    Each node contains data, a pointer to the next node, and a pointer to the previous node.
+                    Allows bidirectional traversal but uses more memory.
+                </p>
+                <div class="code-block">
+                    <pre><code>class DoublyListNode:
+    def __init__(self, val=0, prev=None, next=None):
+        self.val = val
+        self.prev = prev
+        self.next = next</code></pre>
+                </div>
+                <p><strong>Advantages over Singly Linked List:</strong></p>
+                <ul>
+                    <li>Bidirectional traversal (forward and backward)</li>
+                    <li>O(1) deletion if node pointer is given (need prev pointer)</li>
+                    <li>Easier to implement operations like reverse traversal</li>
+                </ul>
+                <p><strong>Disadvantages:</strong></p>
+                <ul>
+                    <li>More memory per node (extra pointer)</li>
+                    <li>More complex operations (must update both prev and next)</li>
+                </ul>
+            </div>
+
+            <!-- Key Patterns -->
+            <div class="section">
+                <h2>Key Patterns & Techniques</h2>
+
+                <h3>Pattern 1: Fast-Slow Pointers (Tortoise and Hare)</h3>
+                <p>
+                    <strong>Concept:</strong> Use two pointers moving at different speeds. Fast pointer moves 2 steps
+                    while slow moves 1 step. This pattern is incredibly powerful for various linked list problems.
+                </p>
+                <p><strong>Applications:</strong></p>
+                <ul>
+                    <li>Find middle element: When fast reaches end, slow is at middle</li>
+                    <li>Detect cycle: If fast and slow meet, there's a cycle</li>
+                    <li>Find cycle start: Reset one pointer to head, move both at same speed</li>
+                    <li>Find kth from end: Move first pointer k steps ahead, then move both</li>
+                </ul>
+                <p><strong>Time Complexity:</strong> O(n) - each pointer traverses the list at most once</p>
+                <p><strong>Space Complexity:</strong> O(1) - only uses two pointers, no extra space</p>
+
+                <h3>Pattern 2: Linked List Reversal</h3>
+                <p>
+                    <strong>Concept:</strong> Reverse the direction of all links using three pointers: prev, curr, and next_temp.
+                    This is one of the most fundamental linked list operations.
+                </p>
+                <div class="code-block">
+                    <pre><code>def reverse_linked_list(head):
+    prev = None
+    curr = head
+    
+    while curr:
+        next_temp = curr.next  # Save next node
+        curr.next = prev       # Reverse link
+        prev = curr            # Move prev forward
+        curr = next_temp       # Move curr forward
+    
+    return prev  # New head</code></pre>
+                </div>
+                <p><strong>Time Complexity:</strong> O(n) - visit each node once</p>
+                <p><strong>Space Complexity:</strong> O(1) iterative, O(n) recursive (call stack)</p>
+
+                <h3>Pattern 3: Merge Sorted Lists</h3>
+                <p>
+                    <strong>Concept:</strong> Use a dummy node and merge by comparing values. This pattern is essential for
+                    divide-and-conquer algorithms and external sorting.
+                </p>
+                <p><strong>Algorithm:</strong></p>
+                <ol>
+                    <li>Create dummy node to simplify edge cases</li>
+                    <li>Compare heads of both lists, attach smaller to result</li>
+                    <li>Move pointer of attached list forward</li>
+                    <li>Repeat until one list is exhausted</li>
+                    <li>Attach remaining nodes from non-empty list</li>
+                </ol>
+                <p><strong>Time Complexity:</strong> O(n + m) where n and m are lengths of both lists</p>
+                <p><strong>Space Complexity:</strong> O(1) - only uses pointers, modifies in-place</p>
+
+                <h3>Pattern 4: Cycle Detection</h3>
+                <p>
+                    <strong>Floyd's Cycle Detection Algorithm:</strong> Also known as the "Tortoise and Hare" algorithm.
+                    Uses two pointers moving at different speeds to detect if a linked list has a cycle.
+                </p>
+                <p><strong>Algorithm:</strong></p>
+                <ol>
+                    <li>Initialize slow and fast pointers to head</li>
+                    <li>Move slow one step, fast two steps</li>
+                    <li>If fast reaches null, no cycle exists</li>
+                    <li>If slow and fast meet, cycle exists</li>
+                    <li>To find cycle start: reset slow to head, move both one step at a time until they meet</li>
+                </ol>
+                <p>
+                    <strong>Why They Meet:</strong> In a cycle of length k, the distance between slow and fast decreases
+                    by 1 each step. They must meet within k steps.
+                </p>
+            </div>
+
+            <!-- Additional Patterns -->
+            <div class="section">
+                <h2>Additional Patterns</h2>
+
+                <h3>Remove Nth Node From End</h3>
+                <p>
+                    <strong>Technique:</strong> Use two pointers with a gap of n nodes. When first reaches end,
+                    second is at nth from end.
+                </p>
+
+                <h3>Palindrome Check</h3>
+                <p>
+                    <strong>Technique:</strong> Find middle, reverse second half, compare with first half.
+                    Can restore list afterward if needed.
+                </p>
+
+                <h3>Intersection of Two Lists</h3>
+                <p>
+                    <strong>Technique:</strong> Traverse both lists, switch heads when reaching end. They meet at
+                    intersection point or both reach null. This works because both pointers travel the same total distance.
+                </p>
+
+                <h3>Reorder List</h3>
+                <p>
+                    <strong>Technique:</strong> Find middle, reverse second half, merge alternately.
+                    Combines multiple patterns into one solution.
+                </p>
+            </div>
+
+            <!-- Practice Problems -->
+            <div class="section">
+                <h2>Practice Problems</h2>
+                <div class="problem-grid">
+                    <div class="problem-card easy">
+                        <h4>Reverse Linked List</h4>
+                        <span class="difficulty easy">Easy</span>
+                        <p>Reverse a singly linked list iteratively and recursively.</p>
+                        <p><strong>Pattern:</strong> Reversal</p>
+                    </div>
+                    <div class="problem-card easy">
+                        <h4>Merge Two Sorted Lists</h4>
+                        <span class="difficulty easy">Easy</span>
+                        <p>Merge two sorted linked lists into one sorted list.</p>
+                        <p><strong>Pattern:</strong> Merge</p>
+                    </div>
+                    <div class="problem-card easy">
+                        <h4>Linked List Cycle</h4>
+                        <span class="difficulty easy">Easy</span>
+                        <p>Determine if a linked list has a cycle.</p>
+                        <p><strong>Pattern:</strong> Fast-Slow Pointers</p>
+                    </div>
+                    <div class="problem-card easy">
+                        <h4>Middle of the Linked List</h4>
+                        <span class="difficulty easy">Easy</span>
+                        <p>Find the middle node of a linked list.</p>
+                        <p><strong>Pattern:</strong> Fast-Slow Pointers</p>
+                    </div>
+                    <div class="problem-card medium">
+                        <h4>Remove Nth Node From End</h4>
+                        <span class="difficulty medium">Medium</span>
+                        <p>Remove the nth node from the end of the list.</p>
+                        <p><strong>Pattern:</strong> Two Pointers</p>
+                    </div>
+                    <div class="problem-card medium">
+                        <h4>Palindrome Linked List</h4>
+                        <span class="difficulty medium">Medium</span>
+                        <p>Check if a linked list is a palindrome.</p>
+                        <p><strong>Pattern:</strong> Reversal + Two Pointers</p>
+                    </div>
+                    <div class="problem-card medium">
+                        <h4>Reorder List</h4>
+                        <span class="difficulty medium">Medium</span>
+                        <p>Reorder list: L0→Ln→L1→Ln-1→L2→Ln-2→...</p>
+                        <p><strong>Pattern:</strong> Multiple Patterns</p>
+                    </div>
+                    <div class="problem-card hard">
+                        <h4>Merge k Sorted Lists</h4>
+                        <span class="difficulty hard">Hard</span>
+                        <p>Merge k sorted linked lists using divide and conquer or heap.</p>
+                        <p><strong>Pattern:</strong> Merge + Divide & Conquer</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Examples -->
+            <div class="section">
+                <h2>Code Examples</h2>
+                <p>Complete implementations available in:</p>
+                <ul>
+                    <li><strong>Python:</strong> <code>python_projects/day5_linked_list.py</code></li>
+                    <li><strong>Rust:</strong> <code>rust_projects/day5_linked_list/</code></li>
+                </ul>
+
+                <h3>Running Tests</h3>
+                <div class="code-block">
+                    <pre><code># Python
+cd python_projects && python day5_linked_list.py
+
+# Rust
+cd rust_projects/day5_linked_list && cargo test</code></pre>
+                </div>
+            </div>
+
+            <!-- Homework -->
+            <div class="section">
+                <h2>Homework Assignment</h2>
+                <p><strong>Complete the following problems:</strong></p>
+                <ol>
+                    <li>Reverse a linked list (both iterative and recursive)</li>
+                    <li>Find the middle element of a linked list</li>
+                    <li>Detect if a linked list has a cycle</li>
+                    <li>Merge two sorted linked lists</li>
+                    <li>Remove the nth node from the end of a linked list</li>
+                    <li>Check if a linked list is a palindrome</li>
+                    <li>Find the intersection of two linked lists</li>
+                    <li>Reverse a portion of a linked list between positions left and right</li>
+                </ol>
+
+                <p><strong>Challenge Problems:</strong></p>
+                <ul>
+                    <li>Merge k sorted linked lists</li>
+                    <li>Reorder a linked list (L0→Ln→L1→Ln-1→...)</li>
+                    <li>Copy a linked list with random pointers</li>
+                </ul>
+            </div>
+
+            <!-- Tips -->
+            <div class="section">
+                <h2>Tips & Best Practices</h2>
+                <ul>
+                    <li>Always handle edge cases: empty list, single node, two nodes</li>
+                    <li>Use dummy nodes to simplify edge case handling</li>
+                    <li>Draw diagrams to visualize pointer movements</li>
+                    <li>Be careful with pointer order - update in correct sequence</li>
+                    <li>Test with cycles by manually creating them in code</li>
+                    <li>For fast-slow pointers, always check fast and fast.next</li>
+                    <li>When reversing, save next node before updating pointers</li>
+                    <li>Use type hints for cleaner, more maintainable code</li>
+                </ul>
+            </div>
+
+            <!-- Coming Up -->
+            <div class="section">
+                <h2>Coming Up: Day 6</h2>
+                <p><strong>Day 6: Trees & Binary Trees</strong></p>
+                <p>
+                    Tomorrow we'll explore tree data structures, starting with binary trees. We'll cover tree traversal
+                    (in-order, pre-order, post-order, level-order), binary search trees, and common tree algorithms.
+                    Trees are hierarchical structures that appear in databases, file systems, and many algorithms.
+                </p>
+                <p><strong>Topics:</strong></p>
+                <ul>
+                    <li>Binary tree structure and properties</li>
+                    <li>Tree traversal techniques (DFS and BFS)</li>
+                    <li>Binary search trees (BST)</li>
+                    <li>Validating BST</li>
+                    <li>Lowest common ancestor</li>
+                    <li>Tree height and diameter</li>
+                </ul>
+            </div>
+
+            <!-- Navigation Footer -->
+            <div class="navigation-footer">
+                <a href="day4.html" class="nav-button prev">
+                    <span>← Previous</span>
+                    <span>Day 4: Stack & Queue</span>
+                </a>
+                <a href="day6.html" class="nav-button next">
+                    <span>Next →</span>
+                    <span>Day 6: Trees</span>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    
+<div id="navigation-buttons"></div>
+    <script type="module" src="/js/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 19: Advanced Data Structures</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Day 19: Advanced Data Structures</h1>
+            <nav>
+                <a href="index.html">Home</a> |
+                <a href="day18.html">Previous (Segment Trees)</a> |
+                <a href="day20.html">Next (Advanced Algorithms)</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="introduction">
+                <h2>Introduction to Advanced Data Structures</h2>
+                <p>Welcome to Day 19! Today we'll explore advanced data structures that build upon the fundamentals you've learned. These structures offer specialized functionality and performance characteristics for specific use cases.</p>
+            </section>
+
+            <section class="topics">
+                <h2>Topics Covered</h2>
+                <ol>
+                    <li>Disjoint Set Union (DSU/Union-Find)</li>
+                    <li>Trie Variations (Suffix Trie, Compressed Trie)</li>
+                    <li>Bloom Filters</li>
+                    <li>Skip Lists</li>
+                    <li>B-Trees and B+ Trees</li>
+                    <li>AVL Trees and Red-Black Trees</li>
+                    <li>Splay Trees</li>
+                    <li>Fibonacci Heaps</li>
+                    <li>Binomial Heaps</li>
+                    <li>Pairing Heaps</li>
+                </ol>
+            </section>
+
+            <section class="concepts">
+                <h2>Key Concepts</h2>
+                <ul>
+                    <li><strong>Path Compression and Union by Rank in DSU:</strong> Techniques to optimize union-find operations to near-constant time.</li>
+                    <li><strong>Space-efficient tries:</strong> Memory optimization techniques for prefix trees.</li>
+                    <li><strong>Probabilistic data structures:</strong> Bloom filters provide space-efficient membership testing with controlled false positive rates.</li>
+                    <li><strong>Self-balancing trees:</strong> AVL and Red-Black trees maintain balance through rotations.</li>
+                    <li><strong>Advanced heap operations:</strong> Fibonacci heaps offer amortized constant time insertions.</li>
+                </ul>
+            </section>
+
+            <section class="implementations">
+                <h2>Implementations</h2>
+                <div class="implementation">
+                    <h3>Python Implementation</h3>
+                    <pre><code class="language-python"># See python_projects/day19_advanced_data_structures.py
+# Includes DSU, SuffixTrie, BloomFilter, SkipList, and AVLTree</code></pre>
+                </div>
+
+                <div class="implementation">
+                    <h3>Rust Implementation</h3>
+                    <pre><code class="language-rust">// See rust_projects/day19_advanced_data_structures.rs
+// Includes DSU, SuffixTrie, BloomFilter, SkipList, and AVLTree</code></pre>
+                </div>
+            </section>
+
+            <section class="practice">
+                <h2>Practice Problems</h2>
+                <ol>
+                    <li>Implement DSU with path compression and union by rank</li>
+                    <li>Build a suffix trie for pattern matching</li>
+                    <li>Implement a Bloom Filter with configurable false positive rate</li>
+                    <li>Create a skip list with search, insert, and delete operations</li>
+                    <li>Implement AVL tree rotations and balancing</li>
+                    <li>Build a Fibonacci heap with decrease-key and delete operations</li>
+                    <li>Implement a B+ tree with range queries</li>
+                    <li>Create a splay tree with splaying operations</li>
+                    <li>Implement a binomial heap with merge operations</li>
+                    <li>Build a pairing heap with decrease-key support</li>
+                </ol>
+            </section>
+
+            <section class="complexity">
+                <h2>Complexity Analysis</h2>
+                <table>
+                    <tr>
+                        <th>Data Structure</th>
+                        <th>Operation</th>
+                        <th>Time Complexity</th>
+                    </tr>
+                    <tr>
+                        <td>DSU</td>
+                        <td>Find/Union</td>
+                        <td>O(α(n)) - inverse Ackermann function</td>
+                    </tr>
+                    <tr>
+                        <td>Tries</td>
+                        <td>Insert/Search</td>
+                        <td>O(L) where L is key length</td>
+                    </tr>
+                    <tr>
+                        <td>Bloom Filter</td>
+                        <td>Insert/Lookup</td>
+                        <td>O(k) where k is number of hash functions</td>
+                    </tr>
+                    <tr>
+                        <td>Skip List</td>
+                        <td>Search/Insert/Delete</td>
+                        <td>O(log n) expected</td>
+                    </tr>
+                    <tr>
+                        <td>AVL Tree</td>
+                        <td>Search/Insert/Delete</td>
+                        <td>O(log n)</td>
+                    </tr>
+                    <tr>
+                        <td>Fibonacci Heap</td>
+                        <td>Insert</td>
+                        <td>O(1) amortized</td>
+                    </tr>
+                    <tr>
+                        <td>Fibonacci Heap</td>
+                        <td>Extract-Min</td>
+                        <td>O(log n)</td>
+                    </tr>
+                </table>
+            </section>
+
+            <section class="applications">
+                <h2>Applications</h2>
+                <ul>
+                    <li><strong>DSU:</strong> Network connectivity, Kruskal's algorithm for MST</li>
+                    <li><strong>Tries:</strong> Autocomplete, spell checking, IP routing</li>
+                    <li><strong>Bloom Filters:</strong> Spell checkers, database systems, network routers</li>
+                    <li><strong>Skip Lists:</strong> Alternative to balanced trees in concurrent environments</li>
+                    <li><strong>AVL Trees:</strong> Databases, language libraries</li>
+                    <li><strong>Fibonacci Heaps:</strong> Dijkstra's algorithm, Prim's algorithm</li>
+                    <li><strong>B+ Trees:</strong> File systems, databases</li>
+                    <li><strong>Splay Trees:</strong> Cache implementations, garbage collection</li>
+                </ul>
+            </section>
+
+            <section class="resources">
+                <h2>Additional Resources</h2>
+                <ul>
+                    <li><a href="https://en.wikipedia.org/wiki/Disjoint-set_data_structure" target="_blank">Disjoint-set data structure (Wikipedia)</a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/Trie" target="_blank">Trie (Wikipedia)</a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank">Bloom filter (Wikipedia)</a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/Skip_list" target="_blank">Skip list (Wikipedia)</a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/AVL_tree" target="_blank">AVL tree (Wikipedia)</a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/Fibonacci_heap" target="_blank">Fibonacci heap (Wikipedia)</a></li>
+                </ul>
+            </section>
+
+            <section class="summary">
+                <h2>Day Summary</h2>
+                <p>Today you've explored advanced data structures that provide specialized functionality beyond basic arrays, lists, and trees. These structures are essential for solving complex problems efficiently in various domains including databases, networking, and algorithm design.</p>
+                <p>Key takeaways:</p>
+                <ul>
+                    <li>Understand when to use each advanced data structure based on problem requirements</li>
+                    <li>Appreciate the trade-offs between different structures (time vs space complexity)</li>
+                    <li>Recognize the importance of amortized analysis for certain operations</li>
+                    <li>Learn to implement and work with probabilistic data structures</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 30-Day DSA Study Plan. All rights reserved.</p>
+            <nav>
+                <a href="index.html">Home</a> |
+                <a href="day18.html">Previous</a> |
+                <a href="day20.html">Next</a>
+            </nav>
+        </footer>
+    </div>
+</body>
+</html>

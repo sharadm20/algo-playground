@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 10: Review & Practice - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .pattern-card {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .pattern-card h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Day 10: Comprehensive Review & Practice</h1>
+            <p class="date">Date: April 8, 2026</p>
+            <p class="focus">Focus: Mixed problem sets, pattern recognition, complexity analysis, problem decomposition</p>
+
+            <div class="section">
+                <h2>Overview</h2>
+                <p>Today is a comprehensive review of all patterns and algorithms learned from Days 1-9. The goal is to strengthen pattern recognition skills, practice complexity analysis, and develop problem decomposition techniques.</p>
+            </div>
+
+            <div class="section">
+                <h2>1. Pattern Recognition Guide</h2>
+                <p>The key to solving DSA problems efficiently is recognizing which pattern or technique to apply.</p>
+
+                <div class="pattern-card">
+                    <h3>Hash Maps/Sets</h3>
+                    <p><strong>Look for:</strong> Finding pairs, checking membership, counting frequency, eliminating duplicates</p>
+                    <p><strong>Examples:</strong> Two Sum, Group Anagrams, Contains Duplicate, Valid Anagram</p>
+                    <p><strong>Time:</strong> O(n) average, <strong>Space:</strong> O(n)</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Two Pointers</h3>
+                    <p><strong>Look for:</strong> Sorted array, finding pairs, palindrome check, subarray problems</p>
+                    <p><strong>Examples:</strong> Two Sum II, 3Sum, Container With Most Water, Valid Palindrome</p>
+                    <p><strong>Time:</strong> O(n), <strong>Space:</strong> O(1)</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Sliding Window</h3>
+                    <p><strong>Look for:</strong> Contiguous subarray/substring, longest/shortest substring, fixed-size window</p>
+                    <p><strong>Examples:</strong> Longest Substring Without Repeating, Minimum Window Substring</p>
+                    <p><strong>Time:</strong> O(n), <strong>Space:</strong> O(k) where k is window size</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Stack</h3>
+                    <p><strong>Look for:</strong> Parentheses matching, next greater element, expression evaluation</p>
+                    <p><strong>Examples:</strong> Valid Parentheses, Daily Temperatures, Eval RPN</p>
+                    <p><strong>Time:</strong> O(n), <strong>Space:</strong> O(n)</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>BFS/DFS</h3>
+                    <p><strong>Look for:</strong> Tree traversal, level-order, shortest path, connected components</p>
+                    <p><strong>Examples:</strong> Number of Islands, Rotting Oranges, Word Ladder</p>
+                    <p><strong>BFS:</strong> Shortest path in unweighted graphs, O(V + E) time</p>
+                    <p><strong>DFS:</strong> Path existence, cycle detection, O(V + E) time</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Union-Find</h3>
+                    <p><strong>Look for:</strong> Connected components, cycle detection, dynamic connectivity</p>
+                    <p><strong>Examples:</strong> Number of Connected Components, Redundant Connection</p>
+                    <p><strong>Time:</strong> O(α(n)) ≈ O(1) per operation</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Dijkstra</h3>
+                    <p><strong>Look for:</strong> Shortest path in weighted graph, non-negative edge weights</p>
+                    <p><strong>Examples:</strong> Network Delay Time, Path With Minimum Effort</p>
+                    <p><strong>Time:</strong> O((V + E) * log(V)) with priority queue</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>2. Complexity Analysis Techniques</h2>
+                
+                <h3>Proving Time Complexity</h3>
+                <ol>
+                    <li>Count the number of operations relative to input size n</li>
+                    <li>Identify loops, recursive calls, and nested structures</li>
+                    <li>Use the Master Theorem for divide-and-conquer recurrences</li>
+                    <li>Remember common patterns:
+                        <ul>
+                            <li>Single loop: O(n)</li>
+                            <li>Nested loops: O(n²) or O(n * m)</li>
+                            <li>Halving each time: O(log n)</li>
+                            <li>Divide and conquer: O(n log n)</li>
+                            <li>All permutations/subsets: O(2^n) or O(n!)</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3>Proving Space Complexity</h3>
+                <ol>
+                    <li>Count extra space used (excluding input)</li>
+                    <li>Consider:
+                        <ul>
+                            <li>Hash maps/sets: O(n)</li>
+                            <li>Recursion stack: O(h) where h is tree/graph height</li>
+                            <li>Auxiliary arrays: O(n) or O(n * m)</li>
+                        </ul>
+                    </li>
+                    <li>In-place algorithms: O(1) extra space</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h2>3. Problem Decomposition Strategies</h2>
+                <p>Breaking complex problems into subproblems:</p>
+                <ol>
+                    <li>Identify the core operation (what are we trying to find?)</li>
+                    <li>Identify constraints (time limit, memory limit, input size)</li>
+                    <li>Break into phases:
+                        <ul>
+                            <li>Preprocessing: Sort, build hash map, build graph</li>
+                            <li>Main computation: Apply algorithm pattern</li>
+                            <li>Post-processing: Format output, handle edge cases</li>
+                        </ul>
+                    </li>
+                    <li>Solve each subproblem independently</li>
+                    <li>Combine solutions</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h2>4. Code Examples</h2>
+                
+                <h3>Two Sum (Python)</h3>
+                <div class="code-block">def two_sum(nums, target):
+    seen = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []</div>
+
+                <h3>Dijkstra's Algorithm (Python)</h3>
+                <div class="code-block">import heapq
+
+def dijkstra(graph, start):
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
+    pq = [(0, start)]
+    
+    while pq:
+        curr_dist, curr_node = heapq.heappop(pq)
+        
+        if curr_dist > distances[curr_node]:
+            continue
+        
+        for neighbor, weight in graph[curr_node]:
+            distance = curr_dist + weight
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(pq, (distance, neighbor))
+    
+    return distances</div>
+            </div>
+
+            <div class="section">
+                <h2>5. Review Checklist</h2>
+                <p>Before moving forward, ensure you can:</p>
+                <ul class="checklist">
+                    <li>Implement Two Sum and 3Sum from memory</li>
+                    <li>Explain when to use two pointers vs sliding window</li>
+                    <li>Implement BFS and DFS on trees and graphs</li>
+                    <li>Validate a BST with correct bounds</li>
+                    <li>Find the diameter of a binary tree</li>
+                    <li>Implement topological sort (Kahn's algorithm)</li>
+                    <li>Explain the difference between Dijkstra and Bellman-Ford</li>
+                    <li>Recognize when to use a monotonic stack</li>
+                    <li>Implement union-find with path compression</li>
+                    <li>Decompose a complex problem into subproblems</li>
+                    <li>Prove time and space complexity for any algorithm you write</li>
+                </ul>
+            </div>
+
+            <div class="section next-day">
+                <h2>Tomorrow: Day 11</h2>
+                <p><strong>Topic:</strong> Dynamic Programming - Part 1</p>
+                <p><strong>Focus:</strong> Memoization, tabulation, 1D DP, knapsack problems</p>
+                <p><strong>Key concepts:</strong></p>
+                <ul>
+                    <li>Top-down vs bottom-up approaches</li>
+                    <li>Fibonacci, climbing stairs, house robber</li>
+                    <li>0/1 Knapsack, unbounded knapsack</li>
+                    <li>Longest common subsequence</li>
+                    <li>Edit distance</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+<div id="navigation-buttons"></div>
+    <script type="module" src="/js/main.js"></script>
+    </body>
+</html>

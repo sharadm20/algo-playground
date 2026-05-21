@@ -1,0 +1,56 @@
+Day 19: Advanced Data Structures
+
+Topics Covered:
+1. Disjoint Set Union (DSU/Union-Find)
+2. Trie Variations (Suffix Trie, Compressed Trie)
+3. Bloom Filters
+4. Skip Lists
+5. B-Trees and B+ Trees
+6. AVL Trees and Red-Black Trees
+7. Splay Trees
+8. Fibonacci Heaps
+9. Binomial Heaps
+10. Pairing Heaps
+
+Key Concepts:
+- Path Compression and Union by Rank in DSU
+- Space-efficient tries and suffix structures
+- Probabilistic data structures (Bloom Filters)
+- Self-balancing tree operations
+- Advanced heap operations and amortized analysis
+
+Practice Problems:
+1. Implement DSU with path compression and union by rank
+2. Build a suffix trie for pattern matching
+3. Implement a Bloom Filter with configurable false positive rate
+4. Create a skip list with search, insert, and delete operations
+5. Implement AVL tree rotations and balancing
+6. Build a Fibonacci heap with decrease-key and delete operations
+7. Implement a B+ tree with range queries
+8. Create a splay tree with splaying operations
+9. Implement a binomial heap with merge operations
+10. Build a pairing heap with decrease-key support
+
+Complexity Analysis:
+- DSU: O(α(n)) per operation (inverse Ackermann function)
+- Tries: O(L) for operations (L = length of key)
+- Bloom Filters: O(k) for insert/lookup (k = number of hash functions)
+- Skip Lists: O(log n) expected time for search, insert, delete
+- AVL Trees: O(log n) for search, insert, delete
+- Fibonacci Heaps: O(1) amortized for insert, O(log n) for extract-min
+- B+ Trees: O(log n) for search, insert, delete
+- Splay Trees: O(log n) amortized for operations
+- Binomial Heaps: O(log n) for insert, extract-min, decrease-key
+- Pairing Heaps: O(log n) for extract-min, O(1) for insert
+
+Applications:
+- DSU: Network connectivity, Kruskal's algorithm
+- Tries: Autocomplete, spell checking, IP routing
+- Bloom Filters: Spell checkers, database systems, network routers
+- Skip Lists: Alternative to balanced trees in concurrent environments
+- AVL Trees: Databases, language libraries
+- Fibonacci Heaps: Dijkstra's algorithm, Prim's algorithm
+- B+ Trees: File systems, databases
+- Splay Trees: Cache implementations, garbage collection
+- Binomial Heaps: Priority queue implementations
+- Pairing Heaps: Advanced priority queue scenarios

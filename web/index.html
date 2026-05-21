@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30-Day DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin: 30px 0;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .calendar-day:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .calendar-day.completed {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+        }
+
+        .calendar-day.current {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            box-shadow: 0 0 0 3px #fff, 0 0 0 6px #3498db;
+        }
+
+        .calendar-day.upcoming {
+            background: #ecf0f1;
+            color: #7f8c8d;
+        }
+
+        .calendar-day .day-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .calendar-day .day-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
+
+        .calendar-day .day-status {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            font-size: 0.9rem;
+        }
+
+        .calendar-day .day-topic {
+            font-size: 0.65rem;
+            margin-top: 2px;
+            opacity: 0.85;
+            line-height: 1.2;
+        }
+
+        .calendar-legend {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .legend-color.completed {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        }
+
+        .legend-color.current {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+
+        .legend-color.upcoming {
+            background: #ecf0f1;
+            border: 1px solid #bdc3c7;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <div class="main-content">
+            <div class="page-header">
+                <h1>30-Day DSA Study Plan</h1>
+                <p class="subtitle">Your journey to mastering Data Structures & Algorithms</p>
+                <div class="meta">
+                    <span>📅 Started: March 29, 2026</span>
+                    <span>📊 Progress: <span id="progress-text">Loading...</span></span>
+                    <span>🎯 Current: Day 17</span>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number" id="stat-completed">16</div>
+                    <div class="stat-label">Days Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="stat-remaining">14</div>
+                    <div class="stat-label">Days Remaining</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="stat-percent">53%</div>
+                    <div class="stat-label">Progress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">170+</div>
+                    <div class="stat-label">Problems Solved</div>
+                </div>
+            </div>
+
+            <!-- 30-Day Calendar -->
+            <div class="section">
+                <h2>📅 30-Day Calendar</h2>
+                <p>Click on any day to navigate to its materials:</p>
+
+                <div class="calendar-legend">
+                    <div class="legend-item">
+                        <div class="legend-color completed"></div>
+                        <span>Completed (16 days)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color current"></div>
+                        <span>Current (Day 17)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color upcoming"></div>
+                        <span>Upcoming (14 days)</span>
+                    </div>
+                </div>
+
+                <div class="calendar-grid">
+                    <a href="day1.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">1</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Arrays & Hashing</span>
+                    </a>
+                    <a href="day2.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">2</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Advanced Arrays</span>
+                    </a>
+                    <a href="day3.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">3</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Strings</span>
+                    </a>
+                    <a href="day4.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">4</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Stack & Queue</span>
+                    </a>
+                    <a href="day5.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">5</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Linked List</span>
+                    </a>
+                    <a href="day6.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">6</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Trees</span>
+                    </a>
+                    <a href="day7.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">7</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Review</span>
+                    </a>
+                    <a href="day8.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">8</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Graphs</span>
+                    </a>
+                    <a href="day9.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">9</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Adv. Graphs</span>
+                    </a>
+                    <a href="day10.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">10</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Review</span>
+                    </a>
+                    <a href="day11.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">11</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">DP Part 1</span>
+                    </a>
+                    <a href="day12.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">12</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Adv. DP</span>
+                    </a>
+                    <a href="day13.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">13</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">More DP</span>
+                    </a>
+                    <a href="day14.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">14</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">DP Review</span>
+                    </a>
+                    <a href="day15.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">15</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Heaps/Tries</span>
+                    </a>
+                    <a href="day16.html" class="calendar-day completed">
+                        <span class="day-status">✓</span>
+                        <span class="day-number">16</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Binary Search</span>
+                    </a>
+                    <a href="day17.html" class="calendar-day current">
+                        <span class="day-status">▶</span>
+                        <span class="day-number">17</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">Review</span>
+                    </a>
+                    <div class="calendar-day upcoming">
+                        <span class="day-number">18</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">TBD</span>
+                    </div>
+                    <div class="calendar-day upcoming">
+                        <span class="day-number">19</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">TBD</span>
+                    </div>
+                    <div class="calendar-day upcoming">
+                        <span class="day-number">20</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">TBD</span>
+                    </div>
+                    <div class="calendar-day upcoming">
+                        <span class="day-number">21</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">TBD</span>
+                    </div>
+                    <div class="calendar-day upcoming">
+                        <span class="day-number">22</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">TBD</span>
+                    </div>
+                    <div class="calendar-day upcoming">
+                        <span class="day-number">23</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">TBD</span>
+                    </div>
+                    <div class="calendar-day upcoming">
+                        <span class="day-number">24</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">TBD</span>
+                    </div>
+                    <div class="calendar-day upcoming">
+                        <span class="day-number">25</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">TBD</span>
+                    </div>
+                    <div class="calendar-day upcoming">
+                        <span class="day-number">26</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">TBD</span>
+                    </div>
+                    <div class="calendar-day upcoming">
+                        <span class="day-number">27</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">TBD</span>
+                    </div>
+                    <div class="calendar-day upcoming">
+                        <span class="day-number">28</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">TBD</span>
+                    </div>
+                    <div class="calendar-day upcoming">
+                        <span class="day-number">29</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">TBD</span>
+                    </div>
+                    <div class="calendar-day upcoming">
+                        <span class="day-number">30</span>
+                        <span class="day-label">Day</span>
+                        <span class="day-topic">TBD</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Study Plan Overview -->
+            <div class="section">
+                <h2>Study Plan Overview</h2>
+                <p>
+                    This comprehensive 30-day study plan is designed to take you from fundamentals to advanced
+                    topics in Data Structures and Algorithms. Each day focuses on specific patterns and techniques
+                    that are essential for technical interviews and competitive programming.
+                </p>
+                <p>
+                    The plan emphasizes <strong>pattern recognition</strong> over memorization, helping you develop
+                    problem-solving intuition that applies across different problem types.
+                </p>
+            </div>
+
+            <!-- Resources -->
+            <div class="section">
+                <h2>Resources</h2>
+                <div class="resource-links">
+                    <a href="python_projects/" class="resource-link">
+                        📁 Python Code
+                    </a>
+                    <a href="rust_projects/" class="resource-link secondary">
+                        🦀 Rust Code
+                    </a>
+                    <a href="30_day_dsa_study_plan_detailed.txt" class="resource-link secondary">
+                        📄 Full Study Plan
+                    </a>
+                </div>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="insights-box">
+                <h3>💡 How to Use This Plan</h3>
+                <ul>
+                    <li><strong>Study Time:</strong> Dedicate 4-5 hours daily for optimal progress</li>
+                    <li><strong>Practice First:</strong> Attempt problems before looking at solutions</li>
+                    <li><strong>Both Languages:</strong> Review Python and Rust implementations to understand different approaches</li>
+                    <li><strong>Track Progress:</strong> Use the calendar above to navigate between days</li>
+                    <li><strong>Review Regularly:</strong> Revisit previous days' concepts weekly</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/main.js"></script>
+</body>
+</html>

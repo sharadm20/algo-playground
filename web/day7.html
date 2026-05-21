@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 7: Review & Practice - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar"></aside>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>📚 DSA Study Plan</h1>
+                <p>30 Days to Mastery</p>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            <span class="day-badge">🏠</span>
+                            <span class="day-title">Home</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Week 1 - Foundations</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="day1.html" class="nav-link completed">
+                            <span class="day-badge">1</span>
+                            <span class="day-title">Arrays & Hashing</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day2.html" class="nav-link completed">
+                            <span class="day-badge">2</span>
+                            <span class="day-title">Advanced Arrays</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day3.html" class="nav-link completed">
+                            <span class="day-badge">3</span>
+                            <span class="day-title">Strings</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day4.html" class="nav-link completed">
+                            <span class="day-badge">4</span>
+                            <span class="day-title">Stack & Queue</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day5.html" class="nav-link completed">
+                            <span class="day-badge">5</span>
+                            <span class="day-title">Linked List</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day6.html" class="nav-link completed">
+                            <span class="day-badge">6</span>
+                            <span class="day-title">Trees</span>
+                            <span class="status-icon">✓</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="day7.html" class="nav-link current">
+                            <span class="day-badge">7</span>
+                            <span class="day-title">Review</span>
+                            <span class="status-icon">●</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Day 7: Review & Practice</h1>
+                <p class="subtitle">Comprehensive Review of Days 1-6</p>
+                <div class="meta">
+                    <span class="status-badge current">Current</span>
+                    <span>📅 April 5, 2026</span>
+                    <span>⏱️ 5-6 hours</span>
+                </div>
+            </div>
+
+            <!-- Topic Overview -->
+            <div class="section">
+                <h2>Topic Overview</h2>
+                <p>
+                    Day 7 is a comprehensive review day designed to consolidate your understanding of all concepts
+                    from Days 1-6. Today focuses on mixed problem sets, pattern recognition, and building
+                    problem-solving fluency. You'll practice identifying the right approach for different problem
+                    types and reinforce weak areas before moving to advanced topics.
+                </p>
+                <p>
+                    <strong>Goal:</strong> Solve medium-difficulty problems in 20-30 minutes without looking at solutions.
+                </p>
+            </div>
+
+            <!-- Pattern 1: Arrays & Hash Map Patterns -->
+            <div class="section">
+                <h2>Pattern 1: Arrays & Hash Map Patterns (Days 1-2)</h2>
+
+                <h3>1.1 Two Sum - Complement Lookup</h3>
+                <p>
+                    The classic Two Sum problem demonstrates the power of hash maps for complement lookup.
+                    Instead of checking all pairs (O(n²)), we can find the complement in O(1) using a hash map.
+                </p>
+                <div class="code-block">
+                    <pre><code>def two_sum(nums, target):
+    seen = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []
+
+# Time: O(n), Space: O(n)</code></pre>
+                </div>
+
+                <h3>1.2 3Sum - Sort + Two-Pointer</h3>
+                <p>
+                    Extending Two Sum to triplets requires sorting and the two-pointer technique.
+                    Key insight: skip duplicates to avoid redundant triplets.
+                </p>
+                <div class="code-block">
+                    <pre><code>def three_sum(nums):
+    nums.sort()
+    result = []
+    for i in range(len(nums) - 2):
+        if i > 0 and nums[i] == nums[i - 1]:
+            continue  # Skip duplicates
+        left, right = i + 1, len(nums) - 1
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
+            if total < 0:
+                left += 1
+            elif total > 0:
+                right -= 1
+            else:
+                result.append([nums[i], nums[left], nums[right]])
+                while left < right and nums[left] == nums[left + 1]:
+                    left += 1
+                while left < right and nums[right] == nums[right - 1]:
+                    right -= 1
+                left += 1
+                right -= 1
+    return result</code></pre>
+                </div>
+
+                <h3>1.3 Container With Most Water - Greedy Two-Pointer</h3>
+                <p>
+                    Start with the widest container (both ends) and greedily move the shorter pointer inward.
+                    The greedy choice works because moving the taller pointer can only decrease the area.
+                </p>
+                <div class="code-block">
+                    <pre><code>def container_with_most_water(height):
+    left, right = 0, len(height) - 1
+    max_area = 0
+    while left < right:
+        h = min(height[left], height[right])
+        w = right - left
+        max_area = max(max_area, h * w)
+        if height[left] < height[right]:
+            left += 1
+        else:
+            right -= 1
+    return max_area</code></pre>
+                </div>
+
+                <h3>1.4 Group Anagrams - Frequency Counting</h3>
+                <p>
+                    Anagrams share the same sorted form. Use sorted string as hash map key to group them.
+                </p>
+            </div>
+
+            <!-- Pattern 2: String Manipulation Patterns -->
+            <div class="section">
+                <h2>Pattern 2: String Manipulation (Day 3)</h2>
+
+                <h3>2.1 Longest Substring Without Repeating - Sliding Window</h3>
+                <p>
+                    Use a sliding window with a hash set to track characters. Expand the right pointer,
+                    and shrink from the left when a duplicate is found.
+                </p>
+                <div class="code-block">
+                    <pre><code>def longest_substring_without_repeating(s):
+    seen = set()
+    left = 0
+    max_len = 0
+    for right in range(len(s)):
+        while s[right] in seen:
+            seen.remove(s[left])
+            left += 1
+        seen.add(s[right])
+        max_len = max(max_len, right - left + 1)
+    return max_len
+
+# Time: O(n), Space: O(min(n, m))</code></pre>
+                </div>
+
+                <h3>2.2 Longest Palindromic Substring - Expand Around Center</h3>
+                <p>
+                    Each character (and gap) can be the center of a palindrome. Expand outward and track the longest.
+                </p>
+                <div class="code-block">
+                    <pre><code>def expand_around_center(s, left, right):
+    while left >= 0 and right < len(s) and s[left] == s[right]:
+        left -= 1
+        right += 1
+    return left + 1, right - 1
+
+def longest_palindromic_substring(s):
+    start, end = 0, 0
+    for i in range(len(s)):
+        l1, r1 = expand_around_center(s, i, i)      # Odd
+        l2, r2 = expand_around_center(s, i, i + 1)  # Even
+        if r1 - l1 > end - start:
+            start, end = l1, r1
+        if r2 - l2 > end - start:
+            start, end = l2, r2
+    return s[start:end + 1]</code></pre>
+                </div>
+            </div>
+
+            <!-- Pattern 3: Stack & Queue Patterns -->
+            <div class="section">
+                <h2>Pattern 3: Stack & Queue Applications (Day 4)</h2>
+
+                <h3>3.1 Min Stack - Two Stacks</h3>
+                <p>
+                    Maintain a parallel min_stack that tracks minimum values. Push to min_stack when
+                    value is smaller than or equal to current min.
+                </p>
+                <div class="code-block">
+                    <pre><code>class MinStack:
+    def __init__(self):
+        self.stack = []
+        self.min_stack = []
+    
+    def push(self, val):
+        self.stack.append(val)
+        if not self.min_stack or val <= self.min_stack[-1]:
+            self.min_stack.append(val)</code></pre>
+                </div>
+
+                <h3>3.2 Evaluate RPN - Stack-Based Evaluation</h3>
+                <p>
+                    Push numbers onto stack. When operator encountered, pop two operands, compute, push result.
+                </p>
+
+                <h3>3.3 Daily Temperatures - Monotonic Stack</h3>
+                <p>
+                    Maintain a decreasing stack of indices. When current temperature is warmer than stack top,
+                    we found the next warmer day for all elements in the stack.
+                </p>
+                <div class="code-block">
+                    <pre><code>def daily_temperatures(temperatures):
+    result = [0] * len(temperatures)
+    stack = []  # Store indices
+    for i in range(len(temperatures)):
+        while stack and temperatures[i] > temperatures[stack[-1]]:
+            idx = stack.pop()
+            result[idx] = i - idx
+        stack.append(i)
+    return result</code></pre>
+                </div>
+
+                <h3>3.4 Number of Islands - BFS/DFS</h3>
+                <p>
+                    Iterate through grid. When land ('1') is found, increment count and use BFS to mark
+                    the entire island as visited ('0').
+                </p>
+            </div>
+
+            <!-- Pattern 4: Linked List Patterns -->
+            <div class="section">
+                <h2>Pattern 4: Linked List Patterns (Day 5)</h2>
+
+                <h3>4.1 Merge Two Sorted Lists - Dummy Node</h3>
+                <p>
+                    Use a dummy node to simplify edge cases. Compare and link the smaller node.
+                </p>
+                <div class="code-block">
+                    <pre><code>def merge_two_lists(list1, list2):
+    dummy = ListNode()
+    curr = dummy
+    while list1 and list2:
+        if list1.val < list2.val:
+            curr.next = list1
+            list1 = list1.next
+        else:
+            curr.next = list2
+            list2 = list2.next
+        curr = curr.next
+    curr.next = list1 if list1 else list2
+    return dummy.next</code></pre>
+                </div>
+
+                <h3>4.2 Reverse Linked List - Three-Pointer</h3>
+                <p>
+                    Use prev, curr, and next_temp pointers to reverse links iteratively.
+                </p>
+                <div class="code-block">
+                    <pre><code>def reverse_list(head):
+    prev = None
+    curr = head
+    while curr:
+        next_temp = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next_temp
+    return prev</code></pre>
+                </div>
+
+                <h3>4.3 Palindrome Linked List - Find Middle + Reverse</h3>
+                <p>
+                    Use fast-slow pointers to find middle, reverse second half, then compare.
+                </p>
+            </div>
+
+            <!-- Pattern 5: Tree Patterns -->
+            <div class="section">
+                <h2>Pattern 5: Tree Patterns (Day 6)</h2>
+
+                <h3>5.1 Level-Order Traversal - BFS</h3>
+                <p>
+                    Use a queue to process nodes level by level. Track level size to know when level ends.
+                </p>
+                <div class="code-block">
+                    <pre><code>from collections import deque
+
+def level_order(root):
+    if not root:
+        return []
+    result = []
+    queue = deque([root])
+    while queue:
+        level_size = len(queue)
+        current_level = []
+        for _ in range(level_size):
+            node = queue.popleft()
+            current_level.append(node.val)
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        result.append(current_level)
+    return result</code></pre>
+                </div>
+
+                <h3>5.2 Validate BST - Range Validation</h3>
+                <p>
+                    Pass down valid ranges (low, high) to ensure BST property globally, not just locally.
+                </p>
+                <div class="code-block">
+                    <pre><code>def is_valid_bst(root, low=-∞, high=∞):
+    if not root:
+        return True
+    if root.val <= low or root.val >= high:
+        return False
+    return (is_valid_bst(root.left, low, root.val) and
+            is_valid_bst(root.right, root.val, high))</code></pre>
+                </div>
+
+                <h3>5.3 Diameter of Binary Tree - Height + Diameter</h3>
+                <p>
+                    The longest path through any node is left_height + right_height. Track both simultaneously.
+                </p>
+                <div class="code-block">
+                    <pre><code>def diameter_of_binary_tree(root):
+    diameter = [0]
+    def height(node):
+        if not node:
+            return 0
+        left_h = height(node.left)
+        right_h = height(node.right)
+        diameter[0] = max(diameter[0], left_h + right_h)
+        return 1 + max(left_h, right_h)
+    height(root)
+    return diameter[0]</code></pre>
+                </div>
+            </div>
+
+            <!-- Practice Problems -->
+            <div class="section">
+                <h2>Practice Problems</h2>
+
+                <h3>Easy Problems</h3>
+                <ul>
+                    <li>Two Sum (LeetCode 1)</li>
+                    <li>Valid Palindrome (LeetCode 125)</li>
+                    <li>Valid Parentheses (LeetCode 20)</li>
+                    <li>Maximum Depth of Binary Tree (LeetCode 104)</li>
+                    <li>Merge Two Sorted Lists (LeetCode 21)</li>
+                </ul>
+
+                <h3>Medium Problems</h3>
+                <ul>
+                    <li>3Sum (LeetCode 15)</li>
+                    <li>Container With Most Water (LeetCode 11)</li>
+                    <li>Longest Substring Without Repeating (LeetCode 3)</li>
+                    <li>Group Anagrams (LeetCode 49)</li>
+                    <li>Evaluate Reverse Polish Notation (LeetCode 150)</li>
+                    <li>Number of Islands (LeetCode 200)</li>
+                    <li>Linked List Cycle II (LeetCode 142)</li>
+                    <li>Binary Tree Level Order Traversal (LeetCode 102)</li>
+                    <li>Validate Binary Search Tree (LeetCode 98)</li>
+                    <li>Diameter of Binary Tree (LeetCode 543)</li>
+                </ul>
+
+                <h3>Hard Problems (Bonus)</h3>
+                <ul>
+                    <li>Trapping Rain Water (LeetCode 42)</li>
+                    <li>Minimum Window Substring (LeetCode 76)</li>
+                    <li>Merge k Sorted Lists (LeetCode 23)</li>
+                </ul>
+            </div>
+
+            <!-- Key Takeaways -->
+            <div class="section">
+                <h2>Key Takeaways</h2>
+                <ul>
+                    <li>Hash maps excel at frequency counting and complement lookup (O(1) lookup)</li>
+                    <li>Two-pointer techniques work on sorted arrays or with specific constraints</li>
+                    <li>Sliding window requires monotonic property or hash map tracking</li>
+                    <li>Stack is LIFO (valid parentheses, expression evaluation, monotonic patterns)</li>
+                    <li>Queue is FIFO (BFS, level-order traversal, shortest path)</li>
+                    <li>Fast-slow pointers detect cycles and find middle elements (O(1) space)</li>
+                    <li>Dummy nodes simplify linked list edge cases</li>
+                    <li>Tree traversals: in-order (BST sorted), pre-order (copy), post-order (delete)</li>
+                    <li>BFS for shortest path/level-order, DFS for exploring all paths</li>
+                    <li>Always handle edge cases: empty input, single element, all same elements</li>
+                    <li>Analyze time/space complexity before coding—aim for optimal solution</li>
+                </ul>
+            </div>
+
+            <!-- Study Strategy -->
+            <div class="section">
+                <h2>Study Strategy</h2>
+                <p><strong>Morning Session (2-3 hours):</strong></p>
+                <ol>
+                    <li>Review all Day 1-6 materials briefly (30 minutes)</li>
+                    <li>Solve 3-4 Easy problems without looking at solutions (45 minutes)</li>
+                    <li>Solve 4-5 Medium problems with time limit of 20-30 min each (2 hours)</li>
+                </ol>
+
+                <p><strong>Afternoon Session (2-3 hours):</strong></p>
+                <ol start="4">
+                    <li>Attempt 1-2 Hard problems (1 hour)</li>
+                    <li>Review solutions and identify weak areas (30 minutes)</li>
+                    <li>Re-implement solutions for problems you struggled with (1 hour)</li>
+                </ol>
+
+                <p><strong>Evening Review (1 hour):</strong></p>
+                <ol start="7">
+                    <li>Summarize key patterns learned today</li>
+                    <li>Note areas that need more practice</li>
+                    <li>Plan focus for Day 8 (Graphs introduction)</li>
+                </ol>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="section navigation-buttons">
+                <a href="day6.html" class="nav-button prev">
+                    ← Previous: Day 6 (Trees)
+                </a>
+                <a href="index.html" class="nav-button home">
+                    🏠 Home
+                </a>
+                <a href="day8.html" class="nav-button next disabled">
+                    Next: Day 8 (Coming Soon) →
+                </a>
+            </div>
+        </main>
+    </div>
+
+    
+<div id="navigation-buttons"></div>
+    <script type="module" src="/js/main.js"></script>
+    </body>
+</html>

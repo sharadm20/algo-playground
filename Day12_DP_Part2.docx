@@ -1,0 +1,716 @@
+# Day 12: Advanced Dynamic Programming - Part 2
+
+**Date:** April 10, 2026  
+**Topics:** DP on Trees, Bitmask DP, Digit DP, Matrix Chain Multiplication, DP Optimization
+
+---
+
+## Table of Contents
+1. [DP on Trees](#1-dp-on-trees)
+2. [Bitmask DP](#2-bitmask-dp)
+3. [Digit DP](#3-digit-dp)
+4. [Matrix Chain Multiplication](#4-matrix-chain-multiplication)
+5. [DP Optimization Techniques](#5-dp-optimization-techniques)
+6. [Practice Problems](#6-practice-problems)
+7. [Summary & Key Takeaways](#7-summary--key-takeaways)
+
+---
+
+## 1. DP on Trees
+
+### 1.1 Introduction to Tree DP
+
+Dynamic Programming on trees is a powerful technique where we solve problems by computing values bottom-up from the leaves to the root (or vice versa). Tree DP combines the optimal substructure property of DP with the hierarchical nature of trees.
+
+**Key Characteristics:**
+- Problems exhibit optimal substructure on tree structures
+- Solution for a node depends on solutions for its children
+- Often solved using post-order traversal (process children before parent)
+- State typically includes the current node and possibly additional information
+
+**General Approach:**
+1. Root the tree arbitrarily (if not already rooted)
+2. Perform DFS/post-order traversal
+3. For each node, compute DP state based on children's states
+4. Answer is typically at the root or can be derived from all states
+
+### 1.2 Tree Diameter with DP
+
+**Problem:** Find the longest path between any two nodes in a tree.
+
+**DP State:**
+- `dp[u][0]` = height of subtree rooted at u
+- `dp[u][1]` = diameter of subtree rooted at u
+
+**Transitions:**
+```
+For each node u with children v1, v2, ...:
+  height[u] = 1 + max(height[v] for all children v)
+  diameter[u] = max(
+    max(diameter[v] for all children v),  // Diameter in a subtree
+    max(height[v1] + height[v2] + 2)      // Path through u (two deepest branches)
+  )
+```
+
+**Complexity:** O(n) time, O(n) space
+
+**Python Implementation:**
+```python
+def tree_diameter(tree):
+    """
+    tree: adjacency list representation
+    Returns the diameter of the tree
+    """
+    n = len(tree)
+    diameter = [0]
+    
+    def dfs(node, parent=-1):
+        max_height1 = 0  # Top two heights
+        max_height2 = 0
+        
+        for child in tree[node]:
+            if child != parent:
+                height = dfs(child, node)
+                
+                # Update top two heights
+                if height > max_height1:
+                    max_height2 = max_height1
+                    max_height1 = height
+                elif height > max_height2:
+                    max_height2 = height
+        
+        # Diameter through this node = sum of two longest paths
+        diameter[0] = max(diameter[0], max_height1 + max_height2)
+        
+        return max_height1 + 1
+    
+    dfs(0)  # Root at node 0
+    return diameter[0]
+```
+
+**Rust Implementation:**
+```rust
+fn tree_diameter(tree: &[Vec<usize>]) -> usize {
+    let mut diameter = 0;
+    
+    fn dfs(node: usize, parent: usize, tree: &[Vec<usize>], diameter: &mut usize) -> usize {
+        let mut max_height1 = 0;
+        let mut max_height2 = 0;
+        
+        for &child in &tree[node] {
+            if child != parent {
+                let height = dfs(child, node, tree, diameter);
+                
+                if height > max_height1 {
+                    max_height2 = max_height1;
+                    max_height1 = height;
+                } else if height > max_height2 {
+                    max_height2 = height;
+                }
+            }
+        }
+        
+        *diameter = (*diameter).max(max_height1 + max_height2);
+        max_height1 + 1
+    }
+    
+    dfs(0, usize::MAX, tree, &mut diameter);
+    diameter
+}
+```
+
+### 1.3 Maximum Independent Set on Trees
+
+**Problem:** Find the maximum size subset of nodes such that no two nodes are adjacent.
+
+**DP State:**
+- `dp[u][0]` = maximum independent set in subtree of u, when u is NOT included
+- `dp[u][1]` = maximum independent set in subtree of u, when u IS included
+
+**Transitions:**
+```
+dp[u][0] = sum(max(dp[v][0], dp[v][1]) for all children v)
+dp[u][1] = 1 + sum(dp[v][0] for all children v)
+```
+
+**Complexity:** O(n) time, O(n) space
+
+### 1.4 Tree Coloring Problems
+
+**Problem:** Color a tree with k colors such that no adjacent nodes have the same color. Count the number of valid colorings.
+
+**DP State:** `dp[u][c]` = number of ways to color subtree rooted at u when u has color c
+
+**Transitions:**
+```
+dp[u][c] = product(
+    sum(dp[v][c'] for c' != c) for all children v
+)
+```
+
+**Complexity:** O(n * k²) time, O(n * k) space
+
+---
+
+## 2. Bitmask DP
+
+### 2.1 Introduction to Bitmask DP
+
+Bitmask DP uses bitmasks to represent subsets in DP states. This is particularly useful when:
+- The problem involves subsets of a small set (typically n ≤ 20)
+- We need to track which elements have been used/selected
+- The state space can be represented as 2^n possibilities
+
+**Key Concepts:**
+- Bitmask: An integer where the i-th bit represents whether element i is included
+- State space: Usually O(2^n * polynomial(n))
+- Operations: Bit manipulation (&, |, ^, <<, >>)
+
+### 2.2 Traveling Salesman Problem (TSP)
+
+**Problem:** Given n cities and distances between them, find the shortest route that visits each city exactly once and returns to the starting city.
+
+**DP State:** `dp[mask][i]` = minimum cost to visit all cities in `mask`, ending at city `i`
+
+**Base Case:**
+```
+dp[1][0] = 0  // Start at city 0, only city 0 visited
+```
+
+**Transitions:**
+```
+dp[mask | (1 << j)][j] = min(dp[mask | (1 << j)][j], dp[mask][i] + dist[i][j])
+for all i in mask, j not in mask
+```
+
+**Answer:** `min(dp[(1<<n)-1][i] + dist[i][0])` for all i
+
+**Complexity:** O(n² * 2^n) time, O(n * 2^n) space
+
+**Python Implementation:**
+```python
+def tsp(dist):
+    """
+    dist: n x n distance matrix
+    Returns minimum cost of TSP tour
+    """
+    n = len(dist)
+    INF = float('inf')
+    
+    # dp[mask][i] = min cost to visit all cities in mask, ending at i
+    dp = [[INF] * n for _ in range(1 << n)]
+    dp[1][0] = 0  # Start at city 0
+    
+    for mask in range(1, 1 << n):
+        for i in range(n):
+            if dp[mask][i] == INF:
+                continue
+            
+            # Try to visit next city j
+            for j in range(n):
+                if not (mask & (1 << j)):  # If j not visited
+                    new_mask = mask | (1 << j)
+                    dp[new_mask][j] = min(dp[new_mask][j], 
+                                         dp[mask][i] + dist[i][j])
+    
+    # Return to start
+    full_mask = (1 << n) - 1
+    return min(dp[full_mask][i] + dist[i][0] for i in range(1, n))
+
+# Example usage
+dist_matrix = [
+    [0, 10, 15, 20],
+    [10, 0, 35, 25],
+    [15, 35, 0, 30],
+    [20, 25, 30, 0]
+]
+print(f"TSP minimum cost: {tsp(dist_matrix)}")  # Output: 80
+```
+
+**Rust Implementation:**
+```rust
+fn tsp(dist: &[Vec<i32>]) -> i32 {
+    let n = dist.len();
+    let inf = i32::MAX / 2;
+    let num_states = 1 << n;
+    
+    // dp[mask][i] = min cost to visit all cities in mask, ending at i
+    let mut dp = vec![vec![inf; n]; num_states];
+    dp[1][0] = 0;  // Start at city 0
+    
+    for mask in 1..num_states {
+        for i in 0..n {
+            if dp[mask][i] == inf {
+                continue;
+            }
+            
+            // Try to visit next city j
+            for j in 0..n {
+                if mask & (1 << j) == 0 {  // If j not visited
+                    let new_mask = mask | (1 << j);
+                    dp[new_mask][j] = dp[new_mask][j].min(dp[mask][i] + dist[i][j]);
+                }
+            }
+        }
+    }
+    
+    // Return to start
+    let full_mask = num_states - 1;
+    (1..n).map(|i| dp[full_mask][i] + dist[i][0]).min().unwrap()
+}
+```
+
+### 2.3 Assignment Problem
+
+**Problem:** Assign n workers to n jobs such that each worker gets exactly one job and the total cost is minimized.
+
+**DP State:** `dp[mask]` = minimum cost to assign jobs represented by `mask` to first `k` workers (where k = number of set bits in mask)
+
+**Transitions:**
+```
+worker = count_set_bits(mask)
+dp[mask] = min(dp[mask ^ (1 << j)] + cost[worker][j]) for all j in mask
+```
+
+**Complexity:** O(n * 2^n) time, O(2^n) space
+
+### 2.4 Subset Sum with Bitmask
+
+**Problem:** Given n numbers, find if there exists a subset that sums to target.
+
+**Bitmask Approach:** For small n (≤ 20), iterate through all 2^n subsets.
+
+```python
+def subset_sum_bitmask(nums, target):
+    n = len(nums)
+    for mask in range(1 << n):
+        current_sum = 0
+        for i in range(n):
+            if mask & (1 << i):
+                current_sum += nums[i]
+        if current_sum == target:
+            return True
+    return False
+```
+
+---
+
+## 3. Digit DP
+
+### 3.1 Introduction to Digit DP
+
+Digit DP is used for counting problems with constraints on digits. Common patterns:
+- Count numbers in range [L, R] with certain properties
+- Count numbers with specific digit patterns
+- Numbers satisfying digit sum constraints
+
+**Key Technique:** 
+- Process digits from left to right
+- Track whether we're still "tight" (bounded by the original number)
+- Use memoization for overlapping subproblems
+
+### 3.2 Count Numbers with Digit Constraints
+
+**Problem:** Count numbers from 0 to N that don't contain digit 4.
+
+**DP State:** `dp(pos, tight, started)`
+- `pos`: Current digit position (from left)
+- `tight`: Whether we're still bounded by N
+- `started`: Whether we've started placing non-zero digits
+
+**Transitions:**
+```
+limit = digits[pos] if tight else 9
+for digit in 0..limit+1:
+    if digit == 4: continue
+    new_tight = tight and (digit == limit)
+    new_started = started or (digit > 0)
+    count += dp(pos+1, new_tight, new_started)
+```
+
+**Python Implementation:**
+```python
+def count_without_digit_4(n):
+    """Count numbers from 0 to n that don't contain digit 4"""
+    digits = [int(d) for d in str(n)]
+    memo = {}
+    
+    def dp(pos, tight, started):
+        if pos == len(digits):
+            return 1 if started else 0
+        
+        state = (pos, tight, started)
+        if state in memo:
+            return memo[state]
+        
+        limit = digits[pos] if tight else 9
+        count = 0
+        
+        for digit in range(limit + 1):
+            if digit == 4:
+                continue
+            
+            new_tight = tight and (digit == limit)
+            new_started = started or (digit > 0)
+            count += dp(pos + 1, new_tight, new_started)
+        
+        memo[state] = count
+        return count
+    
+    return dp(0, True, False) + 1  # +1 for number 0
+
+print(f"Numbers without digit 4 up to 100: {count_without_digit_4(100)}")
+```
+
+**Rust Implementation:**
+```rust
+use std::collections::HashMap;
+
+fn count_without_digit_4(n: i64) -> i64 {
+    let digits: Vec<i32> = n.to_string()
+        .chars()
+        .map(|c| c.to_digit(10).unwrap() as i32)
+        .collect();
+    
+    let mut memo = HashMap::new();
+    
+    fn dp(pos: usize, tight: bool, started: bool, 
+          digits: &[i32], memo: &mut HashMap<(usize, bool, bool), i64>) -> i64 {
+        if pos == digits.len() {
+            return if started { 1 } else { 0 };
+        }
+        
+        let state = (pos, tight, started);
+        if let Some(&count) = memo.get(&state) {
+            return count;
+        }
+        
+        let limit = if tight { digits[pos] } else { 9 };
+        let mut count = 0;
+        
+        for digit in 0..=limit {
+            if digit == 4 {
+                continue;
+            }
+            
+            let new_tight = tight && (digit == limit);
+            let new_started = started || (digit > 0);
+            count += dp(pos + 1, new_tight, new_started, digits, memo);
+        }
+        
+        memo.insert(state, count);
+        count
+    }
+    
+    dp(0, true, false, &digits, &mut memo) + 1  // +1 for number 0
+}
+```
+
+### 3.3 Count Numbers with Digit Sum K
+
+**Problem:** Count numbers in range [0, N] where sum of digits equals K.
+
+**DP State:** `dp(pos, tight, sum_digits, started)`
+- Additional state: `sum_digits` = current sum of digits placed
+
+**Transitions:**
+```
+limit = digits[pos] if tight else 9
+for digit in 0..limit+1:
+    if sum_digits + digit > K: break
+    new_tight = tight and (digit == limit)
+    count += dp(pos+1, new_tight, sum_digits + digit, started or digit > 0)
+```
+
+**Complexity:** O(number_of_digits * 2 * K * 2) = O(log(N) * K)
+
+### 3.4 Count Palindromic Numbers
+
+**Problem:** Count palindromic numbers in range [L, R].
+
+**Approach:** Generate palindromes and count those in range.
+- For length n, generate first half and mirror it
+- Count palindromes ≤ R minus palindromes < L
+
+---
+
+## 4. Matrix Chain Multiplication
+
+### 4.1 Introduction to MCM
+
+Matrix Chain Multiplication is a classic DP problem that finds the optimal order to multiply a chain of matrices.
+
+**Problem:** Given matrices A₁, A₂, ..., Aₙ where matrix Aᵢ has dimensions p[i-1] × p[i], find the minimum number of scalar multiplications needed to compute the product A₁ × A₂ × ... × Aₙ.
+
+**Key Insight:** Matrix multiplication is associative but not all parenthesizations are equal in cost.
+- (A × B) × C costs differently than A × (B × C)
+- Multiplying (m × n) matrix by (n × p) matrix costs m × n × p
+
+### 4.2 DP Formulation
+
+**DP State:** `dp[i][j]` = minimum multiplications to compute A[i..j]
+
+**Base Case:**
+```
+dp[i][i] = 0  // Single matrix needs no multiplication
+```
+
+**Transitions:**
+```
+dp[i][j] = min(dp[i][k] + dp[k+1][j] + p[i-1]*p[k]*p[j]) 
+           for k in range(i, j)
+```
+
+**Complexity:** O(n³) time, O(n²) space
+
+**Python Implementation:**
+```python
+def matrix_chain_order(dimensions):
+    """
+    dimensions: array where matrix i has dimensions dimensions[i] x dimensions[i+1]
+    Returns minimum number of scalar multiplications
+    """
+    n = len(dimensions) - 1  # Number of matrices
+    dp = [[0] * n for _ in range(n)]
+    
+    # l is chain length
+    for l in range(2, n + 1):
+        for i in range(n - l + 1):
+            j = i + l - 1
+            dp[i][j] = float('inf')
+            
+            for k in range(i, j):
+                cost = (dp[i][k] + dp[k + 1][j] + 
+                       dimensions[i] * dimensions[k + 1] * dimensions[j + 1])
+                dp[i][j] = min(dp[i][j], cost)
+    
+    return dp[0][n - 1]
+
+# Example: A1(10x30), A2(30x5), A3(5x60)
+dims = [10, 30, 5, 60]
+print(f"Minimum multiplications: {matrix_chain_order(dims)}")  # Output: 4500
+```
+
+**Rust Implementation:**
+```rust
+fn matrix_chain_order(dimensions: &[usize]) -> usize {
+    let n = dimensions.len() - 1;  // Number of matrices
+    let mut dp = vec![vec![0; n]; n];
+    
+    // l is chain length
+    for l in 2..=n {
+        for i in 0..=n - l {
+            let j = i + l - 1;
+            dp[i][j] = usize::MAX;
+            
+            for k in i..j {
+                let cost = dp[i][k] + dp[k + 1][j] + 
+                          dimensions[i] * dimensions[k + 1] * dimensions[j + 1];
+                dp[i][j] = dp[i][j].min(cost);
+            }
+        }
+    }
+    
+    dp[0][n - 1]
+}
+```
+
+### 4.3 Optimal Binary Search Tree
+
+**Problem:** Given n keys and their frequencies, construct a BST that minimizes the total search cost.
+
+**DP State:** `dp[i][j]` = minimum cost BST for keys i to j
+
+**Transitions:**
+```
+dp[i][j] = min(dp[i][r-1] + dp[r+1][j]) + sum(freq[i..j]) 
+           for r in range(i, j+1)
+```
+
+**Complexity:** O(n³) time, O(n²) space
+
+### 4.4 Boolean Parenthesization
+
+**Problem:** Given a boolean expression with symbols T, F and operators AND, OR, XOR, count the number of ways to parenthesize it to evaluate to True.
+
+**DP State:** 
+- `dpT[i][j]` = number of ways to parenthesize symbols i..j to get True
+- `dpF[i][j]` = number of ways to parenthesize symbols i..j to get False
+
+**Transitions:** Based on operator at position k between i and j:
+```
+For AND: total = dpT[i][k] * dpT[k+1][j]
+For OR: total = dpT[i][k] * dpT[k+1][j] + dpT[i][k] * dpF[k+1][j] + dpF[i][k] * dpT[k+1][j]
+For XOR: total = dpT[i][k] * dpF[k+1][j] + dpF[i][k] * dpT[k+1][j]
+```
+
+---
+
+## 5. DP Optimization Techniques
+
+### 5.1 Space Optimization
+
+Many DP problems can be optimized from O(n²) or O(n) space to O(1) or O(n) by observing:
+- Only previous row/column is needed
+- Can use rolling arrays or just track necessary previous values
+
+**Example: Fibonacci Space Optimization**
+```python
+# O(n) space
+def fib_naive(n):
+    dp = [0] * (n + 1)
+    dp[1] = 1
+    for i in range(2, n + 1):
+        dp[i] = dp[i-1] + dp[i-2]
+    return dp[n]
+
+# O(1) space
+def fib_optimized(n):
+    if n <= 1:
+        return n
+    prev2, prev1 = 0, 1
+    for _ in range(2, n + 1):
+        curr = prev1 + prev2
+        prev2, prev1 = prev1, curr
+    return prev1
+```
+
+### 5.2 State Compression
+
+When DP state has redundant information, we can compress it:
+- Use bitmask to represent boolean states
+- Combine multiple related states into one
+- Use mathematical properties to reduce state space
+
+**Example: House Robber II (Circular)**
+Instead of tracking which houses are robbed, just track:
+- Case 1: Exclude first house
+- Case 2: Exclude last house
+- Answer = max(case1, case2)
+
+### 5.3 Knuth's Optimization
+
+For certain DP problems with cost functions satisfying:
+1. Quadrangle inequality: C(a, c) + C(b, d) ≤ C(a, d) + C(b, c) for a ≤ b ≤ c ≤ d
+2. Monotonicity: C(b, c) ≤ C(a, d) for a ≤ b ≤ c ≤ d
+
+We can optimize from O(n³) to O(n²) by tracking optimal split points.
+
+**Application:** Optimal BST, MCM with certain cost functions
+
+### 5.4 Divide and Conquer Optimization
+
+When DP transitions satisfy:
+- opt[i][j-1] ≤ opt[i][j] ≤ opt[i][j+1] (monotonicity)
+
+We can use divide and conquer to reduce complexity.
+
+**Template:**
+```python
+def compute_dp(l, r, opt_l, opt_r):
+    if l > r:
+        return
+    
+    mid = (l + r) // 2
+    best_val = INF
+    best_opt = -1
+    
+    for k in range(opt_l, min(mid, opt_r) + 1):
+        val = dp[l][mid] + cost(k, mid)
+        if val < best_val:
+            best_val = val
+            best_opt = k
+    
+    dp[l][mid] = best_val
+    compute_dp(l, mid - 1, opt_l, best_opt)
+    compute_dp(mid + 1, r, best_opt, opt_r)
+```
+
+### 5.5 Convex Hull Trick (CHT)
+
+For DP of the form:
+```
+dp[i] = min(dp[j] + cost(j, i)) for j < i
+```
+
+Where cost(j, i) can be written as linear functions, CHT can optimize from O(n²) to O(n log n).
+
+**When to use:**
+- Transitions involve quadratic or linear functions
+- Need to find minimum/maximum over many linear functions
+- Slopes are monotonic (allows deque optimization)
+
+---
+
+## 6. Practice Problems
+
+### Easy
+1. **Tree Height** - Find height of tree using DP
+2. **Subset Sum (Small n)** - Use bitmask for n ≤ 20
+3. **Count Even Digit Numbers** - Digit DP with simple constraint
+
+### Medium
+4. **Maximum Weight Independent Set on Trees** - Tree DP with weights
+5. **TSP with Small Constraints** - Bitmask DP, n ≤ 15
+6. **Count Numbers with Prime Digit Sum** - Digit DP with primality check
+7. **Minimum Score Triangulation** - MCM variant on polygons
+
+### Hard
+8. **Appleman and Tree** (Codeforces) - Tree DP with complex states
+9. **Perfect Matching in Bipartite Graph** - Bitmask DP, assignment variant
+10. **Numbers with Digit Constraints** - Advanced digit DP with multiple constraints
+11. **Optimal BST** - MCM-style DP with frequencies
+12. **Zuma** (Codeforces) - DP with palindromic subsequences
+
+---
+
+## 7. Summary & Key Takeaways
+
+### When to Use Each Technique
+
+| Technique | When to Use | Complexity | Constraints |
+|-----------|-------------|------------|-------------|
+| **Tree DP** | Problems on tree structures, subtree properties | O(n) to O(n²) | Tree structure required |
+| **Bitmask DP** | Small subsets (n ≤ 20), tracking used elements | O(2^n * poly(n)) | Small n required |
+| **Digit DP** | Range counting with digit constraints | O(log(N) * states) | Number range queries |
+| **MCM-style** | Optimal parenthesization, partitioning | O(n³) to O(n²) | Sequential partitioning |
+| **Space Optimization** | Any DP with limited dependencies | Reduces space | Depends on problem |
+| **Knuth's Opt.** | MCM, BST with quadrangle inequality | O(n³) → O(n²) | Specific cost functions |
+| **Divide & Conquer** | Monotonic opt[i][j] property | O(n² log n) or better | Monotonicity required |
+
+### Problem-Solving Strategy
+1. **Identify the structure:** Tree, sequence, subset, digits?
+2. **Define the state:** What information do we need to track?
+3. **Find transitions:** How do we build larger solutions from smaller ones?
+4. **Check constraints:** Can we optimize space/time?
+5. **Verify base cases:** What are the simplest subproblems?
+6. **Implement carefully:** Watch for off-by-one errors and state transitions
+
+### Common Pitfalls
+- ❌ Not considering all possible transitions
+- ❌ Wrong base cases leading to incorrect results
+- ❌ Space inefficiency causing MLE (Memory Limit Exceeded)
+- ❌ Not recognizing when optimization techniques apply
+- ❌ Off-by-one errors in digit DP bounds
+- ❌ Forgetting to handle edge cases (empty input, single element)
+
+### Tips for Mastery
+- ✅ Practice identifying DP patterns quickly
+- ✅ Always verify with small test cases
+- ✅ Learn to recognize when optimizations apply
+- ✅ Understand both recursive and iterative implementations
+- ✅ Practice bit manipulation for bitmask DP
+- ✅ Draw DP tables for small inputs to understand transitions
+
+---
+
+**Next Steps:**
+- Day 13: More Advanced DP (Interval DP, Game Theory DP, Probability DP)
+- Practice problems on Codeforces, LeetCode, and AtCoder
+- Focus on recognizing DP patterns in new problems
+
+**Recommended Problems:**
+- LeetCode 96: Unique Binary Search Trees (MCM-style)
+- LeetCode 198: House Robber (Basic DP)
+- Codeforces 161E: Tetrahedron (Matrix DP)
+- SPOJ: TRT - Treats for the Cows (Interval DP)

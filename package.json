@@ -1,0 +1,28 @@
+{
+  "name": "dsa-study-plan-web",
+  "version": "2.0.0",
+  "description": "Vite-powered SPA for browsing DSA study materials with hot reload",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 8080",
+    "start": "vite --port 8080 --open"
+  },
+  "devDependencies": {
+    "vite": "^6.4.1"
+  },
+  "keywords": [
+    "dsa",
+    "study-plan",
+    "algorithms",
+    "data-structures",
+    "vite",
+    "spa"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

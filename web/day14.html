@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 14: DP Review & Practice - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .pattern-card {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .pattern-card h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+        .technique-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .technique-table th, .technique-table td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: left;
+        }
+        .technique-table th {
+            background: #007bff;
+            color: white;
+        }
+        .technique-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Day 14: DP Review & Practice</h1>
+            <p class="date">Date: April 12, 2026</p>
+            <p class="focus">Focus: Mixed DP problems, pattern recognition, optimization techniques</p>
+
+            <div class="section">
+                <h2>Overview</h2>
+                <p>Today is a comprehensive review of all DP techniques from Days 11-13. The goal is to strengthen pattern recognition skills, practice choosing between memoization and tabulation, and master DP optimization techniques.</p>
+            </div>
+
+            <div class="section">
+                <h2>1. DP Pattern Recognition Guide</h2>
+                <p>The key to solving DP problems efficiently is recognizing which technique to apply.</p>
+
+                <div class="pattern-card">
+                    <h3>1D DP</h3>
+                    <p><strong>Look for:</strong> Linear progression, each state depends on previous 1-2 states</p>
+                    <p><strong>Examples:</strong> Fibonacci, Climbing Stairs, House Robber, Coin Change</p>
+                    <p><strong>State:</strong> dp[i] = optimal solution for first i items</p>
+                    <p><strong>Space:</strong> O(n) → O(1) with rolling variables</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>2D DP</h3>
+                    <p><strong>Look for:</strong> Two sequences/items, grid problems, choose/not choose decisions</p>
+                    <p><strong>Examples:</strong> LCS, Edit Distance, 0/1 Knapsack, Target Sum</p>
+                    <p><strong>State:</strong> dp[i][j] = optimal solution using first i items with capacity/position j</p>
+                    <p><strong>Space:</strong> O(m*n) → O(n) with rolling array</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Interval DP</h3>
+                    <p><strong>Look for:</strong> Operations on ranges/subarrays, merge/split decisions, palindromes</p>
+                    <p><strong>Examples:</strong> Palindrome Partitioning, Burst Balloons, Matrix Chain Multiplication</p>
+                    <p><strong>State:</strong> dp[i][j] = optimal solution for range [i, j]</p>
+                    <p><strong>Time:</strong> O(n³) typically, iterate by length then start then split point</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Tree DP</h3>
+                    <p><strong>Look for:</strong> Tree structure, decisions at each node affecting children</p>
+                    <p><strong>Examples:</strong> Tree Diameter, Maximum Independent Set, Tree Coloring</p>
+                    <p><strong>State:</strong> Often returns (include_node, exclude_node) or (depth, max_value)</p>
+                    <p><strong>Space:</strong> O(h) where h is tree height (recursion stack)</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Bitmask DP</h3>
+                    <p><strong>Look for:</strong> Small n (≤20), subset selection, permutation tracking</p>
+                    <p><strong>Examples:</strong> TSP (Held-Karp), Assignment Problem, Subset Sum</p>
+                    <p><strong>State:</strong> dp[mask][i] = optimal value with selected items (mask), ending at i</p>
+                    <p><strong>Time:</strong> O(n² * 2^n), <strong>Space:</strong> O(n * 2^n)</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Game Theory DP</h3>
+                    <p><strong>Look for:</strong> Two players, optimal play, minimax decisions</p>
+                    <p><strong>Examples:</strong> Optimal Strategy Game, Coin Game, Nim Variants</p>
+                    <p><strong>State:</strong> dp[i][j] = best score/difference current player can achieve from range [i, j]</p>
+                    <p><strong>Key:</strong> Assume opponent plays optimally (minimize your gain)</p>
+                </div>
+
+                <div class="pattern-card">
+                    <h3>Probability DP</h3>
+                    <p><strong>Look for:</strong> Expected values, random processes, probability distributions</p>
+                    <p><strong>Examples:</strong> Expected Dice Rolls, Soup Servings, Random Walks</p>
+                    <p><strong>State:</strong> E[x] = 1 + Σ(E[x-transition] * probability)</p>
+                    <p><strong>Key:</strong> Use memoization for recursive expectations</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>2. Optimization Techniques</h2>
+
+                <table class="technique-table">
+                    <tr>
+                        <th>Technique</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                    <tr>
+                        <td>Space Optimization</td>
+                        <td>Use rolling arrays when only previous row/column needed</td>
+                        <td>Knapsack: O(n*W) → O(W)</td>
+                    </tr>
+                    <tr>
+                        <td>State Compression</td>
+                        <td>Encode multiple values into single state variable</td>
+                        <td>Bitmask for subset tracking</td>
+                    </tr>
+                    <tr>
+                        <td>1D Compression</td>
+                        <td>Reduce 2D DP to 1D when transitions only need previous row</td>
+                        <td>LCS, Edit Distance with滚动 array</td>
+                    </tr>
+                    <tr>
+                        <td>Reverse Iteration</td>
+                        <td>Iterate backwards to avoid overwriting needed values</td>
+                        <td>0/1 Knapsack inner loop</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>3. Problem-Solving Strategies</h2>
+                <ol>
+                    <li><strong>Identify Optimal Substructure:</strong> Can the optimal solution be built from optimal subproblems?</li>
+                    <li><strong>Check Overlapping Subproblems:</strong> Are the same subproblems solved multiple times?</li>
+                    <li><strong>Define State Clearly:</strong> What information uniquely identifies a subproblem?</li>
+                    <li><strong>Design Transitions:</strong> How do you move from one state to the next?</li>
+                    <li><strong>Identify Base Cases:</strong> What are the simplest subproblems with known answers?</li>
+                    <li><strong>Choose Approach:</strong> Memoization (top-down) vs Tabulation (bottom-up) based on:
+                        <ul>
+                            <li>Memoization: Only compute reachable states, easier to implement</li>
+                            <li>Tabulation: No recursion overhead, better cache locality, easier to optimize space</li>
+                        </ul>
+                    </li>
+                    <li><strong>Optimize:</strong> Can you reduce space complexity? Eliminate redundant computations?</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h2>4. Code Examples</h2>
+
+                <h3>1D DP: House Robber (Python)</h3>
+                <div class="code-block">def house_robber(nums):
+    prev2, prev1 = 0, nums[0]
+    for i in range(1, len(nums)):
+        curr = max(prev1, prev2 + nums[i])
+        prev2 = prev1
+        prev1 = curr
+    return prev1</div>
+
+                <h3>2D DP: Longest Common Subsequence (Python)</h3>
+                <div class="code-block">def longest_common_subsequence(text1, text2):
+    m, n = len(text1), len(text2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if text1[i-1] == text2[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+    
+    return dp[m][n]</div>
+
+                <h3>Interval DP: Burst Balloons (Python)</h3>
+                <div class="code-block">def burst_balloons(nums):
+    balloons = [1] + nums + [1]
+    n = len(balloons)
+    dp = [[0] * n for _ in range(n)]
+    
+    for length in range(2, n):
+        for i in range(n - length):
+            j = i + length
+            for k in range(i + 1, j):
+                coins = balloons[i] * balloons[k] * balloons[j]
+                dp[i][j] = max(dp[i][j], dp[i][k] + coins + dp[k][j])
+    
+    return dp[0][n - 1]</div>
+
+                <h3>Game Theory DP: Optimal Strategy (Python)</h3>
+                <div class="code-block">def optimal_game_strategy(coins):
+    n = len(coins)
+    dp = [[0] * n for _ in range(n)]
+    
+    for i in range(n):
+        dp[i][i] = coins[i]
+    
+    for length in range(2, n + 1):
+        for i in range(n - length + 1):
+            j = i + length - 1
+            pick_left = coins[i] + min(dp[i+2][j], dp[i+1][j-1])
+            pick_right = coins[j] + min(dp[i+1][j-1], dp[i][j-2])
+            dp[i][j] = max(pick_left, pick_right)
+    
+    return dp[0][n - 1]</div>
+            </div>
+
+            <div class="section">
+                <h2>5. Review Checklist</h2>
+                <p>Before moving forward, ensure you can:</p>
+                <ul class="checklist">
+                    <li>Implement 1D DP problems from memory (Fibonacci, House Robber, Coin Change)</li>
+                    <li>Recognize when to use 2D DP vs 1D DP</li>
+                    <li>Implement LCS and Edit Distance with correct transitions</li>
+                    <li>Solve 0/1 Knapsack with space optimization</li>
+                    <li>Identify interval DP problems and iterate correctly by length</li>
+                    <li>Implement tree DP with proper state tracking</li>
+                    <li>Recognize bitmask DP problems (small n, subset selection)</li>
+                    <li>Apply minimax principle to game theory problems</li>
+                    <li>Set up probability/expected value DP with correct recurrence</li>
+                    <li>Optimize space complexity when possible</li>
+                    <li>Choose between memoization and tabulation appropriately</li>
+                </ul>
+            </div>
+
+            <div class="section next-day">
+                <h2>Tomorrow: Day 15</h2>
+                <p><strong>Topic:</strong> Advanced Algorithms Review</p>
+                <p><strong>Focus:</strong> Comprehensive review of all patterns, advanced problem solving</p>
+                <p><strong>Key concepts:</strong></p>
+                <ul>
+                    <li>Mixed practice across all DP patterns</li>
+                    <li>Pattern recognition under time pressure</li>
+                    <li>Complexity analysis and optimization</li>
+                    <li>Problem decomposition strategies</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+<div id="navigation-buttons"></div>
+    <script type="module" src="/js/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 13: More Advanced Dynamic Programming - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .pattern-card {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .pattern-card h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        .approach-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .approach-box h4 {
+            margin-top: 0;
+            color: #0056b3;
+        }
+        .recurrence {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            padding: 5px 0;
+        }
+        .checklist li:before {
+            content: "☐ ";
+            color: #007bff;
+            font-weight: bold;
+        }
+        .complexity-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .warning-badge {
+            display: inline-block;
+            background: #ffc107;
+            color: #333;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+        }
+        .nav-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .nav-btn:hover {
+            background: #0056b3;
+        }
+        .nav-btn.disabled {
+            background: #6c757d;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎯 Day 13: More Advanced Dynamic Programming</h1>
+        <p class="subtitle">Interval DP, Game Theory DP, Probability DP, Advanced Patterns</p>
+    </header>
+
+    <nav class="breadcrumb">
+        <a href="index.html">Home</a> &gt; 
+        <a href="day11.html">Day 11: DP Part 1</a> &gt;
+        <a href="day12.html">Day 12: DP Part 2</a> &gt;
+        <span>Day 13: Advanced DP</span>
+    </nav>
+
+    <main>
+        <section class="overview">
+            <h2>📚 Overview</h2>
+            <p>
+                Today we dive into even more advanced Dynamic Programming techniques. Building on the fundamentals 
+                from Day 11 and advanced topics from Day 12, we explore interval DP, game theory applications, 
+                probability-based DP, and specialized patterns like plug DP and broken profile DP.
+            </p>
+            <div class="info-box">
+                <strong>Date:</strong> April 11, 2026<br>
+                <strong>Difficulty:</strong> <span class="warning-badge">Advanced</span><br>
+                <strong>Focus:</strong> Interval DP, Game Theory, Probability, Advanced Patterns
+            </div>
+        </section>
+
+        <section class="topics">
+            <h2>🎓 Topics Covered</h2>
+            
+            <div class="pattern-card">
+                <h3>1. Interval Dynamic Programming</h3>
+                <p>
+                    Interval DP solves problems by considering all possible subintervals. The optimal solution 
+                    for [i, j] is computed by trying all split points k and combining solutions of [i, k] and [k+1, j].
+                </p>
+                <h4>Key Problems:</h4>
+                <ul>
+                    <li><strong>Palindrome Partitioning (Minimum Cuts)</strong> - Partition string into palindromes with minimum cuts</li>
+                    <li><strong>Burst Balloons</strong> - Maximize coins from bursting balloons</li>
+                    <li><strong>Stone Merge Problem</strong> - Min cost to merge all piles into one</li>
+                    <li><strong>Optimal Game Strategy</strong> - Max value Player 1 can get when both play optimally</li>
+                </ul>
+                <h4>Template:</h4>
+                <div class="code-block">
+def interval_dp(i, j):
+    if i == j:
+        return base_case
+    if (i, j) in memo:
+        return memo[(i, j)]
+    
+    result = infinity or -infinity
+    for k in range(i, j):
+        result = optimize(result, dp(i, k) + dp(k+1, j) + cost(i, j))
+    
+    memo[(i, j)] = result
+    return result
+                </div>
+                <div class="approach-box">
+                    <h4>💡 Key Insight</h4>
+                    <p>Think: <strong>"What happens LAST in this range?"</strong> This reverse thinking is crucial for interval DP.</p>
+                </div>
+            </div>
+
+            <div class="pattern-card">
+                <h3>2. Game Theory DP</h3>
+                <p>
+                    Game theory DP applies minimax algorithms to two-player zero-sum games. The maximizer tries 
+                    to maximize the score, while the minimizer tries to minimize it.
+                </p>
+                <h4>Key Problems:</h4>
+                <ul>
+                    <li><strong>Minimax Algorithm</strong> - Two-player zero-sum games</li>
+                    <li><strong>Nim Game Variants</strong> - Losing positions are multiples of (max_removal + 1)</li>
+                    <li><strong>Coin Game (Pick from Ends)</strong> - Players alternately pick from either end</li>
+                </ul>
+                <div class="recurrence">
+                    <strong>Nim Pattern:</strong> Losing position if n % (max_removal + 1) == 0
+                </div>
+                <div class="recurrence">
+                    <strong>Coin Game:</strong> dp[i][j] = max(coins[i] + min(dp[i+2][j], dp[i+1][j-1]),<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;coins[j] + min(dp[i+1][j-1], dp[i][j-2]))
+                </div>
+                <div class="approach-box">
+                    <h4>💡 Key Insight</h4>
+                    <p>Assume opponent plays optimally too. Your gain is their loss in zero-sum games.</p>
+                </div>
+            </div>
+
+            <div class="pattern-card">
+                <h3>3. Probability Dynamic Programming</h3>
+                <p>
+                    Probability DP computes expected values by averaging over all possible outcomes, 
+                    weighted by their probabilities.
+                </p>
+                <h4>Key Problems:</h4>
+                <ul>
+                    <li><strong>Expected Values</strong> - E[X] = Σ (value × probability)</li>
+                    <li><strong>Random Walks</strong> - Expected steps to reach target: E = n²</li>
+                    <li><strong>Dice Problems</strong> - Expected rolls for specific face: E = 1/p = 6</li>
+                    <li><strong>Coupon Collector</strong> - E = n × H(n) ≈ n × ln(n)</li>
+                </ul>
+                <div class="recurrence">
+                    <strong>Coupon Collector:</strong> E = n × (1 + 1/2 + 1/3 + ... + 1/n)
+                </div>
+                <div class="approach-box">
+                    <h4>💡 Key Insight</h4>
+                    <p>Work backwards from terminal states, or use linearity of expectation when possible.</p>
+                </div>
+            </div>
+
+            <div class="pattern-card">
+                <h3>4. Advanced Patterns</h3>
+                <p>Specialized DP techniques used in competitive programming and advanced algorithm design.</p>
+                <h4>Techniques:</h4>
+                <ul>
+                    <li><strong>Plug DP</strong> - Track connectivity on grid boundaries (Hamiltonian paths, domino tilings)</li>
+                    <li><strong>Broken Profile DP</strong> - Process cell by cell, maintain boundary state</li>
+                    <li><strong>Bitmask + Connectivity</strong> - Combine visited set with connectivity info</li>
+                </ul>
+                <div class="approach-box">
+                    <h4>💡 When to Use</h4>
+                    <p>These are advanced techniques for grid problems, path counting, and connectivity constraints.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="implementations">
+            <h2>💻 Implementations</h2>
+            
+            <h3>Python Implementations</h3>
+            <p>All Python implementations are in <code>python_projects/day13_dp.py</code></p>
+            <div class="code-block">
+# Run tests:
+cd python_projects
+python day13_dp.py
+
+# Functions available:
+- min_palindrome_cuts(s)
+- max_coins_burst_balloons(nums)
+- min_stone_merge_cost(stones)
+- optimal_game_strategy(values)
+- can_first_player_win(values)
+- can_win_nim(n, max_removal)
+- coin_game_max_value(coins)
+- expected_rolls_for_face(face_prob)
+- expected_rolls_for_all_faces(num_faces)
+- random_walk_expected_steps(target)
+- grid_unique_paths(m, n)
+- grid_unique_paths_with_obstacles(grid)
+            </div>
+
+            <h3>Rust Implementations</h3>
+            <p>All Rust implementations are in <code>rust_projects/day13_dp/</code></p>
+            <div class="code-block">
+# Run tests:
+cd rust_projects/day13_dp
+cargo test
+
+# Run program:
+cargo run
+            </div>
+        </section>
+
+        <section class="homework">
+            <h2>📝 Homework</h2>
+            <ul class="checklist">
+                <li>Implement palindrome partitioning, burst balloons, stone merge</li>
+                <li>Solve at least 2 game theory DP problems</li>
+                <li>Implement probability DP: dice expected values, random walks</li>
+                <li>Attempt one advanced pattern problem (broken profile or plug DP)</li>
+                <li>Review all DP techniques from Days 11-13</li>
+            </ul>
+        </section>
+
+        <section class="practice">
+            <h2>🎯 Practice Problems</h2>
+            <div class="pattern-card">
+                <h3>LeetCode Problems</h3>
+                <ul>
+                    <li><strong>Palindrome Partitioning II (LeetCode 132)</strong> - Hard</li>
+                    <li><strong>Burst Balloons (LeetCode 312)</strong> - Hard</li>
+                    <li><strong>Stone Game (LeetCode 877)</strong> - Medium</li>
+                    <li><strong>Predict the Winner (LeetCode 486)</strong> - Medium</li>
+                </ul>
+            </div>
+            <div class="pattern-card">
+                <h3>Additional Challenges</h3>
+                <ul>
+                    <li>Coin Game Variants - Medium</li>
+                    <li>Expected Value of Dice Rolls - Medium</li>
+                    <li>Random Walk Expected Steps - Medium</li>
+                    <li>Grid Path Counting with Obstacles - Hard</li>
+                    <li>Hamiltonian Path Counting - Hard</li>
+                    <li>Domino Tiling - Hard</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="summary">
+            <h2>📖 Summary</h2>
+            <div class="pattern-card">
+                <h3>Interval DP</h3>
+                <ul>
+                    <li>Think: "What happens LAST in this range?"</li>
+                    <li>Classic problems: palindrome partitioning, burst balloons, stone merge</li>
+                    <li>Time: typically O(n³), Space: O(n²)</li>
+                </ul>
+            </div>
+            <div class="pattern-card">
+                <h3>Game Theory DP</h3>
+                <ul>
+                    <li>Minimax: maximizer vs minimizer</li>
+                    <li>Optimal strategies assume opponent also plays optimally</li>
+                    <li>Nim: losing positions are multiples of (max_move + 1)</li>
+                </ul>
+            </div>
+            <div class="pattern-card">
+                <h3>Probability DP</h3>
+                <ul>
+                    <li>Expected values: E[X] = Σ(value × probability)</li>
+                    <li>Work backwards from terminal states</li>
+                    <li>Coupon collector: E = n × H(n) ≈ n × ln(n)</li>
+                </ul>
+            </div>
+            <div class="pattern-card">
+                <h3>Advanced Patterns</h3>
+                <ul>
+                    <li>Plug DP: track connectivity on grid boundaries</li>
+                    <li>Broken Profile: process cell by cell, maintain boundary state</li>
+                    <li>These are competitive programming techniques</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="nav-buttons">
+            <a href="day12.html" class="nav-btn">← Day 12: Advanced DP Part 2</a>
+            <a href="index.html" class="nav-btn">🏠 Home</a>
+            <span class="nav-btn disabled">Day 14: Coming Soon →</span>
+        </div>
+    </main>
+
+    <footer>
+        <p>DSA Study Plan - Day 13 | Created April 11, 2026</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

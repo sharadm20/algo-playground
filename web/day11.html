@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 11: Dynamic Programming - Part 1 - DSA Study Plan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .pattern-card {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .pattern-card h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        .approach-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .approach-box h4 {
+            margin-top: 0;
+            color: #0056b3;
+        }
+        .recurrence {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+        .complexity-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .complexity-table th, .complexity-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .complexity-table th {
+            background: #007bff;
+            color: white;
+        }
+        .complexity-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Day 11: Dynamic Programming - Part 1</h1>
+            <p class="date">April 9, 2026</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="main-content">
+                <section>
+                    <h2>Overview</h2>
+                    <p>Today we begin <strong>Dynamic Programming (DP)</strong>, one of the most important algorithmic paradigms for solving optimization problems. DP breaks problems into overlapping subproblems and stores their solutions to avoid redundant computation.</p>
+                    
+                    <div class="pattern-card">
+                        <h3>Key Properties of DP Problems</h3>
+                        <ul>
+                            <li><strong>Optimal Substructure:</strong> Optimal solution can be built from optimal solutions of subproblems</li>
+                            <li><strong>Overlapping Subproblems:</strong> Same subproblems are solved multiple times in naive recursion</li>
+                        </ul>
+                    </div>
+
+                    <div class="pattern-card">
+                        <h3>When to Use DP</h3>
+                        <ul>
+                            <li>Problem asks for maximum/minimum/longest/shortest/optimal value</li>
+                            <li>Problem involves making a sequence of decisions</li>
+                            <li>Recursive solution has overlapping subproblems</li>
+                            <li>Solutions to smaller instances help solve larger instances</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Two Approaches to Dynamic Programming</h2>
+                    
+                    <div class="approach-box">
+                        <h4>Top-Down Approach (Memoization)</h4>
+                        <p>Start with the original problem and recursively break it into subproblems. Store results in a cache to avoid recomputing.</p>
+                        <p><strong>Advantages:</strong> Natural, only computes needed subproblems, easier to implement</p>
+                        <p><strong>Disadvantages:</strong> Recursion overhead, may cause stack overflow, uses call stack space</p>
+                    </div>
+
+                    <div class="approach-box">
+                        <h4>Bottom-Up Approach (Tabulation)</h4>
+                        <p>Start with smallest subproblems and iteratively build up. Fill a table systematically.</p>
+                        <p><strong>Advantages:</strong> No recursion overhead, better space efficiency, no stack overflow risk</p>
+                        <p><strong>Disadvantages:</strong> May compute unnecessary subproblems, requires careful ordering</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Classic 1D DP Problems</h2>
+
+                    <h3>1. Fibonacci Sequence</h3>
+                    <div class="recurrence">
+                        <strong>Recurrence:</strong> F(n) = F(n-1) + F(n-2), F(0) = 0, F(1) = 1
+                    </div>
+                    <div class="code-block">
+def fibonacci_optimized(n):
+    if n <= 1:
+        return n
+    prev2, prev1 = 0, 1
+    for _ in range(2, n + 1):
+        curr = prev1 + prev2
+        prev2, prev1 = prev1, curr
+    return prev1
+                    </div>
+                    <p><strong>Time:</strong> O(n), <strong>Space:</strong> O(1)</p>
+
+                    <h3>2. Climbing Stairs</h3>
+                    <p>Identical to Fibonacci! Ways(n) = Ways(n-1) + Ways(n-2)</p>
+                    <p><strong>Base cases:</strong> Ways(0) = 1, Ways(1) = 1</p>
+
+                    <h3>3. House Robber</h3>
+                    <div class="recurrence">
+                        <strong>Recurrence:</strong> dp[i] = max(dp[i-1], dp[i-2] + nums[i])
+                    </div>
+                    <p>At each house: either skip it (take dp[i-1]) or rob it (take dp[i-2] + current)</p>
+
+                    <h3>4. Coin Change</h3>
+                    <div class="recurrence">
+                        <strong>Recurrence:</strong> dp[i] = min(dp[i], dp[i - coin] + 1) for each coin
+                    </div>
+                    <p><strong>Base case:</strong> dp[0] = 0, Initialize with infinity for impossible values</p>
+                </section>
+
+                <section>
+                    <h2>Knapsack Problems</h2>
+
+                    <h3>0/1 Knapsack</h3>
+                    <p>Each item can only be taken once (0 or 1)</p>
+                    <div class="recurrence">
+                        dp[i][w] = max(dp[i-1][w], dp[i-1][w-weight[i]] + value[i])
+                    </div>
+                    <p><strong>Time:</strong> O(n × W), <strong>Space:</strong> O(W) with optimization</p>
+
+                    <h3>Unbounded Knapsack</h3>
+                    <p>Can take unlimited copies of each item</p>
+                    <div class="recurrence">
+                        dp[w] = max(dp[w], dp[w-weight[i]] + value[i])
+                    </div>
+                    <p><strong>Key difference:</strong> Iterate forwards (can reuse items) vs backwards in 0/1 knapsack</p>
+
+                    <h3>Target Sum</h3>
+                    <p>Convert to subset sum: find subset with sum = (sum(nums) + target) / 2</p>
+                </section>
+
+                <section>
+                    <h2>String Dynamic Programming</h2>
+
+                    <h3>Longest Common Subsequence (LCS)</h3>
+                    <div class="recurrence">
+                        If s1[i] == s2[j]: dp[i][j] = 1 + dp[i-1][j-1]<br>
+                        Else: dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+                    </div>
+                    <p><strong>Time:</strong> O(m × n), <strong>Space:</strong> O(m × n)</p>
+
+                    <h3>Edit Distance (Levenshtein Distance)</h3>
+                    <div class="recurrence">
+                        If word1[i] == word2[j]: dp[i][j] = dp[i-1][j-1]<br>
+                        Else: dp[i][j] = 1 + min(delete, insert, replace)
+                    </div>
+                    <p><strong>Base cases:</strong> dp[i][0] = i, dp[0][j] = j</p>
+
+                    <h3>Longest Palindromic Subsequence</h3>
+                    <p><strong>Approach 1:</strong> Reverse string and find LCS with original</p>
+                    <div class="recurrence">
+                        If s[i] == s[j]: dp[i][j] = 2 + dp[i+1][j-1]<br>
+                        Else: dp[i][j] = max(dp[i+1][j], dp[i][j-1])
+                    </div>
+                </section>
+
+                <section>
+                    <h2>DP Problem-Solving Strategy</h2>
+                    <ol>
+                        <li><strong>Define the State:</strong> What does dp[i] or dp[i][j] represent?</li>
+                        <li><strong>Find the Recurrence Relation:</strong> How to express current state in terms of previous states?</li>
+                        <li><strong>Identify Base Cases:</strong> What are the simplest solvable cases?</li>
+                        <li><strong>Determine Computation Order:</strong> What order to fill the DP table?</li>
+                        <li><strong>Space Optimization (Optional):</strong> Can you reduce space complexity?</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h2>Complexity Summary</h2>
+                    <table class="complexity-table">
+                        <tr>
+                            <th>Problem</th>
+                            <th>Time</th>
+                            <th>Space</th>
+                        </tr>
+                        <tr>
+                            <td>Fibonacci</td>
+                            <td>O(n)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Climbing Stairs</td>
+                            <td>O(n)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>House Robber</td>
+                            <td>O(n)</td>
+                            <td>O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Coin Change</td>
+                            <td>O(amount × coins)</td>
+                            <td>O(amount)</td>
+                        </tr>
+                        <tr>
+                            <td>0/1 Knapsack</td>
+                            <td>O(n × W)</td>
+                            <td>O(W)</td>
+                        </tr>
+                        <tr>
+                            <td>LCS</td>
+                            <td>O(m × n)</td>
+                            <td>O(m × n)</td>
+                        </tr>
+                        <tr>
+                            <td>Edit Distance</td>
+                            <td>O(m × n)</td>
+                            <td>O(m × n)</td>
+                        </tr>
+                        <tr>
+                            <td>Longest Palindromic Subseq</td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section>
+                    <h2>Test Results</h2>
+                    <div class="pattern-card" style="border-left-color: #28a745;">
+                        <h3 style="color: #28a745;">✓ Python Tests</h3>
+                        <p>All 10 test functions passed: Fibonacci, Climbing Stairs, House Robber, Coin Change, 0/1 Knapsack, Unbounded Knapsack, Target Sum, LCS, Edit Distance, Longest Palindromic Subsequence</p>
+                    </div>
+                    <div class="pattern-card" style="border-left-color: #28a745;">
+                        <h3 style="color: #28a745;">✓ Rust Tests</h3>
+                        <p>All 10 unit tests passed with cargo test</p>
+                    </div>
+                </section>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h3>Day 11 Focus</h3>
+                    <ul>
+                        <li>DP Fundamentals</li>
+                        <li>Memoization vs Tabulation</li>
+                        <li>Classic 1D DP Problems</li>
+                        <li>Knapsack Variants</li>
+                        <li>String DP Problems</li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>Practice Problems</h3>
+                    <p><strong>Easy:</strong></p>
+                    <ul>
+                        <li>Fibonacci Number (LC 509)</li>
+                        <li>Climbing Stairs (LC 70)</li>
+                        <li>House Robber (LC 198)</li>
+                    </ul>
+                    <p><strong>Medium:</strong></p>
+                    <ul>
+                        <li>Coin Change (LC 322)</li>
+                        <li>LCS (LC 1143)</li>
+                        <li>Edit Distance (LC 72)</li>
+                        <li>Target Sum (LC 494)</li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>Common DP Patterns</h3>
+                    <ul>
+                        <li>Linear DP (1D)</li>
+                        <li>2D Grid DP</li>
+                        <li>Knapsack Pattern</li>
+                        <li>String DP</li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>Key Insights</h3>
+                    <ul>
+                        <li>Time = Number of states × Work per state</li>
+                        <li>Space can often be optimized</li>
+                        <li>Draw recursion tree to find overlaps</li>
+                        <li>1D DP: usually O(1) space possible</li>
+                        <li>2D DP: typically O(m×n) space</li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-card">
+                    <h3>Navigation</h3>
+                    <p><a href="day10.html" class="btn">← Day 10: Review</a></p>
+                    <p><a href="day12.html" class="btn">Day 12: Advanced DP →</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Day 11: Dynamic Programming - Part 1 | DSA 30-Day Study Plan</p>
+    </footer>
+<div id="navigation-buttons"></div>
+    <script type="module" src="/js/main.js"></script>
+    </body>
+</html>

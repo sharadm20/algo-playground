@@ -1,0 +1,8 @@
+[package]
+name = "day15_heaps_tries_bits"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "day15_heaps_tries_bits"
+path = "src/main.rs"
