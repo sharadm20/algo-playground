@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Badge from '../shared/Badge';
 import styles from './ProblemCard.module.css';
 
@@ -9,8 +8,6 @@ const DIFFICULTY_COLORS = {
 };
 
 export default function ProblemCard({ title, difficulty = 'easy', pattern, children }) {
-  const [showSolution, setShowSolution] = useState(false);
-
   return (
     <div className={styles.card}>
       <div className={styles.header}>
@@ -23,14 +20,6 @@ export default function ProblemCard({ title, difficulty = 'easy', pattern, child
       </div>
       {pattern && <div className={styles.pattern}>Pattern: {pattern}</div>}
       <div className={styles.description}>{children}</div>
-      <details className={styles.solution} open={showSolution}>
-        <summary onClick={e => { e.preventDefault(); setShowSolution(!showSolution); }}>
-          {showSolution ? 'Hide Solution' : 'Show Solution'}
-        </summary>
-        <div className={styles.solutionContent}>
-          {/* Solution content passed as children from MDX */}
-        </div>
-      </details>
     </div>
   );
 }

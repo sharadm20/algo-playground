@@ -1,6 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import ProblemCard from './ProblemCard';
 
 describe('ProblemCard', () => {
@@ -34,13 +33,5 @@ describe('ProblemCard', () => {
     expect(screen.getByText('Solve this problem')).toBeInTheDocument();
   });
 
-  it('toggles solution details on click', async () => {
-    const user = userEvent.setup();
-    render(<ProblemCard title="Test">desc</ProblemCard>);
-    const summary = screen.getByText('Show Solution');
-    await user.click(summary);
-    expect(screen.getByText('Hide Solution')).toBeInTheDocument();
-    await user.click(screen.getByText('Hide Solution'));
-    expect(screen.getByText('Show Solution')).toBeInTheDocument();
-  });
+
 });
