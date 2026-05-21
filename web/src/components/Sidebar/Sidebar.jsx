@@ -12,14 +12,14 @@ function groupByWeek(days) {
   return Object.entries(weeks).sort(([a], [b]) => Number(a) - Number(b));
 }
 
-export default function Sidebar({ completedDays = [], currentDay = 0 }) {
+export default function Sidebar({ completedDays = [], currentDay = 0, open = false }) {
   const weeks = groupByWeek(studyDays);
   const total = studyDays.length;
   const done = completedDays.length;
   const pct = total > 0 ? Math.round((done / total) * 100) : 0;
 
   return (
-    <aside className={styles.sidebar}>
+    <aside className={`${styles.sidebar} ${open ? styles.open : ''}`}>
       <div className={styles.header}>
         <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
           <h1>DSA Study Plan</h1>
