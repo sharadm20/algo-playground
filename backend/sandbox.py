@@ -1,9 +1,7 @@
-import os
 import tempfile
 import subprocess
 import shutil
 import time
-import signal
 
 class Sandbox:
     def __init__(self, timeout=30, max_output=1048576):
@@ -34,7 +32,7 @@ class Sandbox:
             stdout, stderr = proc.communicate()
             return {
                 "stdout": stdout[:self.max_output],
-                "stderr": stderr[:self.max_output] + "\n[TIMEOUT: Process killed after 30s]",
+                "stderr": stderr[:self.max_output] + f"\n[TIMEOUT: Process killed after {self.timeout}s]",
                 "exit_code": -1,
                 "timing_ms": int((time.time() - start) * 1000),
             }
