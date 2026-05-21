@@ -1,81 +1,59 @@
-# DSA Study Plan Web App
+# DSA Study Plan — Web App
 
-A modern static site powered by **Vite** for browsing DSA study materials.
+A modern React SPA for browsing and interacting with 30 days of Data Structures & Algorithms content. Features MDX lesson pages, a live code playground, and progress tracking — all local-first.
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server with hot reload
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
+npm run dev      # Dev server at http://localhost:5173
+npm run build    # Production build to dist/
+npm run preview  # Preview production build
 ```
 
-## 📁 Project Structure
+The backend (code execution API) runs separately — see `backend/README.md` in the project root.
+
+## Architecture
 
 ```
-web/
-├── index.html           # Home page
-├── day1.html - day12.html  # Daily lesson pages
-├── css/
-│   └── style.css        # Global styles
-├── js/
-│   └── main.js          # Client-side JavaScript (progress tracking, syntax highlighting)
-└── public/              # Static assets (images, fonts, etc.)
+src/
+├── components/
+│   ├── Layout/          # Shell: Sidebar + TopBar + Outlet
+│   ├── Sidebar/         # Fixed sidebar with week-grouped day links
+│   ├── TopBar/          # Theme toggle + mobile hamburger
+│   ├── HomePage/        # Dashboard with stats row + calendar grid
+│   ├── DayPage/         # MDX content renderer + prev/next + mark complete
+│   ├── CodePlayground/  # CodeMirror 6 editor with run/reset/output
+│   ├── ProblemCard/     # Practice problem card (title, difficulty, pattern)
+│   ├── ExportPage/      # Progress report export (markdown + JSON)
+│   └── shared/          # Badge, Button, DataTable, InsightBox
+├── content/             # 30 MDX lesson files (day-01.mdx through day-30.mdx)
+├── context/             # ThemeContext (dark/light), ProgressContext (localStorage)
+├── hooks/               # useProgress, useCodeRunner (API fetch)
+├── data/navigation.js   # 30-day study plan metadata
+└── styles/              # tokens.css (design tokens) + global.css (reset)
 ```
 
-## 🛠️ Features
+## Key Decisions
 
-- ⚡ **Hot Reload**: Instant updates during development
-- 📊 **Progress Tracking**: localStorage-based completion tracking
-- 🎨 **Syntax Highlighting**: Code block highlighting
-- ⌨️ **Keyboard Shortcuts**: 
-  - `Ctrl+Shift+C`: Copy code block
-  - `Escape`: Toggle sidebar
-- 📱 **Responsive Design**: Works on desktop and mobile
+- **Code splitting**: Each MDX day is `React.lazy()` loaded — day chunks only download when visited
+- **Progress**: Stored in `localStorage` under key `dsa-progress`; current day derived from `window.location.pathname`
+- **Theme**: Dark/light toggle persisted to `localStorage` under key `dsa-theme`
+- **Code execution**: Delegated to FastAPI backend at `http://127.0.0.1:8001` — not in-browser WASM
 
-## 🔧 Development
+## MDX Content
+
+Each MDX file automatically imports these components (no need to re-import):
+- `CodePlayground` — live editor with pre-filled code
+- `ProblemCard` — practice problem (title, difficulty easy/medium/hard, pattern)
+- `InsightBox` — gradient callout for key takeaways
+- `DataTable` — styled comparison tables
+- `Badge` — small pill labels
+
+## Development
 
 ```bash
-# Start dev server (port 8080)
-npm run dev
-
-# Build optimized production files
-npm run build
-
-# Preview production build
-npm run preview
+npm run dev      # Vite dev server with HMR
+npm run build    # Production build
+npm run preview  # Serve production build
 ```
-
-## 🌐 Access
-
-Open http://localhost:8080 in your browser.
-
-## 📦 Tech Stack
-
-- **Vite**: Next-gen frontend build tool
-- **Vanilla JS**: No framework overhead
-- **CSS3**: Modern styling with CSS variables
-- **localStorage**: Client-side progress persistence
-
-## 📝 Adding New Days
-
-1. Create `dayN.html` in `web/` directory
-2. Add entry to `vite.config.js` input object
-3. Update navigation in existing HTML files
-4. Run `npm run dev` to see it live
-
-## 🎯 Future Improvements
-
-- [ ] React migration for component reusability
-- [ ] Markdown-based content generation
-- [ ] Dark mode toggle
-- [ ] Search functionality
-- [ ] Print-friendly PDFs

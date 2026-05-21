@@ -1,162 +1,113 @@
 # 30-Day DSA Study Plan
 
-A comprehensive 30-day Data Structures and Algorithms study plan with Python and Rust implementations, detailed documentation, and a modern web UI for browsing materials.
+A modern interactive study plan for mastering Data Structures & Algorithms. Features a **React SPA** with MDX content, an in-browser **CodeMirror 6 code editor**, and a **FastAPI backend** for polyglot code execution (Python, Rust, JavaScript, Java, C, Go).
 
-## 🚀 Quick Start
+## Quick Start
 
-### Web UI (Recommended)
-**Windows:**
+### Backend (code execution API)
 ```bash
-# Double-click this file or run:
-start_web_server.bat
+cd backend
+pip install -r requirements.txt
+python main.py
+```
+Runs on `http://127.0.0.1:8001` — serves `/api/run` and `/api/languages`.
+
+### Frontend (web app)
+```bash
+cd web
+npm install
+npm run dev
+```
+Opens at `http://localhost:5173` — full SPA with hot reload.
+
+### Production Build
+```bash
+cd web
+npm run build
+npm run preview
 ```
 
-**Mac/Linux:**
-```bash
-chmod +x start_web_server.sh
-./start_web_server.sh
-```
-
-**Alternative methods:**
-```bash
-# Using npm
-npm start
-
-# Using Python (with file watching)
-python start_server_enhanced.py
-
-# Direct Python server
-cd web && python -m http.server 8080
-```
-
-Then open **http://localhost:8080** in your browser.
-
-## 📚 Project Structure
+## Architecture
 
 ```
 ds_and_algo/
-├── QWEN.md                    # Main context file (progress tracking)
-├── Day1_Arrays_Hashing.docx   # Day 1 documentation
-├── Day2_Advanced_Arrays.docx  # Day 2 documentation
-├── Day3_String_Manipulation.docx
-├── Day4_Stack_Queue.docx
-├── Day5_Linked_List.docx
-├── Day6_Trees.docx
-├── python_projects/           # Python implementations
-│   ├── day1_arrays_hashing.py
-│   ├── day2_advanced_arrays.py
-│   ├── day3_strings.py
-│   ├── day4_stack_queue.py
-│   ├── day5_linked_list.py
-│   └── day6_trees.py
-├── rust_projects/             # Rust implementations
-│   ├── day2_advanced_arrays.rs
-│   ├── day3_strings.rs
-│   ├── day4_stack_queue.rs
-│   ├── day5_linked_list.rs
-│   ├── day6_trees.rs
-│   ├── day2_arrays/           # Cargo projects
-│   │   ├── Cargo.toml
-│   │   └── src/main.rs
-│   ├── day3_strings/
-│   ├── day4_stack_queue/
-│   ├── day5_linked_list/
-│   └── day6_trees/
-└── web/                       # Web UI
-    ├── index.html             # Home page
-    ├── day1.html - day7.html  # Daily materials
-    ├── css/style.css
-    └── js/main.js
+├── backend/                    # FastAPI code execution API
+│   ├── main.py                 # App entry: CORS, /api/run, /api/languages
+│   ├── models.py               # Pydantic request/response models
+│   ├── sandbox.py              # Secure subprocess sandbox with timeout
+│   ├── start.bat               # One-click Windows launcher
+│   └── runners/                # Polyglot execution engines
+│       ├── base.py             # BaseRunner ABC
+│       ├── python_runner.py    # Python (3.10+)
+│       ├── rust_runner.py      # Rust (cargo script)
+│       ├── js_runner.py        # JavaScript (Node.js)
+│       └── other_runners.py    # Java, C, Go
+├── web/                        # React SPA
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Layout/         # App shell (Sidebar + TopBar + Outlet)
+│   │   │   ├── Sidebar/        # Week-grouped day navigation
+│   │   │   ├── TopBar/         # Theme toggle + mobile hamburger
+│   │   │   ├── HomePage/       # Dashboard with stats + calendar grid
+│   │   │   ├── DayPage/        # MDX rendering + day nav + progress buttons
+│   │   │   ├── CodePlayground/ # CodeMirror 6 editor + output panel
+│   │   │   ├── ProblemCard/    # Reusable problem card with difficulty badge
+│   │   │   ├── ExportPage/     # Progress report export (markdown/JSON)
+│   │   │   └── shared/         # Badge, Button, DataTable, InsightBox
+│   │   ├── content/            # 30 MDX lesson files
+│   │   ├── context/            # ThemeContext + ProgressContext
+│   │   ├── hooks/              # useProgress, useCodeRunner
+│   │   ├── data/navigation.js  # 30-day metadata
+│   │   └── styles/             # Design tokens + global CSS
+│   └── vite.config.js
+├── python_projects/            # Legacy Python implementations
+├── rust_projects/              # Legacy Rust implementations
+└── docs/                       # Design specs + implementation plans
 ```
 
-## 📅 Progress
+## Features
 
-| Day | Topic | Status | Implementations |
-|-----|-------|--------|----------------|
-| 1 | Arrays & Hashing | ✅ Completed | Python |
-| 2 | Advanced Arrays | ✅ Completed | Python + Rust |
-| 3 | String Manipulation | ✅ Completed | Python + Rust |
-| 4 | Stack & Queue | ✅ Completed | Python + Rust |
-| 5 | Linked List | ✅ Completed | Python + Rust |
-| 6 | Trees & Binary Trees | ✅ Completed | Python + Rust |
-| 7 | Review & Practice | 📝 Upcoming | - |
+- **30 Days of Content** — MDX lessons with interactive code examples
+- **Polyglot Code Playground** — edit and run Python, Rust, JS, Java, C, Go in-browser
+- **Progress Tracking** — localStorage persistence, mark-complete/redo per day
+- **Progress Export** — markdown report + JSON data with download and clipboard copy
+- **Dark/Light Theme** — persistent theme toggle
+- **Mobile Responsive** — collapsible sidebar with overlay on small screens
+- **Lazy-Loaded MDX** — each day is a separate code-split chunk for fast initial load
 
-## 🛠️ Running Code
+## Tech Stack
 
-### Python
-```bash
-cd python_projects
-python day6_trees.py  # Replace with any day
-```
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 18, Vite 6, React Router v7 |
+| Content | MDX (via @mdx-js/rollup) |
+| Editor | CodeMirror 6 (Python, Rust, JS, Java, C++) |
+| Backend | FastAPI (Python 3.10+) |
+| Execution | Sandboxed subprocess with timeout |
 
-### Rust
-```bash
-cd rust_projects/day6_trees
-cargo test   # Run tests
-cargo run    # Run binary
-```
+## How to Use
 
-## 🌐 Web Server Options
+1. **Open the app** at `http://localhost:5173`
+2. **Navigate** using the sidebar or calendar grid on the homepage
+3. **Read the lesson** for each day — explanations, key concepts, code examples
+4. **Edit and run code** directly in the CodePlayground — change the code, click Run
+5. **Mark days complete** as you finish them — track your progress
+6. **Export your progress** from the Export page as markdown or JSON
 
-| Method | Command | Features |
-|--------|---------|----------|
-| **Batch Script** | `start_web_server.bat` | One-click start (Windows) |
-| **Shell Script** | `./start_web_server.sh` | One-click start (Unix) |
-| **npm** | `npm start` | Cross-platform |
-| **Enhanced** | `python start_server_enhanced.py` | File change detection |
-| **Direct** | `cd web && python -m http.server 8080` | Simple Python server |
+## Adding a New Day
 
-### Enhanced Server Features
-- 📁 File change detection
-- 🔔 Auto-reload notifications
-- 🎨 Colorized log output
-- ⚡ No caching headers for development
+1. Create `web/src/content/day-XX.mdx` with lesson content
+2. Add it to the import map in `web/src/components/DayPage/DayPage.jsx`
+3. Add its metadata to `web/src/data/navigation.js` (day, title, week, weekTitle)
+4. Done — the sidebar and calendar will pick it up automatically
 
-## 📖 Using the Study Plan
+## Adding a New Language
 
-1. **Open the Web UI** at http://localhost:8080
-2. **Navigate to the current day** using the sidebar
-3. **Read the documentation** in the Word files (.docx)
-4. **Study the code implementations** in Python and Rust
-5. **Run the tests** to verify everything works
-6. **Practice the homework problems** listed in each day's materials
+1. Create `backend/runners/<lang>_runner.py` extending `BaseRunner`
+2. Implement `execute(code, timeout, test_data) -> RunResult`
+3. Add the runner to the LANGUAGE_MAP in `backend/main.py`
+4. Add the language option to `CodePlayground.jsx`'s `LANG_OPTIONS` array
 
-## 🎯 Learning Approach
+## License
 
-Each day covers:
-- **Core Concepts** - Detailed explanations with examples
-- **Patterns** - Reusable problem-solving techniques
-- **Implementations** - Production-ready code in Python and Rust
-- **Practice Problems** - LeetCode problems categorized by difficulty
-- **Complexity Analysis** - Time and space complexity for all algorithms
-
-## 🔮 Future Improvements
-
-### Web UI Enhancement (Planned)
-- Migrate to React + Vite for hot reload
-- React Router for better navigation
-- Syntax highlighting for code blocks
-- Dark mode toggle
-- Progress tracking with localStorage
-- Deploy to GitHub Pages or Netlify
-
-See `QWEN.md` for full details.
-
-## 📝 Notes
-
-- **Python Environment**: Use base Python (not conda)
-- **Rust Version**: 2021 edition
-- **Web Browser**: Any modern browser (Chrome, Firefox, Safari, Edge)
-- **IDE**: VS Code recommended for both Python and Rust
-
-## 🤝 Contributing
-
-This is a personal study plan. Feel free to fork and customize for your own learning journey!
-
-## 📄 License
-
-MIT License - Free to use for educational purposes.
-
----
-
-**Happy Coding! 🚀**
+MIT — free to use for educational purposes.
