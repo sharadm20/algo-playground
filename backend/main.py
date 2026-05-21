@@ -1,9 +1,20 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from runners import RUNNERS
 from models import RunRequest, RunResponse, LanguageInfo
 
 app = FastAPI(title="DSA Code Runner")
+
+INTERNAL_HEADER = "X-Internal-Request"
+INTERNAL_VALUE = "true"
+
+@app.middleware("http")
+async def restrict_direct_access(request: Request, call_next):
+    if request.headers.get(INTERNAL_HEADER) != INTERNAL_VALUE:
+        return JSONResponse(status_code=403, content={"detail": "Direct API access denied. Requests must go through the nginx proxy."})
+    response = await call_next(request)
+    return response
 
 app.add_middleware(
     CORSMiddleware,
