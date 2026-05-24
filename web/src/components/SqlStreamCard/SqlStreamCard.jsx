@@ -19,9 +19,29 @@ export default function SqlStreamCard({ query, schema }) {
   const [expanded, setExpanded] = useState(false);
   const [showSchema, setShowSchema] = useState(false);
   const [schemaSection, setSchemaSection] = useState(null);
+  const [copiedLabel, setCopiedLabel] = useState(null);
 
-  const handleCopy = (text) => {
-    navigator.clipboard.writeText(text);
+  if (!query) return null;
+
+  const handleCopy = async (text, label) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedLabel(label);
+      setTimeout(() => setCopiedLabel(null), 1500);
+    } catch {
+      setCopiedLabel(null);
+    }
+  };
+
+  const handleToggleExpand = () => {
+    setExpanded(e => !e);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setExpanded(prev => !prev);
+    }
   };
 
   const diffColor = DIFFICULTY_COLORS[query.difficulty] || { bg: '#e9ecef', color: '#495057' };
@@ -29,7 +49,15 @@ export default function SqlStreamCard({ query, schema }) {
 
   return (
     <div className={styles.card}>
-      <div className={styles.header} onClick={() => setExpanded(!expanded)} role="button" aria-label={expanded ? 'hide details' : 'show details'}>
+      <div
+        className={styles.header}
+        onClick={handleToggleExpand}
+        onKeyDown={handleKeyDown}
+        role="button"
+        tabIndex={0}
+        aria-expanded={expanded}
+        aria-label={expanded ? 'hide details' : 'show details'}
+      >
         <div className={styles.headerContent}>
           <div className={styles.badges}>
             <Badge label={query.difficulty} bg={diffColor.bg} color={diffColor.color} />
@@ -38,7 +66,7 @@ export default function SqlStreamCard({ query, schema }) {
           <h4 className={styles.title}>{query.title}</h4>
           <p className={styles.description}>{query.description}</p>
         </div>
-        <span className={`${styles.chevron} ${expanded ? styles.chevronOpen : ''}`}>▼</span>
+        <span className={`${styles.chevron} ${expanded ? styles.chevronOpen : ''}`} aria-hidden="true">▼</span>
       </div>
       {expanded && (
         <div className={styles.body}>
@@ -46,26 +74,26 @@ export default function SqlStreamCard({ query, schema }) {
             <div className={styles.codeBlock}>
               <div className={`${styles.codeHeader} ${styles.sqlHeader}`}>
                 <span>SQL</span>
-                <button className={styles.copyBtn} onClick={() => handleCopy(query.sqlQuery)}>Copy</button>
+                <button className={styles.copyBtn} onClick={() => handleCopy(query.sqlQuery, 'sql')}>{copiedLabel === 'sql' ? 'Copied!' : 'Copy'}</button>
               </div>
               <pre className={`${styles.codeContent} ${styles.sqlCode}`}>{query.sqlQuery}</pre>
             </div>
             <div className={styles.codeBlock}>
               <div className={`${styles.codeHeader} ${styles.javaHeader}`}>
                 <span>Java Stream</span>
-                <button className={styles.copyBtn} onClick={() => handleCopy(query.javaStreamCode)}>Copy</button>
+                <button className={styles.copyBtn} onClick={() => handleCopy(query.javaStreamCode, 'java')}>{copiedLabel === 'java' ? 'Copied!' : 'Copy'}</button>
               </div>
               <pre className={`${styles.codeContent} ${styles.javaCode}`}>{query.javaStreamCode}</pre>
             </div>
           </div>
 
           <div className={`${styles.section} ${styles.explanation}`}>
-            <div className={styles.explanationTitle}>📖 Explanation</div>
+            <div className={styles.explanationTitle}><span aria-hidden="true">📖</span> Explanation</div>
             <p className={styles.explanationText}>{query.explanation}</p>
           </div>
 
           <div className={`${styles.section} ${styles.output}`}>
-            <div className={styles.outputTitle}>💻 Expected Output</div>
+            <div className={styles.outputTitle}><span aria-hidden="true">💻</span> Expected Output</div>
             <pre className={styles.outputContent}>{query.output}</pre>
           </div>
 
@@ -79,22 +107,22 @@ export default function SqlStreamCard({ query, schema }) {
             <div className={styles.schemaPanel}>
               <div className={styles.schemaSubSection}>
                 <div className={styles.schemaSubHeader} onClick={() => setSchemaSection(schemaSection === 'ddl' ? null : 'ddl')}>
-                  <span>🗄️ Database Schema</span>
-                  <button className={styles.copyBtn} onClick={(e) => { e.stopPropagation(); handleCopy(schema.ddl); }}>Copy</button>
+                  <span><span aria-hidden="true">🗄️</span> Database Schema</span>
+                  <button className={styles.copyBtn} onClick={(e) => { e.stopPropagation(); handleCopy(schema.ddl, 'ddl'); }}>{copiedLabel === 'ddl' ? 'Copied!' : 'Copy'}</button>
                 </div>
                 {schemaSection === 'ddl' && <pre className={styles.schemaCode}>{schema.ddl}</pre>}
               </div>
               <div className={styles.schemaSubSection}>
                 <div className={styles.schemaSubHeader} onClick={() => setSchemaSection(schemaSection === 'data' ? null : 'data')}>
-                  <span>📊 Sample Data</span>
-                  <button className={styles.copyBtn} onClick={(e) => { e.stopPropagation(); handleCopy(schema.sampleData); }}>Copy</button>
+                  <span><span aria-hidden="true">📊</span> Sample Data</span>
+                  <button className={styles.copyBtn} onClick={(e) => { e.stopPropagation(); handleCopy(schema.sampleData, 'data'); }}>{copiedLabel === 'data' ? 'Copied!' : 'Copy'}</button>
                 </div>
                 {schemaSection === 'data' && <pre className={styles.schemaCode}>{schema.sampleData}</pre>}
               </div>
               <div className={styles.schemaSubSection}>
                 <div className={styles.schemaSubHeader} onClick={() => setSchemaSection(schemaSection === 'models' ? null : 'models')}>
-                  <span>☕ Java Models</span>
-                  <button className={styles.copyBtn} onClick={(e) => { e.stopPropagation(); handleCopy(schema.javaModels); }}>Copy</button>
+                  <span><span aria-hidden="true">☕</span> Java Models</span>
+                  <button className={styles.copyBtn} onClick={(e) => { e.stopPropagation(); handleCopy(schema.javaModels, 'models'); }}>{copiedLabel === 'models' ? 'Copied!' : 'Copy'}</button>
                 </div>
                 {schemaSection === 'models' && <pre className={styles.schemaCode}>{schema.javaModels}</pre>}
               </div>
