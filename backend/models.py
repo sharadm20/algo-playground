@@ -21,3 +21,7 @@ class LanguageInfo(BaseModel):
     lang: str
     available: bool
     version: str | None = None
+
+class SolutionResponse(BaseModel):
+    language: str
+    code: str

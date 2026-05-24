@@ -1,8 +1,10 @@
+import json
+import os
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from runners import RUNNERS
-from models import RunRequest, RunResponse, LanguageInfo
+from models import RunRequest, RunResponse, LanguageInfo, SolutionResponse
 
 app = FastAPI(title="DSA Code Runner")
 
@@ -52,6 +54,32 @@ def run_code(req: RunRequest):
         return runner.execute(req.code)
     except Exception as e:
         raise HTTPException(500, str(e))
+
+CHALLENGES_INDEX_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "challenges", "index.json"))
+CHALLENGES_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "challenges"))
+
+def _load_challenge_index():
+    with open(CHALLENGES_INDEX_PATH) as f:
+        return json.load(f)
+
+@app.get("/api/challenges")
+def list_challenges():
+    return _load_challenge_index()
+
+@app.get("/api/challenges/{challenge_id}/solution", response_model=SolutionResponse)
+def get_challenge_solution(challenge_id: str):
+    index = _load_challenge_index()
+    entry = next((c for c in index if c["id"] == challenge_id), None)
+    if not entry:
+        raise HTTPException(404, f"Challenge '{challenge_id}' not found")
+    source_path = os.path.normpath(os.path.join(CHALLENGES_DIR, entry["sourcePath"]))
+    if not source_path.startswith(CHALLENGES_DIR):
+        raise HTTPException(404, "Invalid path")
+    if not os.path.exists(source_path):
+        raise HTTPException(404, "Solution file not found")
+    with open(source_path) as f:
+        code = f.read()
+    return SolutionResponse(language=entry["language"], code=code)
 
 if __name__ == "__main__":
     import uvicorn
