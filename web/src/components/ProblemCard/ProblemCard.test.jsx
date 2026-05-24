@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import ProblemCard from './ProblemCard';
 
 describe('ProblemCard', () => {
@@ -33,5 +33,59 @@ describe('ProblemCard', () => {
     expect(screen.getByText('Solve this problem')).toBeInTheDocument();
   });
 
+  describe('ProblemCard with solution', () => {
+    beforeEach(() => {
+      global.fetch = vi.fn(() =>
+        Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({ language: 'java', code: 'public class Solution {}' }),
+        })
+      );
+    });
 
+    it('shows Show Solution button when solutionId is provided', () => {
+      render(
+        <ProblemCard title="Two Sum" solutionId="two-sum" solutionLanguage="java">
+          description text
+        </ProblemCard>
+      );
+      expect(screen.getByText('Show Solution')).toBeInTheDocument();
+    });
+
+    it('does not show Show Solution button when solutionId is not provided', () => {
+      render(<ProblemCard title="Two Sum">description text</ProblemCard>);
+      expect(screen.queryByText('Show Solution')).not.toBeInTheDocument();
+    });
+
+    it('shows solution code after clicking button', async () => {
+      render(
+        <ProblemCard title="Two Sum" solutionId="two-sum" solutionLanguage="java">
+          description
+        </ProblemCard>
+      );
+      fireEvent.click(screen.getByText('Show Solution'));
+      expect(await screen.findByText(/public class Solution/)).toBeInTheDocument();
+    });
+
+    it('toggles solution visibility on re-click', async () => {
+      render(
+        <ProblemCard title="Two Sum" solutionId="two-sum" solutionLanguage="java">
+          description
+        </ProblemCard>
+      );
+      fireEvent.click(screen.getByText('Show Solution'));
+      expect(await screen.findByText(/public class Solution/)).toBeInTheDocument();
+      fireEvent.click(screen.getByText('Hide Solution'));
+      expect(screen.queryByText(/public class Solution/)).not.toBeInTheDocument();
+    });
+
+    it('shows language badge when solutionLanguage is provided', () => {
+      render(
+        <ProblemCard title="Two Sum" solutionId="two-sum" solutionLanguage="java">
+          description
+        </ProblemCard>
+      );
+      expect(screen.getByText('java')).toBeInTheDocument();
+    });
+  });
 });

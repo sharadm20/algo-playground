@@ -29,19 +29,45 @@
   margin-bottom: var(--space-md);
 }
 
-.solution {
-  background: var(--color-bg);
-  padding: var(--space-md);
+.badges {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+}
+
+.solutionBtn {
+  background: none;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  margin-top: var(--space-md);
-}
-
-.solution summary {
+  padding: var(--space-xs) var(--space-md);
   cursor: pointer;
-  font-weight: 600;
+  font-size: var(--font-size-sm);
   color: var(--color-accent);
+  margin-top: var(--space-sm);
+  transition: background 0.2s;
 }
 
-.solutionContent {
-  margin-top: var(--space-sm);
+.solutionBtn:hover {
+  background: var(--color-bg-card);
+}
+
+.solutionBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.solutionBlock {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  margin-top: var(--space-md);
+  overflow-x: auto;
+  font-size: var(--font-size-sm);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.solutionBlock code {
+  white-space: pre;
 }
