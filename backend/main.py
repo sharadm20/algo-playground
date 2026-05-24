@@ -58,18 +58,21 @@ def run_code(req: RunRequest):
 CHALLENGES_INDEX_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "challenges", "index.json"))
 CHALLENGES_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "challenges"))
 
-def _load_challenge_index():
+try:
     with open(CHALLENGES_INDEX_PATH) as f:
-        return json.load(f)
+        _CHALLENGE_INDEX = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+    _CHALLENGE_INDEX = []
 
 @app.get("/api/challenges")
 def list_challenges():
-    return _load_challenge_index()
+    return _CHALLENGE_INDEX
 
 @app.get("/api/challenges/{challenge_id}/solution", response_model=SolutionResponse)
 def get_challenge_solution(challenge_id: str):
-    index = _load_challenge_index()
-    entry = next((c for c in index if c["id"] == challenge_id), None)
+    if ".." in challenge_id or "/" in challenge_id:
+        raise HTTPException(404, "Invalid challenge ID")
+    entry = next((c for c in _CHALLENGE_INDEX if c["id"] == challenge_id), None)
     if not entry:
         raise HTTPException(404, f"Challenge '{challenge_id}' not found")
     source_path = os.path.normpath(os.path.join(CHALLENGES_DIR, entry["sourcePath"]))
@@ -77,8 +80,11 @@ def get_challenge_solution(challenge_id: str):
         raise HTTPException(404, "Invalid path")
     if not os.path.exists(source_path):
         raise HTTPException(404, "Solution file not found")
-    with open(source_path) as f:
-        code = f.read()
+    try:
+        with open(source_path) as f:
+            code = f.read()
+    except OSError:
+        raise HTTPException(500, "Failed to read solution file")
     return SolutionResponse(language=entry["language"], code=code)
 
 if __name__ == "__main__":

@@ -17,8 +17,12 @@ def test_get_solution_unknown_returns_404():
     resp = client.get("/api/challenges/nonexistent/solution", headers={"X-Internal-Request": "true"})
     assert resp.status_code == 404
 
-def test_get_solution_blocks_path_traversal():
+def test_get_solution_blocks_dotdot_in_id():
     resp = client.get("/api/challenges/..%2f..%2fetc%2fpasswd/solution", headers={"X-Internal-Request": "true"})
+    assert resp.status_code == 404
+
+def test_get_solution_blocks_slash_in_id():
+    resp = client.get("/api/challenges/etc/passwd/solution", headers={"X-Internal-Request": "true"})
     assert resp.status_code == 404
 
 def test_list_challenges_returns_array():
