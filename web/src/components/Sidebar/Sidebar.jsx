@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { studyDays } from '../../data/navigation';
 import WeekGroup from './WeekGroup';
 import styles from './Sidebar.module.css';
@@ -12,7 +12,8 @@ function groupByWeek(days) {
   return Object.entries(weeks).sort(([a], [b]) => Number(a) - Number(b));
 }
 
-export default function Sidebar({ completedDays = [], currentDay = 0, open = false }) {
+export default function Sidebar({ completedDays = [], currentDay = 0, open = false, onClose }) {
+  const location = useLocation();
   const weeks = groupByWeek(studyDays);
   const total = studyDays.length;
   const done = completedDays.length;
@@ -29,6 +30,15 @@ export default function Sidebar({ completedDays = [], currentDay = 0, open = fal
       <div className={styles.progressSummary}>
         {done}/{total} days completed ({pct}%)
       </div>
+      <nav className={styles.quickNav}>
+        <Link
+          to="/challenges"
+          className={`${styles.navLink} ${location.pathname.startsWith('/challenges') ? styles.active : ''}`}
+          onClick={onClose}
+        >
+          Challenge Library
+        </Link>
+      </nav>
       {weeks.map(([week, w]) => (
         <WeekGroup
           key={week}
