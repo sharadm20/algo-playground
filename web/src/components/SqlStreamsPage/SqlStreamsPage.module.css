@@ -1,0 +1,32 @@
+.page {
+  padding: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 1.8rem;
+}
+
+.subtitle {
+  color: var(--color-muted, #666);
+  margin: 0 0 20px;
+  font-size: 0.95rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--color-muted, #999);
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.emptyText {
+  margin: 0;
+  font-size: 1.1rem;
+}
