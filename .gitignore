@@ -22,7 +22,7 @@ __pycache__/
 *.pyo
 
 # Rust
-rust_projects/*/target/
+references/rust-projects/*/target/
 
 # Web server
 *.log
