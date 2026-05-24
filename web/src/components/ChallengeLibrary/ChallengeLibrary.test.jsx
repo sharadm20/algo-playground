@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ChallengeLibrary from './ChallengeLibrary';
 
@@ -70,4 +70,14 @@ it('shows loading state initially', () => {
     </MemoryRouter>
   );
   expect(screen.getByText(/loading/i)).toBeInTheDocument();
+});
+
+it('shows error state on fetch failure', async () => {
+  global.fetch = vi.fn(() => Promise.reject(new Error('Network error')));
+  render(
+    <MemoryRouter>
+      <ChallengeLibrary />
+    </MemoryRouter>
+  );
+  expect(await screen.findByText('Network error')).toBeInTheDocument();
 });

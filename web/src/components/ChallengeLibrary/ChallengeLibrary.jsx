@@ -8,6 +8,7 @@ const API_BASE = import.meta.env.VITE_API_BASE || '';
 export default function ChallengeLibrary() {
   const [challenges, setChallenges] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [search, setSearch] = useState('');
   const [topicFilter, setTopicFilter] = useState('All');
   const [languageFilter, setLanguageFilter] = useState('All');
@@ -15,12 +16,18 @@ export default function ChallengeLibrary() {
 
   useEffect(() => {
     fetch(`${API_BASE}/api/challenges`)
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error('Failed to load challenges');
+        return r.json();
+      })
       .then(data => {
         setChallenges(data.filter(c => c.type === 'problem'));
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(err => {
+        setError(err.message || 'Failed to load challenges');
+        setLoading(false);
+      });
   }, []);
 
   const topics = [...new Set(challenges.map(c => c.topic))].sort();
@@ -36,6 +43,7 @@ export default function ChallengeLibrary() {
     return matchSearch && matchTopic && matchLang && matchDiff;
   });
 
+  if (error) return <div className={styles.page}><p style={{ color: 'var(--color-danger)' }}>{error}</p></div>;
   if (loading) return <div className={styles.page}><p>Loading challenges...</p></div>;
 
   return (
