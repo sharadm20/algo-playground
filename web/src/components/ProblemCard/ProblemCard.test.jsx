@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import ProblemCard from './ProblemCard';
 
@@ -41,6 +41,10 @@ describe('ProblemCard', () => {
           json: () => Promise.resolve({ language: 'java', code: 'public class Solution {}' }),
         })
       );
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
     });
 
     it('shows Show Solution button when solutionId is provided', () => {

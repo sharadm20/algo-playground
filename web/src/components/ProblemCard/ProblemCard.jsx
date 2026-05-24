@@ -33,7 +33,7 @@ export default function ProblemCard({
     }
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/challenges/${solutionId}/solution`);
+      const res = await fetch(`${API_BASE}/api/challenges/${encodeURIComponent(solutionId)}/solution`);
       if (!res.ok) throw new Error('Failed to load solution');
       const data = await res.json();
       setSolutionCode(data.code);
