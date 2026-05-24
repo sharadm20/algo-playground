@@ -38,6 +38,13 @@ export default function Sidebar({ completedDays = [], currentDay = 0, open = fal
         >
           Challenge Library
         </Link>
+        <Link
+          to="/sql-streams"
+          className={`${styles.navLink} ${location.pathname.startsWith('/sql-streams') ? styles.active : ''}`}
+          onClick={onClose}
+        >
+          SQL Streams
+        </Link>
       </nav>
       {weeks.map(([week, w]) => (
         <WeekGroup
