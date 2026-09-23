@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "install:all": "npm --prefix web install && pip install -r backend/requirements.txt",
+    "install:all": "npm --prefix web install && pip install -r backend/requirements-dev.txt",
     "dev": "concurrently -k -n backend,web -c blue,green \"cd backend && python main.py\" \"npm --prefix web run dev\"",
     "dev:web": "npm --prefix web run dev",
     "dev:backend": "cd backend && python main.py",
