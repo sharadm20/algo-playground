@@ -2,25 +2,86 @@
 
 A modern interactive study plan for mastering Data Structures & Algorithms. Features a **React SPA** with MDX content, an in-browser **CodeMirror 6 code editor**, a **FastAPI backend** for polyglot code execution (Python, Rust, JavaScript, Java, C, Go), and an integrated **Challenge Library** with 59 practice problems from LeetCode & interview prep.
 
-## Quick Start
+## Run It Quickly
 
-### Backend (code execution API)
+### Native dev (npm scripts)
+
+Prerequisites: Python 3.10+, Node 20+.
+
+Fresh clone? Install dependencies once:
+
+```bash
+npm install              # installs the root `concurrently` helper
+npm run install:all      # installs frontend deps + backend Python deps
+```
+
+Then start both servers:
+
+```bash
+npm run dev              # starts backend (8001) + frontend (5173) together
+```
+
+Open http://localhost:5173
+
+Individual servers (when not using `npm run dev`):
+
+```bash
+npm run dev:backend      # FastAPI code runner on http://127.0.0.1:8001
+npm run dev:web          # Vite dev server on http://localhost:5173
+```
+
+The frontend proxies `/api` to the backend, so for code execution to work in the app, both servers must be running.
+
+### Docker (full stack)
+
+Prerequisite: Docker + Docker Compose.
+
+```bash
+npm run docker:up        # build & start backend + nginx-served web on :8080
+```
+
+Open http://localhost:8080 — stop with `npm run docker:down`, tail logs with `npm run docker:logs`.
+
+The first build compiles the polyglot toolchain image (~2GB, several minutes): wait for the build to finish before opening the app.
+
+### Tests
+
+```bash
+npm test                 # frontend vitest suite + backend pytest suite
+```
+
+### CI/CD
+
+`.github/workflows/ci.yml` runs on every push and pull request: backend pytest,
+frontend build + vitest, and `docker compose build` to validate both images.
+
+### Manual setup (component by component)
+
+For manual control, start each part yourself:
+
+Backend:
+
 ```bash
 cd backend
 pip install -r requirements.txt
 python main.py
 ```
-Runs on `http://127.0.0.1:8001` — serves `/api/run` and `/api/languages`.
 
-### Frontend (web app)
+Runs on `http://127.0.0.1:8001`. The API is guarded by an internal-request header, so
+reach it through the app (http://localhost:5173 in dev, :8080 in Docker) rather than directly.
+
+Frontend:
+
 ```bash
 cd web
 npm install
 npm run dev
 ```
+
 Opens at `http://localhost:5173` — full SPA with hot reload.
 
-### Production Build
+Production Build:
+
 ```bash
 cd web
 npm run build

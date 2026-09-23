@@ -1,0 +1,19 @@
+{
+  "name": "algo-playground",
+  "version": "3.0.0",
+  "private": true,
+  "scripts": {
+    "install:all": "npm --prefix web install && pip install -r backend/requirements-dev.txt",
+    "dev": "concurrently -k -n backend,web -c blue,green \"cd backend && python main.py\" \"npm --prefix web run dev\"",
+    "dev:web": "npm --prefix web run dev",
+    "dev:backend": "cd backend && python main.py",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "test": "npm --prefix web run test && cd backend && python -m pytest",
+    "build": "npm --prefix web run build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}

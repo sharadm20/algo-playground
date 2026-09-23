@@ -13,6 +13,15 @@ export default defineConfig({
     open: true,
     hot: true,
     host: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8001',
+        changeOrigin: true,
+        headers: {
+          'X-Internal-Request': 'true',
+        },
+      },
+    },
   },
   build: {
     outDir: resolve(__dirname, 'dist'),

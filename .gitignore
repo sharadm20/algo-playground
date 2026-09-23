@@ -1,6 +1,5 @@
 # Dependencies
 node_modules/
-package-lock.json
 
 # Build outputs
 dist/
@@ -30,3 +29,6 @@ references/rust-projects/*/target/
 # Temporary files
 *.tmp
 *.temp
+
+# Git worktrees
+.worktrees/
